@@ -5,14 +5,17 @@
 	requestify=require('requestify'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
-	 request = require('request'),
+	request = require('request'),
   	ejs = require("ejs"),
  	fs = require('fs'),
 	PAGE_ACCESS_TOKEN=process.env.PAGE_ACCESS_TOKEN,
 	app = express().use(bodyParser.json()); // creates express http server 
-	const sendmessageurl='https://graph.facebook.com/v4.0/me/messages?access_token='+PAGE_ACCESS_TOKEN
+	const sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN
 	
-	
+
+
+// database setup
+
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -33,31 +36,35 @@ admin.initializeApp({
   databaseURL: "https://bookchatbot-bade6.firebaseio.com"
 });
 
-const db = admin.firestore()
+const db = admin.firestore();
+
+
+
+//get_started and greeting 
 
 	requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+PAGE_ACCESS_TOKEN,
-		{"get_started":{"payload":"Hi"},  
-  "greeting": [
-    {
-      "locale":"default",
-      "text":"Hello {{user_first_name}}! \nWe provide service!!" 
-    }
-  ]
+		{
+			"get_started":{"payload":"Hi"},  
+  			
+  			"greeting": [
+			    {
+			      "locale":"default",
+			      "text":"Hello {{user_first_name}}! \nWe provide service!!" 
+	   			}
+  			]
 
-}).then(function(success) {
-	console.log('persistent_menu.success');
-	// body...
-})
+		}
+	)
+
 
 // Sets server port and logs message on success
+
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
-app.get('/', (req, res)=>{
-	res.send("Hello vro!");
-})
 
 
 
 // Adds support for GET requests to our webhook
+
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
@@ -85,45 +92,14 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-function textMessage(senderID,text){
-	requestify.post(sendmessageurl, {
-		"recipient":{
-		"id":senderID},
-		"message":{
-			"text":text
-		}
-	})
-}
 
-app.post('/admin', (req, res) => {
-	var userInput = req.body.userInput
-	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
-		textMessage(senderID,'Welcome Admin')
-	}
-})
-
-app.post('/advisor', (req, res) => {
-	var userInput = req.body.userInput
-	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
-		textMessage(senderID,'Welcome Advisor')
-	}
-})
-
-app.post('/user', (req, res) => {
-	var userInput = req.body.userInput
-	var senderID = req.body.senderID
-	if(userInput == 'Hi'){
-		textMessage(senderID,'Welcome User')
-	}
-})
 
 // Creates the endpoint for our webhook 
+
 app.post('/webhook', (req, res) => {  
  
   let body = req.body;
-
+  let isreviewer = true;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
 
@@ -136,39 +112,79 @@ app.post('/webhook', (req, res) => {
       console.log(webhook_event);
       var senderID=webhook_event.sender.id;
       console.log('senderID',senderID);
-      if(webhook_event.postback){
+      if(webhook_event.postback)
+      {
       	var userInput=webhook_event.postback.payload;
-    }
-    if (webhook_event.message) {if (webhook_event.message.text) {
-    	var userInput=webhook_event.message.text;
-    }
-	if (webhook_event.message.attachments){
-		var userMedia=webhook_event.message.attachments.payload.url;
+    	}
+      if (webhook_event.message) 
+      {
+	    		if (webhook_event.message.text) 
+	    		{
+	    			var userMessage=webhook_event.message.text;
+	    		}
+				if (webhook_event.message.attachments)
+				{
+					var userMedia=webhook_event.message.attachments.payload;
+				}
+				if(webhook_event.message.quick_reply)
+				{
+					var userQuickreply=webhook_event.message.quick_reply.payload;
+				}
+		}
+	    
+		db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
+			if(adminList.empty)
+			{
+				db.collection("bookshopowner").where('ownerid','==',`${senderID}`).get().then(bookshopownerlist => {
+					if(bookshopownerlist.empty)
+					{
+						db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${isreviewer}`).get().then(reviewerlist=>{
+							if(reviewerlist.empty)
+							{
+								db.collection("user").where('userid','==',`${senderID}`).get().then(userlist => {
+									if(userlist.empty)
+									{
+                                      if(userInput == 'Hi')
+										   {
+										   	textMessage(senderID,"Welcome New User");
+										   }
+									}
+									else
+									{
+                                         if(userInput == 'Hi')
+										   {
+										   	textMessage(senderID,"Welcome User");
+										   }
+									}
+								})	
+							}
+							else
+							{
+								if(userInput == 'Hi')
+								   {
+								   	textMessage(senderID,"Welcome Reviewer");
+								   }
+							}
+						})
 
-	}}
-	 
-		db.collection('admin').where('id','==',`${senderID}`).get().then(adminList => {
-			if(adminList.empty){
-				db.collection('BookAdvisor').where('id','==',`${senderID}`).get().then(advisorList => {
-					if(advisorList.empty){
-						requestify.post('https://bookchatbot.herokuapp.com/user', {
-							userInput: userInput || null,
-							senderID: senderID
-						})
-					}else{
-						requestify.post('https://bookchatbot.herokuapp.com/advisor', {
-							userInput: userInput || null,
-							senderID: senderID,
-							video: userMedia
-						})
+								
+					}
+					else
+					{
+						if(userInput == 'Hi')
+					   {
+					   	textMessage(senderID,"Welcome bookshopowner");
+					   }
 					}
 				})
-			}else{
-				requestify.post('https://bookchatbot.herokuapp.com/admin', {
-					userInput: userInput || null,
-					senderID: senderID,
-					image: userMedia
-				})
+			}
+			
+			else
+			{
+			   if(userInput == 'Hi')
+			   {
+			   	textMessage(senderID,"Welcome Admin");
+			   }	
 			}
 		})
 	 
@@ -186,6 +202,16 @@ app.post('/webhook', (req, res) => {
 
 });
 
+//Function
+function textMessage(senderID,text){
+	requestify.post(sendmessageurl, {
+		"recipient":{
+		"id":senderID},
+		"message":{
+			"text":text
+		}
+	})
+}
 
 
 

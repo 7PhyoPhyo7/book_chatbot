@@ -5,9 +5,12 @@
 	requestify=require('requestify'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
-	PAGE_ACCESS_TOKEN=process.env.PAGE_ACCESS_TOKEN;
+	 request = require('request'),
+  	ejs = require("ejs"),
+ 	fs = require('fs'),
+	PAGE_ACCESS_TOKEN=process.env.PAGE_ACCESS_TOKEN,
 	app = express().use(bodyParser.json()); // creates express http server 
-	const sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PageAccessToken
+	const sendmessageurl='https://graph.facebook.com/v4.0/me/messages?access_token='+PAGE_ACCESS_TOKEN
 	
 	
 var admin = require("firebase-admin");

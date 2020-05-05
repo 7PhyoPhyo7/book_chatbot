@@ -181,9 +181,31 @@ app.post('/webhook', (req, res) => {
 			
 			else
 			{
+				requestify.post("https://graph.facebook.com/v6.0/me/custom_user_settings?psid="+senderID+"&access_token="+PAGE_ACCESS_TOKEN,
+                                      {
+                                      "persistent_menu":[
+                                      {
+                                        "locale":"default",
+                                        "composer_input_disabled":true,
+                                        "call_to_actions":[
+                                        {
+                                            "type":"postback",
+											"title":"Reviewer Applicant List",
+											"payload":"applicant"
+                                        }
+                                      ]
+
+                                    }
+                                   ]
+
+                                  }).then(function(success) {
+                                    console.log('New User Persistent_menu.success');
+                                    // body...
+                                  })
 			   if(userInput == 'Hi')
 			   {
 			   	textMessage(senderID,"Welcome Admin");
+
 			   }	
 			}
 		})

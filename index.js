@@ -177,7 +177,7 @@ app.post('/webhook', (req, res) => {
 						   }
 						   if(userQuickreply == 'menu')
 						   {
-
+						   	BookshopMenu(senderID);
 						   }
 					}
 				})

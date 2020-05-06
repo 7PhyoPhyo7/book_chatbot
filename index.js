@@ -400,9 +400,9 @@ function QuickReplyMenu(senderID)
        	   				ownerid: doc.data().owner // array
        	   			})
        	   		}
-       	   		console.log("booklistwithowner",booklistwithowner)
+       	   		
        	   	})
-
+console.log("booklistwithowner",booklistwithowner)
        	   })
 
 

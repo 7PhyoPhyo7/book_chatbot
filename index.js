@@ -394,7 +394,7 @@ function QuickReplyMenu(senderID)
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
          booklist.forEach(doc=>{
           let data = {
-            "title":doc.data().doc.id,
+            "title":doc.id,
             "subtitle":doc.data().author,
             "image_url":doc.data().image,
               "buttons":[

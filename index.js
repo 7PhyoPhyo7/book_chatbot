@@ -390,19 +390,19 @@ function QuickReplyMenu(senderID)
  function Get_BookList(senderID)
   {
 
-        let bklist =[];
+        let booklistwithowner =[,];
 
-        db.collection("book").get().then(owner=>{
-        	owner.forEach(doc=>{
-        		const arr = doc.data().owner
-        		 .filter(
-        		 	     book => book.owner.includes(senderID)
-        		 	    ).map(result=>{
-        		 	    	console.log(doc.id);
-        		 	    })
-        		 console.log("Arr",arr)
-        	})
-        })
+   db.collection("Bookkk").get().then(ownerlist=>{
+       	   	ownerlist.forEach(doc=>{
+       	   		if (doc !== null) {
+       	   			booklistwithowner.push({
+       	   				bookname: doc.id,
+       	   				ownerid: doc.data().owner // array
+       	   			});
+       	   		}
+       	   		console.log("booklistwithowner",booklistwithowner);
+       	   	});
+
 
   		// try {
     //    	   		const output = bookwithgenre

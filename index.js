@@ -393,7 +393,11 @@ function QuickReplyMenu(senderID)
   	   var list=[,];
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
          booklist.forEach(doc=>{
-         	console.log("Name",doc.id);
+          console.log("Name",doc.id);
+          console.log("Author",doc.data().author);
+          console.log("image",doc.data().image);
+          console.log("genre",genre);
+
          })
       })
 

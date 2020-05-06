@@ -12,8 +12,10 @@
 	app = express().use(bodyParser.json()); // creates express http server 
 	const sendmessageurl='https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN
 	
-
-
+app.use(express.static('public'));
+app.use(express.urlencoded());
+app.set('view engine', 'ejs');
+app.set('views', __dirname+'/public');
 // database setup
 
 var admin = require("firebase-admin");
@@ -227,7 +229,41 @@ app.post('/webhook', (req, res) => {
   }
 
 });
+//app
+app.get('/register_books/:sender_id',function(req,res){
+  const sender_id = req.params.sender_id;
+    res.render('testing.ejs',{ title:"Please Register Books", sender_id:sender_id});
+});
 
+
+app.post('/register_books', (req,res)=> {
+  let author = req.body.author;
+  let bookname = req.body.bookname;
+  let bookshopname = req.body.bookshopname;
+   let sender = req.body.sender; 
+ // let sender = req.senderID;
+
+///
+  // requestify
+
+  // res.render('success.ejs', {}); TODO: show success page
+
+   db.collection('Book').add({
+            Author:author,
+            adminid:sender,
+            bookname:bookname,
+            bookshopname:bookshopname
+          }).then(success => {             
+             textMessage(sender,"Register Successful");  
+             res.status(200).send("Registration Successful and Please go back to your messages and please check your book detail");
+            // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
+          }).catch(error => {
+            console.log(error);
+      }); 
+  //console.log("Sender",sender);
+ // textMessage(sender,"Register successful!");
+  //  res.status(200).send('Message Success');
+})
 //Function
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {

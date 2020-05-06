@@ -392,7 +392,7 @@ function QuickReplyMenu(senderID)
   	   var list=[,];
        db.collection('book').get().then(ownerlist=>{
        	ownerlist.forEach(doc=>{
-           owner.forEach(function(value){
+           doc.data().owner.forEach(function(value){
            	 list.push({
            	 	name:doc.id,
            	 	ownerid:value

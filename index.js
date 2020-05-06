@@ -185,6 +185,27 @@ app.post('/webhook', (req, res) => {
 						   {
 						   	Get_BookList(senderID);
 						   }
+               if (userInput.includes('book_detail'))
+               {
+                      
+                      // let result = userInput.substring(12);
+                      // console.log("substring",result);
+                      var bookdetail = userInput.split('#');
+                      var author=bookdetail[2];
+                      let bookname=bookdetail[1];
+                   
+                   db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
+                    bookshoplist.forEach(doc=>{
+                      if(doc.data().ownerid == senderID)
+                      {
+                        console.log("BookshopName",doc.id);
+                        console.log("BookshopAddress",doc.data().bookshopaddress);
+                      }
+                    })
+                   })
+                      
+                      
+              }
 					}
 				})
 			}
@@ -394,14 +415,14 @@ function QuickReplyMenu(senderID)
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
          booklist.forEach(doc=>{
           let data = {
-            "title":doc.id,
-            "subtitle":doc.data().author,
+            "title":"BookName : "+doc.id,
+            "subtitle":"Author : "+doc.data().author,
             "image_url":doc.data().image,
               "buttons":[
               {
                     "type":"postback",
                     "title":"Book Detail",
-                    "payload":`book_detail ${doc.id}`
+                    "payload":`book_detail#${doc.id}#${doc.data().author}`
               },
               {
                     "type":"web_url",

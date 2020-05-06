@@ -403,7 +403,7 @@ function QuickReplyMenu(senderID)
            }) 
                   
        	})
-       	console.log("Name",list.find(ownerid=>ownerid === senderID));
+       	console.log(list);
        })
   }
 

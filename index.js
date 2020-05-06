@@ -370,11 +370,14 @@ app.get('/edit_book/:sender_id/:bookname/:author',function(req,res)
 
    db.collection('book').doc(bookname).collection('bookshop').get().then(bookshopdetail=>{
     bookshopdetail.forEach(doc=>{
+                if(doc.data.ownerid == sender_id)
+                {
                 bookshopname = doc.id;
                 bookshopaddress = doc.data().bookshopaddress;
                 bookshopphno = doc.data().bookshopphno;
                 stock =doc.data().stock;
                 link = doc.data().link;
+                }
     })
        console.log("Bookshopname",bookshopname);
        res.render('edit_book.ejs',{title: "Please Modify following book",sender_id:sender_id,bookname:bookname,author:author,bookshopname:bookshopname,bookshopaddress:bookshopaddress,bookshopphno:bookshopphno,link:link,stock:stock});

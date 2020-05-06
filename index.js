@@ -173,7 +173,11 @@ app.post('/webhook', (req, res) => {
 					{
 						if(userInput == 'Hi')
 					   {
-					   	textMessage(senderID,"Welcome bookshopowner");
+					   	textMessage(senderID,"Welcome bookshopowner")
+					   	.then(next=>{
+					   		        QuickReplyMenu(senderID);
+					  		  })
+					   	
 					   }
 					}
 				})
@@ -233,6 +237,28 @@ function textMessage(senderID,text){
 			"text":text
 		}
 	})
+}
+
+function QuickReplyMenu(senderID)
+{
+	requestify.post(sendmessageurl,
+   {  
+      "recipient":{
+        "id":senderID
+  },
+  
+  "message":{
+      "text": "",
+       "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Menu",
+        "payload":"menu" 
+      }
+    ]
+  }
+  }).then(result=>{ console.log("ok")
+      }).catch(err=>{console.log("err",err)})
 }
 
 

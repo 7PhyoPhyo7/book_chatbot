@@ -17,7 +17,7 @@ app.use(express.urlencoded());
 app.set('view engine', 'ejs');
 app.set('views', __dirname+'/public');
 // database setup
-
+var newregister='';
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -159,6 +159,15 @@ app.post('/webhook', (req, res) => {
                               textMessage(senderID,"Register Successful");
                               textMessage(senderID,"Please type 'Login' to start Process");
                         })
+                       }
+                       if(userQuickreply == 'reader')
+                       {
+                        textMessage(senderID,"Please type 'Register' ");
+                        newregister ='reader';
+                       }
+                       if(newregister == 'reader')
+                       {
+                         UserRegister(senderID,userMessage);
                        }
 
 									}
@@ -592,6 +601,39 @@ requestify.post(sendmessageurl, {
       })
 
 
+  }
+
+  function UserRegister(senderID,userMessage)
+  {
+    requestify.post(sendmessageurl,
+  {
+    "recipient":{
+      "id":senderID
+    },
+  "message":{
+   "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"Please Click",
+              "subtitle":"",
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://bookchatbot.herokuapp.com/register_user/"+senderID,
+                    "title":"Register Reader",
+                    "webview_height_ratio": "full"
+                  }
+               ]}
+
+        ]
+      }
+    }
+  }
+  }) 
+  console.log('button_sender',senderID);
   }
 
 

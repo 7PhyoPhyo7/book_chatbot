@@ -146,15 +146,25 @@ app.post('/webhook', (req, res) => {
 								db.collection("user").where('userid','==',`${senderID}`).get().then(userlist => {
 									if(userlist.empty)
 									{
-                                      if(userInput == 'Hi')
+                        if(userInput == 'Hi')
 										   {
 										   	textMessage(senderID,"Welcome New User");
                         QuickReplyNewUser(senderID);
 										   }
+                       if(userInput == 'seller')
+                       {
+                        db.collection('bookshopowner').add({
+                              ownerid:senderID
+                        }).then(own=>{
+                              textMessage(senderID,"Register Successful");
+                              textMessage(senderID,"Please type 'Login' to start Process");
+                        })
+                       }
+
 									}
 									else
 									{
-                                         if(userInput == 'Hi')
+                             if(userInput == 'Hi')
 										   {
 										   	textMessage(senderID,"Welcome User");
 										   }
@@ -187,6 +197,10 @@ app.post('/webhook', (req, res) => {
 						   	 Get_BookList(senderID);
                 
 						   }
+               if(userMessage == 'Login')
+               {
+                  QuickReplyMenu(senderID);
+               }
                if (userInput.includes('book_detail'))
                {
                       
@@ -438,7 +452,7 @@ function QuickReplyMenu(senderID)
   },
   
   "message":{
-      "text": "Welcome Bookshopowner",
+      "text": "Welcome Book Seller",
        "quick_replies":[
       {
         "content_type":"text",

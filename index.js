@@ -192,8 +192,10 @@ app.post('/webhook', (req, res) => {
                       // console.log("substring",result);
                       var bookdetail = userInput.split('#');
                       var author=bookdetail[2];
-                      let bookname=bookdetail[1];
-                   
+                      var bookname=bookdetail[1];
+                      console.log("Author",author);
+                      console.log("Bookname",bookname);
+                      console.log("SenderID",senderID);
                    db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
                     bookshoplist.forEach(doc=>{
                       if(doc.data().ownerid == senderID)

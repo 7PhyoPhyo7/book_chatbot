@@ -398,10 +398,12 @@ function QuickReplyMenu(senderID)
        	   			booklistwithowner.push({
        	   				bookname: doc.id,
        	   				ownerid: doc.data().owner // array
-       	   			});
+       	   			})
        	   		}
-       	   		console.log("booklistwithowner",booklistwithowner);
-       	   	});
+       	   		console.log("booklistwithowner",booklistwithowner)
+       	   	})
+
+       	   })
 
 
   		// try {

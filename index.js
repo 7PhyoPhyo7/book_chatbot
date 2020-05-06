@@ -290,12 +290,7 @@ app.post('/register_books', (req,res)=> {
             	link:link,
             	ownerid:sender,
             	stock:stock
-            }).then(success=>{
-            	res.response(200).send("Register Suceessfully and Please go back to messenger")
-            }).catch(err)
-            {
-            	console.log("eerr",err);
-            }
+            })
    	   	 }
    	   	 else
    	   	 {
@@ -388,6 +383,44 @@ function QuickReplyMenu(senderID)
   console.log('button_sender',senderID);
 }
 
+ function Get_BookList(senderID)
+  {
+
+        let bklist =[];
+
+        db.collection("book").get().then(owner=>{
+        	owner.forEach(doc=>{
+        		if(doc.data().owner == senderID)
+        		{
+        			bklist.push(doc.id);
+        			console.log("BKlistinside",bklist)
+        		}
+        		console.log("BKlistoutside",bklist)
+        	})
+        })
+
+  		// try {
+    //    	   		const output = bookwithgenre
+    //    	   			.filter(
+    //    	   				book => book.genre.every(
+    //    	   					gen => userwithhobby.includes(gen)
+    //    	   				)
+    //    	   			)
+    //    	   			.map(result => {
+    //    	   				textBookMessage(senderID,"Recomanded Book : ",result.name);
+    //    	   			});
+                    
+    //    	   		console.log(output);
+    //    	   } catch (e) {
+    //    	   		console.error(e);
+    //    	   }
+
+
+      
+
+
+
+  }
 
 
 

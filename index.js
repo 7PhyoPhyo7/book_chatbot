@@ -370,7 +370,7 @@ app.get('/edit_book/:sender_id/:bookname/:author',function(req,res)
 
    db.collection('book').doc(bookname).collection('bookshop').get().then(bookshopdetail=>{
     bookshopdetail.forEach(doc=>{
-                if(doc.data.ownerid == sender_id)
+                if(doc.data().ownerid == sender_id)
                 {
                 bookshopname = doc.id;
                 bookshopaddress = doc.data().bookshopaddress;

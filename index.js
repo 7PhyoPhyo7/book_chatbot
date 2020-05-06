@@ -185,8 +185,6 @@ app.post('/webhook', (req, res) => {
 						   {
 						   	 Get_BookList(senderID);
                 
-                
-                
 						   }
                if (userInput.includes('book_detail'))
                {
@@ -500,11 +498,9 @@ requestify.post(sendmessageurl, {
   console.log('button_sender',senderID);
 }
 
-async function Get_BookList(senderID)
+ function Get_BookList(senderID)
   {
-    let promise = new Promise((resolve, reject) => {
-    setTimeout(() => resolve("done!"), 1000)
-  });
+  
   	let bookdetail=[];
   	   
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
@@ -552,8 +548,6 @@ async function Get_BookList(senderID)
       })
 
 
-
-      await Get_BookList(senderID);
   }
 
 

@@ -394,12 +394,13 @@ function QuickReplyMenu(senderID)
 
         db.collection("book").get().then(owner=>{
         	owner.forEach(doc=>{
-        		if(doc.data().owner == senderID)
-        		{
-        			bklist.push(doc.id);
-        			console.log("BKlistinside",bklist)
-        		}
-        		console.log("BKlistoutside",bklist)
+        		const arr = doc.data().owner
+        		 .filter(
+        		 	     book => book.owner.includes(senderID)
+        		 	    ).map(result=>{
+        		 	    	console.log(doc.id);
+        		 	    })
+        		 console.log("Arr",arr)
         	})
         })
 
@@ -413,6 +414,7 @@ function QuickReplyMenu(senderID)
     //    	   			.map(result => {
     //    	   				textBookMessage(senderID,"Recomanded Book : ",result.name);
     //    	   			});
+
                     
     //    	   		console.log(output);
     //    	   } catch (e) {

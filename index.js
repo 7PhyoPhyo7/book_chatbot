@@ -290,7 +290,12 @@ app.post('/register_books', (req,res)=> {
             	link:link,
             	ownerid:sender,
             	stock:stock
-            })
+            }).then(success=>{
+            	res.response(200).send("Register Suceessfully and Please go back to messenger")
+            }).catch(err)
+            {
+            	console.log("eerr",err);
+            }
    	   	 }
    	   	 else
    	   	 {
@@ -309,12 +314,7 @@ app.post('/register_books', (req,res)=> {
             })
 
    	   	 }
-   	   }).then(success => {             
-			             textMessage(sender,"Register Successful");  
-			             res.status(200).send("Registration Successful and Please go back to your messages and please check your book detail");
-			            }).catch(error => {
-			            console.log(error);
-			      })
+   	   })
    })
   
 })

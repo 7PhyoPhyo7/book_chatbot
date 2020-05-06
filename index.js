@@ -389,28 +389,49 @@ function QuickReplyMenu(senderID)
 
  function Get_BookList(senderID)
   {
-  	let arr=[];
+  	let bookdetail=[];
   	   
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
          booklist.forEach(doc=>{
-          // console.log("Name",doc.id);
-          // console.log("Author",doc.data().author);
-          // console.log("image",doc.data().image);
-          // console.log("genre",doc.data().genre);
-           arr.push(doc.id);
-           arr.push(doc.data().author);
-           arr.push(doc.data().image);
-           arr.push(doc.data().genre); 
-           db.collection('book').doc(doc.id).collection('bookshop').get().then(bookshopdetial=>{
-            bookshopdetial.forEach(doc=>{
-              console.log(doc.id);
-              console.log(doc.data().bookshopaddress);
-              arr.push("Inside",doc.id);
-              arr.push("Insideadd",doc.data().bookshopaddress);
-            })
-           })            
+          let data = {
+            "title":doc.data().doc.id,
+            "subtitle":doc.data().author,
+            "image_url":doc.data().image,
+              "buttons":[
+              {
+                    "type":"postback",
+                    "title":"Book Detail",
+                    "payload":`book_detail ${doc.id}`
+              },
+              {
+                    "type":"web_url",
+                    "url":"https://bookherokuwp.herokuapp.com/edit_book/"+senderID+"/"+doc.id,
+                    "title":"Edit Books",
+                    "webview_height_ratio": "full"
+                  },
+
+             ]}
+           
+             bookdetail.push(data)
+                        
          })
-           console.log("Outside",arr);    
+            requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                        {
+                          "recipient":{
+                          "id":senderID
+                        },
+                        "message":{
+                          "attachment":{
+                            "type":"template",
+                            "payload":{
+                              "template_type":"generic",
+                              "elements":bookdetail
+                          }
+                        }
+                      }
+                        }).catch((err) => {
+                          console.log('Error getting documents', err);
+                        }); 
       })
 
 

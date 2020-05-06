@@ -284,7 +284,13 @@ app.post('/register_books', (req,res)=> {
    	   booknamelist.forEach(doc=>{
    	   	 if(doc.id == bookname)
    	   	 {
-
+              db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            	bookshopaddress:bookshopaddress,
+            	bookshopphno:bookshopphno,
+            	link:link,
+            	ownerid:sender,
+            	stock:stock
+            })
    	   	 }
    	   	 else
    	   	 {
@@ -303,7 +309,12 @@ app.post('/register_books', (req,res)=> {
             })
 
    	   	 }
-   	   })
+   	   }).then(success => {             
+			             textMessage(sender,"Register Successful");  
+			             res.status(200).send("Registration Successful and Please go back to your messages and please check your book detail");
+			            }).catch(error => {
+			            console.log(error);
+			      })
    })
   
 })

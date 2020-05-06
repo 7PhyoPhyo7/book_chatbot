@@ -151,7 +151,7 @@ app.post('/webhook', (req, res) => {
 										   	textMessage(senderID,"Welcome New User");
                         QuickReplyNewUser(senderID);
 										   }
-                       if(userInput == 'seller')
+                       if(userQuickreply == 'seller')
                        {
                         db.collection('bookshopowner').add({
                               ownerid:senderID

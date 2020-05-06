@@ -390,15 +390,27 @@ function QuickReplyMenu(senderID)
  function Get_BookList(senderID)
   {
   	let arr=[];
-  	   var list=[,];
+  	   
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
          booklist.forEach(doc=>{
-          console.log("Name",doc.id);
-          console.log("Author",doc.data().author);
-          console.log("image",doc.data().image);
-          console.log("genre",genre);
-
+          // console.log("Name",doc.id);
+          // console.log("Author",doc.data().author);
+          // console.log("image",doc.data().image);
+          // console.log("genre",doc.data().genre);
+           arr.push(doc.id);
+           arr.push(doc.data().author);
+           arr.push(doc.data().image);
+           arr.push(doc.data().genre); 
+           db.collection('book').doc(doc.id).collection('bookshop').get().then(bookshopdetial=>{
+            bookshopdetial.forEach(doc=>{
+              console.log(doc.id);
+              console.log(doc.data().bookshopaddress);
+              arr.push("Inside",doc.id);
+              arr.push("Insideadd",doc.data().bookshopaddress);
+            })
+           })            
          })
+           console.log("Outside",arr);    
       })
 
 

@@ -201,17 +201,17 @@ app.post('/webhook', (req, res) => {
                       if(doc.data().ownerid == senderID)
                       {
                            MessageDetail(senderID,"Book Name",bookname)
-                            .then(success=>{
+                            .then(data=>{
                               MessageDetail(senderID,"Author",author)
-                              .then(success=>{
+                              .then(data1=>{
                                 MessageDetail(senderID,"Book Shop Name",doc.id)
-                                .then(success=>{
+                                .then(data2=>{
                                   MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
-                                  .then(success=>{
+                                  .then(data4=>{
                                     MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
-                                    .then(success=>{
+                                    .then(data5=>{
                                       MessageDetail(senderID,"Page Link",doc.data().link)
-                                      .then(success=>{
+                                      .then(data6=>{
                                         MessageDetail(senderID,"Stock",doc.data().stock)
                                       })
                                     })

@@ -200,25 +200,20 @@ app.post('/webhook', (req, res) => {
                     bookshoplist.forEach(doc=>{
                       if(doc.data().ownerid == senderID)
                       {
-                           MessageDetail(senderID,"Book Name",bookname)
-                            .then(data=>{
-                              MessageDetail(senderID,"Author",author)
-                              .then(data1=>{
-                                MessageDetail(senderID,"Book Shop Name",doc.id)
-                                .then(data2=>{
-                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
-                                  .then(data4=>{
-                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
-                                    .then(data5=>{
-                                      MessageDetail(senderID,"Page Link",doc.data().link)
-                                      .then(data6=>{
-                                        MessageDetail(senderID,"Stock",doc.data().stock)
-                                      })
-                                    })
-                                  })
-                                })
-                              })
-                            }) 
+                           MessageDetail(senderID,"Book Name",bookname);
+                            
+                              MessageDetail(senderID,"Author",author);
+                              
+                                MessageDetail(senderID,"Book Shop Name",doc.id);
+                                
+                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress);
+                                  
+                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno);
+                                    
+                                      MessageDetail(senderID,"Page Link",doc.data().link);
+                                      
+                                        MessageDetail(senderID,"Stock",doc.data().stock);
+                                      
                       }
                     })
                    })

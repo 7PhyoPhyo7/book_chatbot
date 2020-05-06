@@ -389,7 +389,7 @@ function QuickReplyMenu(senderID)
 
  function Get_BookList(senderID)
   {
-  	   list=[,];
+  	   var list=[,];
        db.collection('book').get().then(ownerlist=>{
        	ownerlist.forEach(doc=>{
            owner.forEach(function(value){

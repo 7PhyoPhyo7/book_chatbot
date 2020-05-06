@@ -167,8 +167,11 @@ app.post('/webhook', (req, res) => {
                        }
                        if(newregister == 'reader')
                        {
-                         UserRegister(senderID,userMessage);
-                         newregister='';
+                          if(userMessage == 'Register')
+                          {
+                             UserRegister(senderID,userMessage);
+                             newregister='';
+                          }
                        }
 
 									}

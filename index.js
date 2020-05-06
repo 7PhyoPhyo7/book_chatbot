@@ -200,8 +200,25 @@ app.post('/webhook', (req, res) => {
                     bookshoplist.forEach(doc=>{
                       if(doc.data().ownerid == senderID)
                       {
-                        console.log("BookshopName",doc.id);
-                        console.log("BookshopAddress",doc.data().bookshopaddress);
+                           MessageDetail(senderID,"Book Name",bookname)
+                            .then(success=>{
+                              MessageDetail(senderID,"Author",author)
+                              .then(success=>{
+                                MessageDetail(senderID,"Book Shop Name",doc.id)
+                                .then(success=>{
+                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
+                                  .then(success=>{
+                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
+                                    .then(success=>{
+                                      MessageDetail(senderID,"Page Link",doc.data().link)
+                                      .then(success=>{
+                                        MessageDetail(senderID,"Stock",doc.data().stock)
+                                      })
+                                    })
+                                  })
+                                })
+                              })
+                            }) 
                       }
                     })
                    })
@@ -372,6 +389,17 @@ function QuickReplyMenu(senderID)
   }).then(result=>{ console.log("ok")
       }).catch(err=>{console.log("err",err)})
 }
+
+ function MessageDetail(senderID,prefix,text)
+ {
+requestify.post(sendmessageurl, {
+    "recipient":{
+    "id":senderID},
+    "message":{
+      "text":prefix+" : "+text
+    }
+  })
+ }
 
  function BookshopMenu(senderID){
  requestify.post(sendmessageurl,

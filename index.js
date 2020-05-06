@@ -240,29 +240,48 @@ app.post('/register_books', (req,res)=> {
   let author = req.body.author;
   let bookname = req.body.bookname;
   let bookshopname = req.body.bookshopname;
-   let sender = req.body.sender; 
- // let sender = req.senderID;
-
-///
-  // requestify
-
-  // res.render('success.ejs', {}); TODO: show success page
-
-   db.collection('Book').add({
-            Author:author,
-            adminid:sender,
-            bookname:bookname,
-            bookshopname:bookshopname
-          }).then(success => {             
-             textMessage(sender,"Register Successful");  
-             res.status(200).send("Registration Successful and Please go back to your messages and please check your book detail");
-            // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
-          }).catch(error => {
-            console.log(error);
-      }); 
-  //console.log("Sender",sender);
- // textMessage(sender,"Register successful!");
-  //  res.status(200).send('Message Success');
+  let sender = req.body.sender; 
+  let image = req.body.image;
+  let bookshopaddress = req.body.bookshopaddress;
+  let bookshopphno = req.body.bookshopphno;
+  let link = req.body.link;
+  let stock = req.body.stock;
+  let knowledge='';
+  let romance= '';
+  let history= '';
+  let biography= '';
+  let religion = '';
+  var genre=[];
+  
+ 
+	  if(req.body.knowledge)
+	  {
+	           knowledge = req.body.knowledge;
+	           genre.push(knowledge);
+	  }
+	  if(req.body.romance)
+	  {
+	  	        romance = req.body.romance;
+	  	        genre.push(romance);
+	  }
+	  if(req.body.religion)
+	  {
+	  	       religion = req.body.religion;
+	  	       genre.push(romance);
+	  }
+	  if(req.body.history)
+	  {
+	  	       history = req.body.history;
+	  	       genre.push(history);
+	  }
+	  if(req.body.biography)
+	  {
+	  	         biography =req.body.biography; 
+	  	         genre.push(biography);
+	  }
+  
+   console.log("Genre",genre);
+  
 })
 //Function
 function textMessage(senderID,text){

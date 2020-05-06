@@ -247,7 +247,7 @@ function QuickReplyMenu(senderID)
   },
   
   "message":{
-      "text": "",
+      "text": "Welcome Workshopowner",
        "quick_replies":[
       {
         "content_type":"text",

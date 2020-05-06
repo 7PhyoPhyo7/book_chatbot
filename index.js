@@ -171,13 +171,14 @@ app.post('/webhook', (req, res) => {
 					}
 					else
 					{
-						if(userInput == 'Hi')
-					   {
-					   	//textMessage(senderID,"Welcome bookshopowner");
-					    QuickReplyMenu(senderID);
-					  		  
-					   	
-					   }
+							if(userInput == 'Hi')
+						   {					   
+						    QuickReplyMenu(senderID);
+						   }
+						   if(userQuickreply == 'menu')
+						   {
+
+						   }
 					}
 				})
 			}
@@ -247,7 +248,7 @@ function QuickReplyMenu(senderID)
   },
   
   "message":{
-      "text": "Welcome Workshopowner",
+      "text": "Welcome Bookshopowner",
        "quick_replies":[
       {
         "content_type":"text",
@@ -260,6 +261,42 @@ function QuickReplyMenu(senderID)
       }).catch(err=>{console.log("err",err)})
 }
 
+ function BookshopMenu(senderID){
+ requestify.post(sendmessageurl,
+  {
+    "recipient":{
+      "id":senderID
+    },
+  "message":{
+   "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"Menu",
+              "subtitle":"Choose One Menu",
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://bookchatbot.herokuapp.com/register_books/"+senderID,
+                    "title":"Register Books",
+                    "webview_height_ratio": "full"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Books List",
+                    "payload" : "booklist"
+                  },
+               ]}
+
+        ]
+      }
+    }
+  }
+  }) 
+  console.log('button_sender',senderID);
+}
 
 
 

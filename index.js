@@ -389,53 +389,18 @@ function QuickReplyMenu(senderID)
 
  function Get_BookList(senderID)
   {
-
-        let booklistwithowner =[,];
-
-        db.collection('book').get().then(ownlist=>{
-        	ownlist.forEach(doc=>{
-        		doc.data().owner.forEach()
-        		{
-        			booklistwithowner.push(
-        			{
-                        name:doc.id,
-                        owner:doc.data().owner
-                    }
-        				)
-        		}
-        	}).catch(err)
-        	{
-        		console.log("Error",err);
-        	}
-        	console.log("book",booklistwithowner);
-        })
-      
-
-
-
-
-  		// try {
-    //    	   		const output = bookwithgenre
-    //    	   			.filter(
-    //    	   				book => book.genre.every(
-    //    	   					gen => userwithhobby.includes(gen)
-    //    	   				)
-    //    	   			)
-    //    	   			.map(result => {
-    //    	   				textBookMessage(senderID,"Recomanded Book : ",result.name);
-    //    	   			});
-
-                    
-    //    	   		console.log(output);
-    //    	   } catch (e) {
-    //    	   		console.error(e);
-    //    	   }
-
-
-      
-
-
-
+  	   list=[,];
+       db.collection('book').get().then(ownerlist=>{
+       	ownerlist.forEach(doc=>{
+           owner.forEach(function(value){
+           	 list.push({
+           	 	name:doc.id,
+           	 	ownerid:value
+           	 })
+           })           
+       	})
+       	console.log(list);
+       })
   }
 
 

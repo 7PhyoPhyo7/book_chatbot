@@ -173,10 +173,9 @@ app.post('/webhook', (req, res) => {
 					{
 						if(userInput == 'Hi')
 					   {
-					   	textMessage(senderID,"Welcome bookshopowner")
-					   	.then(next=>{
-					   		        QuickReplyMenu(senderID);
-					  		  })
+					   	textMessage(senderID,"Welcome bookshopowner");
+					    QuickReplyMenu(senderID);
+					  		  
 					   	
 					   }
 					}

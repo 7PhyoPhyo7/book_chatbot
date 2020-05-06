@@ -391,22 +391,11 @@ function QuickReplyMenu(senderID)
   {
   	let arr=[];
   	   var list=[,];
-       db.collection('book').get().then(ownerlist=>{
-       	ownerlist.forEach(doc=>{
-       		arr =[];
-       		arr.push(doc.data().owner);
-           arr.forEach(function(item,index,array){
-           	 list.push({
-           	 	name:doc.id,
-           	 	ownerid:item,
-           	 	index:index
-           	 })
-           }) 
-                  
-       	})
-       	console.log("list",list.filter(function(person){return person.ownerid.includes(senderID)}));
-       			
-       })
+      db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
+         booklist.forEach(doc=>{
+         	console.log("Name",doc.id);
+         })
+      })
 
 
 

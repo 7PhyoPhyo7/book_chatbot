@@ -403,7 +403,10 @@ function QuickReplyMenu(senderID)
                     }
         				)
         		}
-        	})
+        	}).catch(err)
+        	{
+        		console.log("Error",err);
+        	}
         	console.log("book",booklistwithowner);
         })
       

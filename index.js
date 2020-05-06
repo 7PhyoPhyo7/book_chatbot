@@ -397,7 +397,7 @@ function QuickReplyMenu(senderID)
        		arr.push(doc.data().owner);
            arr.forEach(function(item,index,array){
            	 list.push({
-           	 	name:doc.id,
+           	 	
            	 	ownerid:item,
            	 	index:index
            	 })

@@ -183,9 +183,9 @@ app.post('/webhook', (req, res) => {
 						   }
 						   if(userInput == 'booklist')
 						   {
-						   	Get_BookList(senderID).then(success=>{
-                  QuickReplyMenu(senderID)
-                })
+						   	 Get_BookList(senderID);
+                
+                
                 
 						   }
                if (userInput.includes('book_detail'))
@@ -432,7 +432,7 @@ function textMessage(senderID,text){
 
 function QuickReplyMenu(senderID)
 {
-	requestify.post(sendmessageurl,
+  requestify.post(sendmessageurl,
    {  
       "recipient":{
         "id":senderID
@@ -500,8 +500,11 @@ requestify.post(sendmessageurl, {
   console.log('button_sender',senderID);
 }
 
- function Get_BookList(senderID)
+async function Get_BookList(senderID)
   {
+    let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("done!"), 1000)
+  });
   	let bookdetail=[];
   	   
       db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
@@ -528,6 +531,7 @@ requestify.post(sendmessageurl, {
              bookdetail.push(data)
                         
          })
+
             requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
                         {
                           "recipient":{
@@ -549,7 +553,7 @@ requestify.post(sendmessageurl, {
 
 
 
-
+      await Get_BookList(senderID);
   }
 
 

@@ -452,7 +452,7 @@ function QuickReplyMenu(senderID)
   },
   
   "message":{
-      "text": "Welcome Book Seller",
+      "text": "Welcome Book Seller {{user_first_name}}",
        "quick_replies":[
       {
         "content_type":"text",

@@ -200,20 +200,23 @@ app.post('/webhook', (req, res) => {
                     bookshoplist.forEach(doc=>{
                       if(doc.data().ownerid == senderID)
                       {
-                           MessageDetail(senderID,"Book Name",bookname);
-                            
-                              MessageDetail(senderID,"Author",author);
-                              
-                                MessageDetail(senderID,"Book Shop Name",doc.id);
-                                
-                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress);
-                                  
-                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno);
-                                    
-                                      MessageDetail(senderID,"Page Link",doc.data().link);
-                                      
-                                        MessageDetail(senderID,"Stock",doc.data().stock);
-                                      
+                           MessageDetail(senderID,"Book Name",bookname)
+                           .then(bname=>{
+                                MessageDetail(senderID,"Author",author)
+                                .then(au=>{
+                                  MessageDetail(senderID,"Stock",doc.data().stock)
+                                  .then(bkname=>{
+                                     MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
+                                     .then(badd=>{
+                                       MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
+                                       .then(pho=>{
+                                        MessageDetail(senderID,"Page Link",doc.data().link)
+                                        })
+                                     })
+                                  })
+                                })
+                           })
+                      
                       }
                     })
                    })

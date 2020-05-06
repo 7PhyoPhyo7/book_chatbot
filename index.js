@@ -617,13 +617,13 @@ requestify.post(sendmessageurl, {
           "template_type":"generic",
           "elements":[
              {
-              "title":"Please Click",
+              "title":"Please Click Register",
               "subtitle":"",
                 "buttons":[
                   {
                     "type":"web_url",
                     "url":"https://bookchatbot.herokuapp.com/register_user/"+senderID,
-                    "title":"Register Reader",
+                    "title":"Register",
                     "webview_height_ratio": "full"
                   }
                ]}

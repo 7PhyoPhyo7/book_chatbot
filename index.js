@@ -389,15 +389,19 @@ function QuickReplyMenu(senderID)
 
  function Get_BookList(senderID)
   {
+  	let arr=[];
   	   var list=[,];
        db.collection('book').get().then(ownerlist=>{
        	ownerlist.forEach(doc=>{
-           doc.data().owner.forEach(function(value){
+       		arr =[];
+       		arr.push(doc.data().owner);
+           arr.forEach(function(value){
            	 list.push({
            	 	name:doc.id,
            	 	ownerid:value
            	 })
-           })           
+           }) 
+                  
        	})
        	console.log(list);
        })

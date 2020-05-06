@@ -397,15 +397,15 @@ function QuickReplyMenu(senderID)
        		arr.push(doc.data().owner);
            arr.forEach(function(item,index,array){
            	 list.push({
-           	 	
+           	 	name:doc.id,
            	 	ownerid:item,
            	 	index:index
            	 })
            }) 
                   
        	})
-       //	console.log("list",list.filter(function(person){return person.ownerid == senderID}));
-       			console.log("list",list)
+       	console.log("list",list.filter(function(person){return Person.ownerid.includes(senderID)}));
+       			
        })
 
 

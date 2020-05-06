@@ -280,7 +280,23 @@ app.post('/register_books', (req,res)=> {
 	  	         genre.push(biography);
 	  }
   
-   console.log("Genre",genre);
+   db.collection("book").get().then(booknamelist=>{
+   	   booknamelist.forEach(doc=>{
+   	   	 if(doc.id == bookname)
+   	   	 {
+
+   	   	 }
+   	   	 else
+   	   	 {
+   	   	 	db.collection("book").add(
+   	   	 		doc.id:bookname,
+                author:author,
+                genre:genre,
+                image:image
+   	   	 		)
+   	   	 }
+   	   })
+   })
   
 })
 //Function

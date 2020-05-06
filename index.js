@@ -395,22 +395,22 @@ function QuickReplyMenu(senderID)
        	ownerlist.forEach(doc=>{
        		arr =[];
        		arr.push(doc.data().owner);
-            for(var i=0;i<=arr.length;i++)
-            {
-            	list.push({
-            		name:doc.id,
-            		ownerid:arr[i]
-            	})
-            }
+           arr.forEach(function(item,index){
+           	 list.push({
+           	 	name:doc.id,
+           	 	ownerid:item,
+           	 	index:index
+           	 })
+           }) 
                   
        	})
-       	console.log(list);
+       	console.log("list",list.filter(function(person){return person.ownerid == senderID}));
        })
-            }
 
 
 
- 
+
+  }
 
 
 

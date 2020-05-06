@@ -404,7 +404,7 @@ function QuickReplyMenu(senderID)
            }) 
                   
        	})
-       	console.log("list",list.filter(function(person){return Person.ownerid.includes(senderID)}));
+       	console.log("list",list.filter(function(person){return person.ownerid.includes(senderID)}));
        			
        })
 

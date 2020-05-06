@@ -149,6 +149,7 @@ app.post('/webhook', (req, res) => {
                                       if(userInput == 'Hi')
 										   {
 										   	textMessage(senderID,"Welcome New User");
+                        QuickReplyNewUser(senderID);
 										   }
 									}
 									else
@@ -449,6 +450,35 @@ function QuickReplyMenu(senderID)
   }).then(result=>{ console.log("ok")
       }).catch(err=>{console.log("err",err)})
 }
+
+function QuickReplyNewUser(senderID)
+{
+  requestify.post(sendmessageurl,
+   {  
+      "recipient":{
+        "id":senderID
+  },
+  
+  "message":{
+      "text": "Please choose Reader or Book Seller",
+       "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Reader",
+        "payload":"reader" 
+      },
+      {
+        "content_type":"text",
+        "title":"Book Seller",
+        "payload":"seller" 
+      }
+
+    ]
+  }
+  }).then(result=>{ console.log("ok")
+      }).catch(err=>{console.log("err",err)})
+}
+
 
  function MessageDetail(senderID,prefix,text)
  {

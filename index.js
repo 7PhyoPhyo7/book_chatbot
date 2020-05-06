@@ -288,12 +288,12 @@ app.post('/register_books', (req,res)=> {
    	   	 }
    	   	 else
    	   	 {
-   	   	 	db.collection("book").add(
-   	   	 		doc.id:bookname,
-                author:author,
-                genre:genre,
-                image:image
-   	   	 		)
+   	   	 	db.collection("book").doc(bookname).set(
+               author:author,
+               genre:genre,
+               image:image
+   	   	 	)
+
    	   	 }
    	   })
    })

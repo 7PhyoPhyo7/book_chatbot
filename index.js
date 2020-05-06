@@ -392,22 +392,23 @@ function QuickReplyMenu(senderID)
 
         let booklistwithowner =[,];
 
-   db.collection("book").get().then(ownerlist=>{
-       	   	ownerlist.forEach(doc=>{
-       	   		if (doc !== null) {
-       	   			booklistwithowner.push({
-       	   				bookname: doc.id,
-       	   				ownerid: doc.data().owner // array
-       	   			})
-       	   		}
-       	   		
-       	   	})
-console.log("booklistwithowner",booklistwithowner)
-          
-            var arr =[];
-             arr.push(booklistwithowner.find(senderID));
-             console.log("arr",arr);
-       	   })
+        db.collection('book').get().then(ownlist=>{
+        	ownlist.forEach(doc=>{
+        		doc.data().owner.forEach()
+        		{
+        			booklistwithowner.push(
+        			{
+                        name:doc.id,
+                        owner:doc.data().owner
+                    }
+        				)
+        		}
+        	})
+        	console.log("book",booklistwithowner);
+        })
+      
+
+
 
 
   		// try {

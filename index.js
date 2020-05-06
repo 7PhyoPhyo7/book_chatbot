@@ -201,21 +201,18 @@ app.post('/webhook', (req, res) => {
                       if(doc.data().ownerid == senderID)
                       {
                            MessageDetail(senderID,"Book Name",bookname)
-                           .then(bname=>{
+                          
                                 MessageDetail(senderID,"Author",author)
-                                .then(au=>{
+                                
                                   MessageDetail(senderID,"Stock",doc.data().stock)
-                                  .then(bkname=>{
+                                  
                                      MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
-                                     .then(badd=>{
+                                     
                                        MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
-                                       .then(pho=>{
+                                       
                                         MessageDetail(senderID,"Page Link",doc.data().link)
-                                        })
-                                     })
-                                  })
-                                })
-                           })
+                                        
+                           
                       
                       }
                     })
@@ -355,6 +352,38 @@ app.post('/register_books', (req,res)=> {
    })
   
 })
+
+
+
+
+
+app.get('/edit_book/:sender_id/:bookname/:author',function(req,res)
+{
+  const sender_id = req.params.sender_id;
+  const bookname = req.params.bookname;
+  const author = req.params.author;
+ var bookshopname ='';
+ var bookshopaddress='';
+ var bookshopphno='';
+ var stock='';
+ var link='';
+
+   db.collection('book').doc(bookname).collection('bookshop').get().then(bookshopdetail=>{
+    bookshopdetail.forEach(doc=>{
+                bookshopname = doc.id;
+                bookshopaddress = doc.data().bookshopaddress;
+                bookshopphno = doc.data().bookshopphno;
+                stock =doc.data().stock;
+                link = doc.data().link;
+    })
+       console.log("Bookshopname",bookshopname);
+       res.render('edit_book.ejs',{title: "Please Modify following book",sender_id:sender_id,bookname:bookname,author:author,bookshopname:bookshopname,bookshopaddress:bookshopaddress,bookshopphno:bookshopphno,link:link,stock:stock});
+   })
+
+})
+
+
+
 //Function
 function textMessage(senderID,text){
 	requestify.post(sendmessageurl, {
@@ -454,7 +483,7 @@ requestify.post(sendmessageurl, {
               },
               {
                     "type":"web_url",
-                    "url":"https://bookherokuwp.herokuapp.com/edit_book/"+senderID+"/"+doc.id,
+                    "url":"https://bookchatbot.herokuapp.com/edit_book/"+senderID+"/"+doc.id+"/"+doc.data().author,
                     "title":"Edit Books",
                     "webview_height_ratio": "full"
                   },

@@ -16,7 +16,7 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
 
-    const APP_ID = 2413115545648093;    
+    const APP_ID = 569060567149026;    
     var senderID = "";
     
     window.extAsyncInit = function() {
@@ -44,17 +44,45 @@
     <label for="bookname">Book Name</label>
     <input type="text" class="form-control" id="bookname" name="bookname" value="<%= bookname %>" readonly>
   </div> 
+  <br/>
   <div class="form-group">
     <label for="author">Author</label>
-    <input type="text" class="form-control" id="author" name="author" value="<%= author %>">
+    <input type="text" class="form-control" id="author" name="author" value="<%= author %>" readonly>
   </div> 
+   <br/>
   <div class="form-group">
-    <label for="bookshopname">bookshopname</label>
+    <label for="bookshopname">Book Shop Name</label>
    
     <input type="text" class="form-control" id="bookshopname" name="bookshopname" value="<%= bookshopname %>">    
-  </div>   
+  </div> 
+   <br/>  
+  <div class="form-group">
+    <label for="bookshopaddress">Book Shop Address</label>
+   
+    <input type="text" class="form-control" id="bookshopaddress" name="bookshopaddress" value="<%= bookshopaddress %>">    
+  </div> 
+ <br/>
+  <div class="form-group">
+    <label for="bookshopphno">Book Shop Phone</label>
+   
+    <input type="text" class="form-control" id="bookshopphno" name="bookshopphno" value="<%= bookshopphno %>">    
+  </div> 
+ <br/>
+  <div class="form-group">
+    <label for="link">Page Link</label>
+   
+    <input type="text" class="form-control" id="link" name="link" value="<%= link %>">    
+  </div> 
+ <br/>
+   <div class="form-group">
+    <label for="stock">Avaliable Stock</label>
+   
+    <input type="text" class="form-control" id="stock" name="stock" value="<%= stock %>">    
+  </div> 
+ <br/>
+
     <input type="hidden"  id="sender" name="sender" value="<%= sender_id %>">
-    <input type="hidden" name="docid" id="docid" value="<%= docid %>">
+    
   <input type="submit" value="Submit"> 
   </form>
 

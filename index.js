@@ -400,7 +400,7 @@ app.post('/edit_book',(req,res)=>
             bookshopphno:bookshopphno,
             stock:stock,
             link:link,
-            merge: true
+            ownerid:sender
       }).then(success => {             
              textMessage(sender,"Update Successful");  
              res.status(200).send("Update Successful and Please go back to your messages and please check your book detail");

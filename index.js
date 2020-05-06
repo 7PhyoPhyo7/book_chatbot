@@ -293,8 +293,14 @@ app.post('/register_books', (req,res)=> {
                author:author,
                genre:genre,
                image:image
-            }
-   	   	 	)
+            })
+            db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            	bookshopaddress:bookshopaddress,
+            	bookshopphno:bookshopphno,
+            	link:link,
+            	ownerid:sender,
+            	stock:stock
+            })
 
    	   	 }
    	   })

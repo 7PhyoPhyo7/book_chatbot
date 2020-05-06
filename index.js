@@ -383,6 +383,35 @@ app.get('/edit_book/:sender_id/:bookname/:author',function(req,res)
 })
 
 
+app.post('/edit_book',(req,res)=>
+{
+  console.log("received");
+  let bookname = req.body.bookname;
+  let bookshopname  = req.body.bookshopname;
+  let sender=  req.body.sender;
+  let author = req.body.author;
+  let bookshopaddress = req.body.bookshopaddress;
+  let bookshopphno = req.body.bookshopphno;
+  let stock = req.body.stock;
+  let link = req.body.link;
+
+      db.collection('book').doc(bookname).collection('bookshop').doc(bookshopname).set({
+            bookshopaddress:bookshopaddress,
+            bookshopphno:bookshopphno,
+            stock:stock,
+            link:link,
+            merge: true
+      }).then(success => {             
+             textMessage(sender,"Update Successful");  
+             res.status(200).send("Update Successful and Please go back to your messages and please check your book detail");
+            // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
+          }).catch(error => {
+            console.log(error);
+      })
+
+  })
+
+
 
 //Function
 function textMessage(senderID,text){

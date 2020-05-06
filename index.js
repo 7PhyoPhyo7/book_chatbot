@@ -183,8 +183,10 @@ app.post('/webhook', (req, res) => {
 						   }
 						   if(userInput == 'booklist')
 						   {
-						   	Get_BookList(senderID);
-                QuickReplyMenu(senderID);
+						   	Get_BookList(senderID).then(success=>{
+                  QuickReplyMenu(senderID)
+                })
+                
 						   }
                if (userInput.includes('book_detail'))
                {

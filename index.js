@@ -854,8 +854,7 @@ function SearchBook(senderID){
                                author = doc.data().author; 
                                }                                                                                     
                                  })
-                 })
-                  /console.log("Book",book); 
+              console.log("Book",book); 
               if(book.includes(userMessage)) 
               {
                 emptybook=true;
@@ -871,6 +870,9 @@ function SearchBook(senderID){
                     console.log("ImageUrl",imageUrl);
                     console.log("Author",author);                
               }
+                 })
+                  
+              
 
 
 

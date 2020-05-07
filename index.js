@@ -183,7 +183,7 @@ app.post('/webhook', (req, res) => {
 										        {
 										   	    QuickReplyUserMenu(senderID);                             
 										        }
-                            if(userInput == 'searchbook')
+                            if(userQuickreply == 'searchbook')
                             {
                                   console.log("Searchhh",userInput);
                                   SearchBook(senderID);

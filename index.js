@@ -189,18 +189,20 @@ app.post('/webhook', (req, res) => {
                                   console.log("Searchhh",userInput);
                                   SearchBook(senderID);
                             }
-                            if(userInput == 'bytyping')
-                            {
-                                bybookname = userInput;
-                                console.log(bybookname);
-                                textMessage(senderID,"Please Type Book Name!")
+                            else if    (userInput == 'bytyping')
+                                       {
+                                        bybookname = userInput;
+                                       // textMessage(senderID,"Please Type BookName!");
+                                        console.log("SearchType",bybookname);
+                                        //textMessage(senderID,"Please Type BookName!");
+                                       }
+                                       else if (bybookname == 'bytyping')
+                                       {
+                                        console.log("UserMessage_searchtype",userMessage);
+                                        bybookname = '';
+
+                                        SearchByTyping(senderID,userMessage);
                             }
-                            if(bybookname == 'bytyping')
-                            {
-                                SearchByTyping(senderID,userMessage);
-                                bybookname='';
-                            }
-                            
 
                             
 

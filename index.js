@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname+'/public');
 // database setup
 var newregister='';
+var userlogin='';
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -179,9 +180,13 @@ app.post('/webhook', (req, res) => {
 									else
 									{
                              if(userInput == 'Hi')
-										   {
-										   	textMessage(senderID,"Welcome User");
-										   }
+										        {
+										   	    QuickReplyUserMenu(senderID);                             
+										        }
+                            
+
+                            
+
 									}
 								})	
 							}
@@ -530,7 +535,7 @@ console.log("Gerence",genre);
             isreviewer:isreviewer,
             userid:sender
           }).then(success => {             
-             textMessage(sender,"User Register Successful");  
+             QuickReplyUserMenu(senderID); 
              
             // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
           }).catch(error => {
@@ -565,6 +570,39 @@ function QuickReplyMenu(senderID)
         "content_type":"text",
         "title":"Menu",
         "payload":"menu" 
+      }
+    ]
+  }
+  }).then(result=>{ console.log("ok")
+      }).catch(err=>{console.log("err",err)})
+}
+
+
+function QuickReplyUserMenu(senderID)
+{
+  return requestify.post(sendmessageurl,
+   {  
+      "recipient":{
+        "id":senderID
+  },
+  
+  "message":{
+      "text": "Welcome Reader",
+       "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Search Book",
+        "payload":"searchbook" 
+      },
+      {
+        "content_type":"text",
+        "title":"Recmomand Book",
+        "payload":"RecmomandBook" 
+      },
+      {
+        "content_type":"text",
+        "title":"Upload Video Link",
+        "payload":"uploadvideolink" 
       }
     ]
   }

@@ -148,10 +148,9 @@ app.post('/webhook', (req, res) => {
 									{
                         if(userInput == 'Hi')
 										   {
-										   	textMessage(senderID,"Welcome New User").then(()=>{
+										   	//textMessage(senderID,"Welcome New User");
                            QuickReplyNewUser(senderID);
-                        })
-                       
+                                        
 										   }
                        if(userQuickreply == 'seller')
                        {
@@ -533,7 +532,7 @@ function QuickReplyMenu(senderID)
 
 function QuickReplyNewUser(senderID)
 {
-  return requestify.post(sendmessageurl,
+  requestify.post(sendmessageurl,
    {  
       "recipient":{
         "id":senderID

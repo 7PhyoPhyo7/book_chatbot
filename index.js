@@ -468,7 +468,17 @@ app.post('/edit_book',(req,res)=>
 
    app.get('/register_user/:sender_id',function(req,res){
   const sender_id = req.params.sender_id;
-    res.render('register_user.ejs',{ title:"Please Register User", sender_id:sender_id});
+   db.collection("user").where('userid','==',`${sender_id}`).get().then(userlist=>{
+    if(userlist.empty)
+    {
+      res.render('register_user.ejs',{ title:"Please Register User", sender_id:sender_id});
+    }
+    else
+    {
+      textMessage(senderID,"Already Register!");
+    }
+   })
+    
 });
 
 
@@ -512,6 +522,7 @@ console.log("Gerence",genre);
   // requestify
 
   // res.render('success.ejs', {}); TODO: show success page
+
 
    db.collection('user').add({
             email:email,

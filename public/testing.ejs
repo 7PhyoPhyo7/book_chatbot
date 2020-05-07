@@ -110,7 +110,7 @@
 
 
    <input type="hidden"  id="sender" name="sender" value="<%= sender_id %>">
-  <input type="submit" value="Submit"> 
+  <input type="button" value="Submit" onclick="submit()"> 
   </form>
 
   <script >
@@ -132,13 +132,14 @@
           console.log(err);
         });
       }
-
       
-      document.getElementById("form").addEventListener("submit", window.location.assign(('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks'));
+      function submit() {
+        const form = document.getElementById("form");
+        form.submit();
+        windowShut();
+      }
 
 
-
-     
 
   </script>
 

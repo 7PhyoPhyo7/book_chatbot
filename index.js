@@ -304,7 +304,7 @@ app.get('/register_books/:sender_id',function(req,res){
 });
 
 
-app.post('/register_books', (req,res)=> {
+app.post('/register_books', async (req,res)=> {
   let author = req.body.author;
   let bookname = req.body.bookname;
   let bookshopname = req.body.bookshopname;
@@ -348,7 +348,18 @@ app.post('/register_books', (req,res)=> {
 	  	         genre.push(biography);
 	  }
   
-   db.collection("book").get().then(booknamelist=>{
+   await db.collection("book").get()
+    .then(booknamelist=>{
+
+      // await Promise.all(
+      //   booknamelist.map(
+      //     doc => {
+      //       return db.collection... set
+      //     }
+      //   ) // Promise[]
+      // );
+
+
    	   booknamelist.forEach(doc=>{
    	   	 if(doc.id == bookname)
    	   	 {
@@ -378,8 +389,10 @@ app.post('/register_books', (req,res)=> {
 
    	   	 }
    	   })
-   })
-  
+   });
+
+  // send, sendFile, redirect
+  res.sendFile(`${__dirname}/public/success.html`);
 })
 
 

@@ -473,28 +473,58 @@ app.post('/edit_book',(req,res)=>
 
 
 app.post('/register_user', (req,res)=> {
-  let name = req.body.name;
- 
+  let email = req.body.email; 
   let sender = req.body.sender;
+  let isreviewer = false;
+  var genre=[];
+  
+ 
+    if(req.body.knowledge)
+    {
+             knowledge = req.body.knowledge;
+             genre.push(knowledge);
+    }
+    if(req.body.romance)
+    {
+              romance = req.body.romance;
+              genre.push(romance);
+    }
+    if(req.body.religion)
+    {
+             religion = req.body.religion;
+             genre.push(romance);
+    }
+    if(req.body.history)
+    {
+             history = req.body.history;
+             genre.push(history);
+    }
+    if(req.body.biography)
+    {
+               biography =req.body.biography; 
+               genre.push(biography);
+    }
+
+
 
 ///
   // requestify
 
   // res.render('success.ejs', {}); TODO: show success page
 
-   db.collection('Reader').add({
-            id:sender,
-            name:name
+   db.collection('user').add({
+            email:email,
+            hobby:genre,
+            isreviewer:isreviewer,
+            userid:sender
           }).then(success => {             
              textMessage(sender,"User Register Successful");  
-             res.status(200).send("User Registration Successful and Please go back to your messages and start your journey with Menu");
+             
             // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
           }).catch(error => {
             console.log(error);
-      }); 
-  //console.log("Sender",sender);
- // textMessage(sender,"Register successful!");
-  //  res.status(200).send('Message Success');
+      });
+   res.redirect('https://www.messenger.com/closeWindow');
 })
 
 //Function

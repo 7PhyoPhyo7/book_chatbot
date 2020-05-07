@@ -208,13 +208,13 @@ app.post('/webhook', (req, res) => {
 						   if(userInput == 'booklist')
 						   {
 						   	 Get_BookList(senderID)
-                  .then(() => QuickReplyMenu(senderID));                
+                    .then(() => QuickReplyMenu(senderID));                
 						   }
                if(userMessage == 'Login')
                {
                   QuickReplyMenu(senderID);
                }
-               if (userInput.includes('book_detail'))
+               if (userInput !== undefined && userInput.includes('book_detail'))
                {
                       
                       // let result = userInput.substring(12);
@@ -571,12 +571,12 @@ function QuickReplyNewUser(senderID)
   console.log('button_sender',senderID);
 }
 
- function Get_BookList(senderID)
+ async function Get_BookList(senderID)
   {
   
   	let bookdetail=[];
   	   
-      db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
+      await db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
          booklist.forEach(doc=>{
           let data = {
             "title":"BookName : "+doc.id,
@@ -599,9 +599,9 @@ function QuickReplyNewUser(senderID)
            
              bookdetail.push(data)
                         
-         })
+         }).catch(err => console.erorr(err));
 
-        return requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+        await requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
                         {
                           "recipient":{
                           "id":senderID

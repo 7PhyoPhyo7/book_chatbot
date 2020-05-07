@@ -12,9 +12,9 @@
       js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
       js.onload = function () {
 		MessengerExtensions.requestCloseBrowser(function success() {
-        	popup("Thank you. Please close this window if you are not returned to the previous page.");
+        		console.log('success')
             }, function error(err, message) {
-            	popup(message);
+            	console.log('fail')
             });
       };
       fjs.parentNode.insertBefore(js, fjs);

@@ -475,7 +475,7 @@ app.post('/edit_book',(req,res)=>
     }
     else
     {
-      textMessage(senderID,"Already Register!");
+      res.redirect('https://www.messenger.com/closeWindow');
     }
    })
     

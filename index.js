@@ -477,31 +477,32 @@ app.post('/register_user', (req,res)=> {
   let sender = req.body.sender;
   let isreviewer = false;
   var genre=[];
+
   
    
     if(req.body.knowledge)
     {
-             knowledge = req.body.knowledge;
+            var knowledge = req.body.knowledge;
              genre.push(knowledge);
     }
     if(req.body.romance)
     {
-              romance = req.body.romance;
+             var romance = req.body.romance;
               genre.push(romance);
     }
     if(req.body.religion)
     {
-             religion = req.body.religion;
+            var religion = req.body.religion;
              genre.push(romance);
     }
     if(req.body.history)
     {
-             history = req.body.history;
+            var history = req.body.history;
              genre.push(history);
     }
     if(req.body.biography)
     {
-               biography =req.body.biography; 
+             var  biography =req.body.biography; 
                genre.push(biography);
     }
 console.log("Gerence",genre);

@@ -10,14 +10,15 @@
       if (d.getElementById(id)) {return;}
       js = d.createElement(s); js.id = id;
       js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+      js.onload = function () {
+		MessengerExtensions.requestCloseBrowser(function success() {
+        	popup("Thank you. Please close this window if you are not returned to the previous page.");
+            }, function error(err, message) {
+            	popup(message);
+            });
+      };
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
-
-MessengerExtensions.requestCloseBrowser(function success() {
-                    popup("Thank you. Please close this window if you are not returned to the previous page.");
-                  }, function error(err, message) {
-                    popup(message);
-                  });
 	</script>
 </body>
 </html>

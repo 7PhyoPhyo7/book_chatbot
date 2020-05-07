@@ -393,7 +393,7 @@ app.post('/register_books', async (req,res)=> {
    })
 
   // send, sendFile, redirect
-  res.redirect('https://www.messenger.com/closeWindow/?image_url=https://image.shutterstock.com/image-vector/thankyou-word-text-handwritten-rainbow-260nw-1319893574.jpg&display_text=Thankyou');
+  res.redirect('https://www.messenger.com/closeWindow');
 })
 
 

@@ -197,7 +197,7 @@ app.post('/webhook', (req, res) => {
                             }
                             if(bybookname == 'bytyping')
                             {
-                                SearchByTyping(senderID,usermessage);
+                                SearchByTyping(senderID,userMessage);
                                 bybookname='';
                             }
                             

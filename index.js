@@ -18,7 +18,8 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname+'/public');
 // database setup
 var newregister='';
-var userlogin='';
+//var userlogin='';
+var bybookname='';
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -187,6 +188,12 @@ app.post('/webhook', (req, res) => {
                             {
                                   console.log("Searchhh",userInput);
                                   SearchBook(senderID);
+                            }
+                            if(userInput == 'bytyping')
+                            {
+                                bybookname = userInput;
+                                console.log(bybookname);
+                                textMessage(senderID,"Please Type Book Name!")
                             }
                             
 

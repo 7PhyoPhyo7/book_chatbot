@@ -842,7 +842,7 @@ function SearchBook(senderID){
                     var imageUrl='';
                    var author='';
               var stockno = 1;
-              //var emptybook=false;
+              var emptybook=false;
               var book=[];
 
                db.collection('book').get().then(booklist=>{
@@ -855,14 +855,18 @@ function SearchBook(senderID){
                                }                                                                                     
                                  })
                  })
-                   
-              var emptybook = book.includes(userMessage);
-                console.log("Book",emptybook);
+                  /console.log("Book",book); 
+              if(book.includes(userMessage)) 
+              {
+                emptybook=true;
+              }
+
+
               if(emptybook == false)
               {
                 textMessage(senderID,"Book Not Found");
               }
-              else 
+              else if (emptybook == true) 
               {
                     console.log("ImageUrl",imageUrl);
                     console.log("Author",author);                

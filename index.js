@@ -571,12 +571,12 @@ function QuickReplyNewUser(senderID)
   console.log('button_sender',senderID);
 }
 
- async function Get_BookList(senderID)
+ function Get_BookList(senderID)
   {
   
   	let bookdetail=[];
   	   
-      await db.collection('book').where('owner', 'array-contains', senderID).get().then(booklist=>{
+      return db.collection('book').where('owner', 'array-contains', senderID).get().then(async (booklist)=>{
          booklist.forEach(doc=>{
           let data = {
             "title":"BookName : "+doc.id,

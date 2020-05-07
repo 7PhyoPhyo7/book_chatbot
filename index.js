@@ -203,6 +203,34 @@ app.post('/webhook', (req, res) => {
 
                                         SearchByTyping(senderID,userMessage);
                             }
+                            if(userInput !== undefined && userInput.includes('bokdetail'))
+                            {
+                              var result = userInput.split('#');
+                              var bookshopname = result[1];
+                              var bookname = result[2];
+                              
+                              db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
+                    bookshoplist.forEach((doc)=>{
+                      if(doc.id == bookshopname)
+                      {
+                          MessageDetail(senderID,"Book Name",bookname).then(() => {
+                            MessageDetail(senderID,"Author",author).then(() => {
+                              MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                  MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                    MessageDetail(senderID,"Page Link",doc.data().link);
+                                  })
+                                })
+                              })
+                            })
+                          })                        
+                      }
+                    })
+                   })
+
+
+
+                            }
 
                             
 
@@ -879,7 +907,7 @@ function SearchBook(senderID){
                                 {
                                       "type":"postback",
                                       "title":doc.id,
-                                      "payload":`book_detail#${doc.id}`
+                                      "payload":`bokdetail#${doc.id}#userMessage`
                                 },
                               
 

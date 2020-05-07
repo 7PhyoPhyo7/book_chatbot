@@ -478,7 +478,7 @@ app.post('/register_user', (req,res)=> {
   let isreviewer = false;
   var genre=[];
   
- 
+   
     if(req.body.knowledge)
     {
              knowledge = req.body.knowledge;
@@ -504,8 +504,8 @@ app.post('/register_user', (req,res)=> {
                biography =req.body.biography; 
                genre.push(biography);
     }
-
-
+console.log("Gerence",genre);
+  
 
 ///
   // requestify

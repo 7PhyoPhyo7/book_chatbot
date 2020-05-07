@@ -197,6 +197,7 @@ app.post('/webhook', (req, res) => {
 					}
 					else
 					{
+              console.log('USER INPUT -> ', userInput);
 							if(userInput == 'Hi')
 						   {					   
 						    QuickReplyMenu(senderID);

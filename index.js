@@ -857,7 +857,7 @@ function SearchBook(senderID){
                  })
                    
               var emptybook = book.includes(userMessage);
-
+                console.log("Book",emptybook);
               if(emptybook == false)
               {
                 textMessage(senderID,"Book Not Found");

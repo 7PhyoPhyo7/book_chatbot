@@ -599,7 +599,7 @@ function QuickReplyNewUser(senderID)
            
              bookdetail.push(data)
                         
-         }).catch(err => console.erorr(err));
+         })
 
         await requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
                         {

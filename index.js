@@ -207,8 +207,8 @@ app.post('/webhook', (req, res) => {
 						   }
 						   if(userInput == 'booklist')
 						   {
-						   	 Get_BookList(senderID);
-                
+						   	 Get_BookList(senderID)
+                  .then(() => QuickReplyMenu(senderID));                
 						   }
                if(userMessage == 'Login')
                {
@@ -226,20 +226,20 @@ app.post('/webhook', (req, res) => {
                       console.log("Bookname",bookname);
                       console.log("SenderID",senderID);
                    db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
-                    bookshoplist.forEach(doc=>{
+                    bookshoplist.forEach(async (doc)=>{
                       if(doc.data().ownerid == senderID)
                       {
-                           MessageDetail(senderID,"Book Name",bookname)
+                          await MessageDetail(senderID,"Book Name",bookname)
                           
-                                MessageDetail(senderID,"Author",author)
+                            await    MessageDetail(senderID,"Author",author)
                                 
-                                  MessageDetail(senderID,"Stock",doc.data().stock)
+                              await    MessageDetail(senderID,"Stock",doc.data().stock)
                                   
-                                     MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
+                                 await    MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress)
                                      
-                                       MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
+                                   await    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno)
                                        
-                                        MessageDetail(senderID,"Page Link",doc.data().link)
+                                   await     MessageDetail(senderID,"Page Link",doc.data().link)
                                         
                            
                       
@@ -303,96 +303,99 @@ app.get('/register_books/:sender_id',function(req,res){
     res.render('testing.ejs',{ title:"Please Register Books", sender_id:sender_id});
 });
 
+app.get('/add-whitelist', (req, res) => {
+  whitelistDomains(res);
+});
 
 app.post('/register_books', async (req,res)=> {
-  let author = req.body.author;
-  let bookname = req.body.bookname;
-  let bookshopname = req.body.bookshopname;
-  let sender = req.body.sender; 
-  let image = req.body.image;
-  let bookshopaddress = req.body.bookshopaddress;
-  let bookshopphno = req.body.bookshopphno;
-  let link = req.body.link;
-  let stock = req.body.stock;
-  let knowledge='';
-  let romance= '';
-  let history= '';
-  let biography= '';
-  let religion = '';
-  var genre=[];
+  // let author = req.body.author;
+  // let bookname = req.body.bookname;
+  // let bookshopname = req.body.bookshopname;
+  // let sender = req.body.sender; 
+  // let image = req.body.image;
+  // let bookshopaddress = req.body.bookshopaddress;
+  // let bookshopphno = req.body.bookshopphno;
+  // let link = req.body.link;
+  // let stock = req.body.stock;
+  // let knowledge='';
+  // let romance= '';
+  // let history= '';
+  // let biography= '';
+  // let religion = '';
+  // var genre=[];
   
  
-	  if(req.body.knowledge)
-	  {
-	           knowledge = req.body.knowledge;
-	           genre.push(knowledge);
-	  }
-	  if(req.body.romance)
-	  {
-	  	        romance = req.body.romance;
-	  	        genre.push(romance);
-	  }
-	  if(req.body.religion)
-	  {
-	  	       religion = req.body.religion;
-	  	       genre.push(romance);
-	  }
-	  if(req.body.history)
-	  {
-	  	       history = req.body.history;
-	  	       genre.push(history);
-	  }
-	  if(req.body.biography)
-	  {
-	  	         biography =req.body.biography; 
-	  	         genre.push(biography);
-	  }
+	 //  if(req.body.knowledge)
+	 //  {
+	 //           knowledge = req.body.knowledge;
+	 //           genre.push(knowledge);
+	 //  }
+	 //  if(req.body.romance)
+	 //  {
+	 //  	        romance = req.body.romance;
+	 //  	        genre.push(romance);
+	 //  }
+	 //  if(req.body.religion)
+	 //  {
+	 //  	       religion = req.body.religion;
+	 //  	       genre.push(romance);
+	 //  }
+	 //  if(req.body.history)
+	 //  {
+	 //  	       history = req.body.history;
+	 //  	       genre.push(history);
+	 //  }
+	 //  if(req.body.biography)
+	 //  {
+	 //  	         biography =req.body.biography; 
+	 //  	         genre.push(biography);
+	 //  }
   
-   await db.collection("book").get()
-    .then(booknamelist=>{
+  //  await db.collection("book").get()
+  //   .then(booknamelist=>{
 
-      // await Promise.all(
-      //   booknamelist.map(
-      //     doc => {
-      //       return db.collection... set
-      //     }
-      //   ) // Promise[]
-      // );
+  //     // await Promise.all(
+  //     //   booknamelist.map(
+  //     //     doc => {
+  //     //       return db.collection... set
+  //     //     }
+  //     //   ) // Promise[]
+  //     // );
 
 
-   	   booknamelist.forEach(doc=>{
-   	   	 if(doc.id == bookname)
-   	   	 {
-              db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-            	bookshopaddress:bookshopaddress,
-            	bookshopphno:bookshopphno,
-            	link:link,
-            	ownerid:sender,
-            	stock:stock
-            })
-   	   	 }
-   	   	 else
-   	   	 {
-   	   	 	db.collection("book").doc(bookname).set(
-   	   	 	{
-               author:author,
-               genre:genre,
-               image:image
-            })
-            db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-            	bookshopaddress:bookshopaddress,
-            	bookshopphno:bookshopphno,
-            	link:link,
-            	ownerid:sender,
-            	stock:stock
-            })
+  //  	   booknamelist.forEach(doc=>{
+  //  	   	 if(doc.id == bookname)
+  //  	   	 {
+  //             db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+  //           	bookshopaddress:bookshopaddress,
+  //           	bookshopphno:bookshopphno,
+  //           	link:link,
+  //           	ownerid:sender,
+  //           	stock:stock
+  //           })
+  //  	   	 }
+  //  	   	 else
+  //  	   	 {
+  //  	   	 	db.collection("book").doc(bookname).set(
+  //  	   	 	{
+  //              author:author,
+  //              genre:genre,
+  //              image:image
+  //           })
+  //           db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+  //           	bookshopaddress:bookshopaddress,
+  //           	bookshopphno:bookshopphno,
+  //           	link:link,
+  //           	ownerid:sender,
+  //           	stock:stock
+  //           })
 
-   	   	 }
-   	   })
-   });
+  //  	   	 }
+  //  	   })
+  //  });
 
   // send, sendFile, redirect
-  res.sendFile(`${__dirname}/public/success.html`);
+  res.redirect('https://www.messenger.com/closeWindow');
 })
 
 
@@ -471,7 +474,7 @@ function textMessage(senderID,text){
 
 function QuickReplyMenu(senderID)
 {
-  requestify.post(sendmessageurl,
+  return requestify.post(sendmessageurl,
    {  
       "recipient":{
         "id":senderID
@@ -522,7 +525,7 @@ function QuickReplyNewUser(senderID)
 
  function MessageDetail(senderID,prefix,text)
  {
-requestify.post(sendmessageurl, {
+  return requestify.post(sendmessageurl, {
     "recipient":{
     "id":senderID},
     "message":{
@@ -598,7 +601,7 @@ requestify.post(sendmessageurl, {
                         
          })
 
-            requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+        return requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
                         {
                           "recipient":{
                           "id":senderID
@@ -653,5 +656,24 @@ requestify.post(sendmessageurl, {
   console.log('button_sender',senderID);
   }
 
-
+function whitelistDomains(res) {
+  var messageData = {
+          "whitelisted_domains": [
+            'https://bookchatbot.herokuapp.com'         
+          ]               
+  };
+  request({
+      url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ PAGE_ACCESS_TOKEN,
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      form: messageData
+  },
+  function (error, response, body) {
+      if (!error && response.statusCode == 200) {          
+          res.send(body);
+      } else {           
+          res.send(body);
+      }
+  });
+} 
 

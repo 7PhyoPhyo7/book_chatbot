@@ -129,7 +129,7 @@
           console.log(" Wnindeow Shut success"); 
             window.location.assign("www.google.com");
         }, function error(err) {
-          console.log(err);
+          throw err;
         });
       }
       

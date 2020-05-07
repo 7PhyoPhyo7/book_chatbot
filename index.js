@@ -195,6 +195,11 @@ app.post('/webhook', (req, res) => {
                                 console.log(bybookname);
                                 textMessage(senderID,"Please Type Book Name!")
                             }
+                            if(bybookname == 'bytyping')
+                            {
+                                SearchByTyping(senderID,usermessage);
+                                bybookname='';
+                            }
                             
 
                             
@@ -828,6 +833,103 @@ function SearchBook(senderID){
   }
   })
  
+}
+
+ function SearchByTyping (senderID,userMessage)
+ {
+             
+              var stockno = 1;
+              //var emptybook=false;
+              var book=[];
+
+               db.collection('book').get().then(booklist=>{
+              booklist.forEach(doc=>{
+                              book.push(doc.id);                                                         
+                                 })
+                 })
+                   
+              var emptybook = book.includes(userMessage);
+
+              if(emptybook == false)
+              {
+                textMessage(senderID,"Book Not Found");
+              }
+
+
+
+                                       
+
+      //                                  db.collection('book').get().then(booklist=>{
+      //                                     booklist.forEach(doc=>{
+      //                                       if(doc.id == userMessage)
+      //                                       {
+
+      //                                       }                                            
+      //                                     })
+      //                                  })
+                   
+      //                                      db.collection("Book").where('bookname','==',`${usermessage}`).get().then(booklist => {
+      //                                       if(booklist.empty)
+      //                                       {
+                                              
+      //                                       }
+      //                                       else 
+      //                                       {
+      //                                          console.log("UserMessage",usermessage);
+      //                                         booklist.forEach((doc) => {
+                                              
+      //                                         let data = {
+      //                                               "title":doc.data().bookname,
+      //                                               "subtitle":doc.data().Author,
+      //                                                 "buttons":[
+      //                                                 {
+      //                                                       "type":"postback",
+      //                                                       "title":"Avaliable Bookshop",
+      //                                                       "payload":`bookshop_detail ${doc.data().bookname}`
+      //                                                 }
+                                                      
+      //                                                ]}
+
+      //                                             console.log("Authorrrrr",doc.data().Author);
+      //                                   //book.push(author);
+      //                                   //.push(bookshopname);
+
+
+      //                                   requestify.post('https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+      //                                     {
+      //                                       "recipient":{
+      //                                         "id":senderID
+      //                                       },
+      //                                     "message":{
+      //                                      "attachment":{
+      //                                           "type":"template",
+      //                                           "payload":{
+      //                                             "template_type":"generic",
+      //                                             "elements":[
+      //                                                {
+      //                                                 "title":usermessage,
+      //                                                 "subtitle": "Bookshop : "+doc.data().bookshopname,
+      //                                                   "buttons":[
+      //                                                      {
+      //                                                       "type":"postback",
+      //                                                       "payload":`bookshop_detail#${doc.data().stock}#${doc.data().bookshopaddress}`,
+      //                                                       "title":"Bookshop Address",
+      //                                                       "webview_height_ratio": "full"
+      //                                                     },
+      //                                                  ]}
+
+      //                                           ]
+      //                                         }
+      //                                       }
+      //                                     }
+      //                                     })
+
+      //                                           })
+      //                                       }
+      //                                      }).catch(error => {
+      //       console.log("Error Last",error);
+      // })
+
 }
 // function whitelistDomains(res) {
 //   var messageData = {

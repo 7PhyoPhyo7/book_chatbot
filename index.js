@@ -240,7 +240,7 @@ app.post('/webhook', (req, res) => {
                                 })
                               })
                             })
-                          })                      
+                          })                        
                       }
                     })
                    })
@@ -523,6 +523,7 @@ function QuickReplyNewUser(senderID)
 
  function MessageDetail(senderID,prefix,text)
  {
+  console.log('MESSENGER_DETAIL');
   return requestify.post(sendmessageurl, {
     "recipient":{
     "id":senderID},

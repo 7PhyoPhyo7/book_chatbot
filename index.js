@@ -183,6 +183,11 @@ app.post('/webhook', (req, res) => {
 										        {
 										   	    QuickReplyUserMenu(senderID);                             
 										        }
+                            if(userInput == 'searchbook')
+                            {
+                                  console.log("Searchhh",userInput);
+                                  SearchBook(senderID);
+                            }
                             
 
                             
@@ -773,6 +778,50 @@ function QuickReplyNewUser(senderID)
   console.log('button_sender',senderID);
   }
 
+
+function SearchBook(senderID){
+ requestify.post('https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+  {
+    "recipient":{
+      "id":senderID
+    },
+  "message":{
+   "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"**Please type after choosing menu**",
+              "subtitle":"Please Choose Menu",
+                "buttons":[
+                   {
+                    "type":"postback",
+                    "payload":"bytyping",
+                    "title":"By BookName",
+                    "webview_height_ratio": "full"
+                  },
+                  {
+                    "type":"postback",
+                    "payload":"byauthor",
+                    "title":"By Author",
+                    "webview_height_ratio": "full"
+                  },
+                  {
+                    "type":"postback",
+                    "payload":"bymyownhobby",
+                    "title":"By My Own Hobbies",
+                    "webview_height_ratio": "full"
+                  },
+               ]}
+
+        ]
+      }
+    }
+  }
+  })
+ 
+}
 // function whitelistDomains(res) {
 //   var messageData = {
 //           "whitelisted_domains": [

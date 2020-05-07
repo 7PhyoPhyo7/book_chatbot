@@ -508,7 +508,7 @@ app.post('/register_user', (req,res)=> {
     if(req.body.religion)
     {
             var religion = req.body.religion;
-             genre.push(romance);
+             genre.push(religion);
     }
     if(req.body.history)
     {
@@ -535,7 +535,7 @@ console.log("Gerence",genre);
             isreviewer:isreviewer,
             userid:sender
           }).then(success => {             
-             QuickReplyUserMenu(senderID); 
+             QuickReplyUserMenu(sender); 
              
             // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
           }).catch(error => {

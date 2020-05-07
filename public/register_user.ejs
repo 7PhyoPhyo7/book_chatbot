@@ -44,14 +44,40 @@
   </div> -->
   
   <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="name">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" id="email" name="email" placeholder="email">
   </div> 
+
+  <label for="genre">Hobby & Interest</label>
+  <div class="form-group">
+      <input type="checkbox" id="knowledge" name="knowledge" value="knowledge">
+      <label for="knowledge">Knowledge</label><br>
+
+      <input type="checkbox" id="romance" name="romance" value="romance">
+      <label for="romance">Romance</label><br>
+
+      <input type="checkbox" id="religion" name="religion" value="religion">
+      <label for="religion">Religion</label><br>
+
+      <input type="checkbox" id="history" name="history" value="history">
+      <label for="history">History</label><br>
+
+       <input type="checkbox" id="biography" name="biography" value="biography">
+      <label for="biography">Biography</label><br>
+  </div>
+  <br/>
+
     <input type="hidden"  id="sender" name="sender" value="<%= sender_id %>">
   <input type="submit" value="Submit"> 
   </form>
 
-
+<script >
+    var knowledge = document.getElementById("knowledge").checked;
+    var romance = document.getElementById("romance").checked;
+    var religion = document.getElementById("religion").checked;
+    var history = document.getElementById("history").checked;
+    var biography = document.getElementById("biography").checked;
+  </script>
 	
   <script>
       

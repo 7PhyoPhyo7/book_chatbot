@@ -386,10 +386,14 @@ app.post('/register_books', async (req,res)=> {
             	link:link,
             	ownerid:sender,
             	stock:stock
+            }).then(oki=>{
+              textMessage(senderID,"Register Successful");
             })
 
    	   	 }
    	   })
+   }).then(ok=>{
+       textMessage(senderID,"Register Successful!");
    })
 
   // send, sendFile, redirect
@@ -458,6 +462,39 @@ app.post('/edit_book',(req,res)=>
   })
 
 
+
+
+
+   app.get('/register_user/:sender_id',function(req,res){
+  const sender_id = req.params.sender_id;
+    res.render('register_user.ejs',{ title:"Please Register User", sender_id:sender_id});
+});
+
+
+app.post('/register_user', (req,res)=> {
+  let name = req.body.name;
+ 
+  let sender = req.body.sender;
+
+///
+  // requestify
+
+  // res.render('success.ejs', {}); TODO: show success page
+
+   db.collection('Reader').add({
+            id:sender,
+            name:name
+          }).then(success => {             
+             textMessage(sender,"User Register Successful");  
+             res.status(200).send("User Registration Successful and Please go back to your messages and start your journey with Menu");
+            // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
+          }).catch(error => {
+            console.log(error);
+      }); 
+  //console.log("Sender",sender);
+ // textMessage(sender,"Register successful!");
+  //  res.status(200).send('Message Success');
+})
 
 //Function
 function textMessage(senderID,text){

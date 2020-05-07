@@ -907,7 +907,7 @@ function SearchBook(senderID){
                                 {
                                       "type":"postback",
                                       "title":doc.id,
-                                      "payload":`bokdetail#${doc.id}#userMessage`
+                                      "payload":`bokdetail#${doc.id}#${userMessage}`
                                 },
                               
 

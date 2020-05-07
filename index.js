@@ -844,6 +844,7 @@ function SearchBook(senderID){
               var stockno = 1;
               var emptybook=false;
               var book=[];
+              var bkdetail=[];
 
                db.collection('book').get().then(booklist=>{
               booklist.forEach(doc=>{
@@ -867,8 +868,46 @@ function SearchBook(senderID){
               }
               else if (emptybook == true) 
               {
-                    console.log("ImageUrl",imageUrl);
-                    console.log("Author",author);                
+                    db.collection('book').doc(userMessage).collection('bookshop').get().then(bookshop=>{
+                      bookshop.forEach(doc=>{
+
+                          let data = {
+                              "title":"BookName : "+userMessage,
+                              "subtitle":"Author : "+author,
+                              "image_url":imageUrl,
+                                "buttons":[
+                                {
+                                      "type":"postback",
+                                      "title":doc.id,
+                                      "payload":`book_detail#${doc.id}`
+                                },
+                              
+
+                               ]}
+                                bkdetail.push(data);
+                               
+                     })
+
+                     requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                        {
+                          "recipient":{
+                          "id":senderID
+                        },
+                        "message":{
+                          "attachment":{
+                            "type":"template",
+                            "payload":{
+                              "template_type":"generic",
+                              "elements":bkdetail
+                          }
+                        }
+                      }
+                        }).catch((err) => {
+                          console.log('Error getting documents', err);
+                        }); 
+                    })
+
+
               }
                  })
                   

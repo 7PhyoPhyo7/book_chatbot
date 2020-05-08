@@ -224,7 +224,7 @@ app.post('/webhook', (req, res) => {
                                   var bookname = result[1];
                                   var imageUrl = result[2];
                                   var  authorownbook =[];
-                                  db.colection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
+                                  db.collection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
                                         authorbkshoplist.forEach((doc)=>{
                                              let data = {
                                                             "title":"BookName : "+bookname,

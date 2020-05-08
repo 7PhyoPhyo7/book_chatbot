@@ -226,11 +226,11 @@ app.post('/webhook', (req, res) => {
                            {
                             Normal(senderID);
                            }
-                           if(userQuickreply.includes('normalbookshop'))
+                           if(userInput.includes('normalbookshop'))
                            {
                             var bk = userInput.split('#');
                             var bookname = bk[1];
-
+                            console.log(bookname);
                             db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
                                         bklist.forEach((doc)=>{
                                               if(doc.id == bookshopname)

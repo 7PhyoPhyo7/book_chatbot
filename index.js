@@ -234,7 +234,7 @@ app.post('/webhook', (req, res) => {
                                                                             {
                                                                               "type":"postback",
                                                                               "title":"Book Shop Address",
-                                                                              "payload":`authorbkdetail#${doc.id}#${doc.data().image}`
+                                                                              "payload":`authorbkdetail#${bookshopname}#${bookname}`
                                                                             }
                                                                         ]
                                                           }
@@ -263,6 +263,32 @@ app.post('/webhook', (req, res) => {
                                     
                                   })        
                                   
+
+                            }
+                            if(userInput.includes('authorbkdetail'))
+                            {
+                                var authbookresult = userInput.split('#');
+                                var bookshopname = authbookresult[1];
+                                var bookname = authbookresult[0];
+                                  db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
+                                        bslist.forEach((doc)=>{
+                                              if(doc.id == bookshopname)
+                                              {
+                                                    MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                      MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                        MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                          MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                            MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                              MessageDetail(senderID,"Page Link",doc.data().link);
+                                                            })
+                                                          })
+                                                        })
+                                                      })
+                                                    })                        
+                                              }
+                                        })
+                                  })
+
 
                             }
                             if(userInput !== undefined && userInput.includes('bokdetail'))

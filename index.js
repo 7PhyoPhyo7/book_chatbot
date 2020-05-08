@@ -230,26 +230,68 @@ app.post('/webhook', (req, res) => {
                            {
                             var bk = userInput.split('#');
                             var bookname = bk[1];
+                            var image = bk[2];
                             console.log(bookname);
                             db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
                                         bklist.forEach((doc)=>{
+                                              requestify.post(sendmessageurl,
+                              {
+                                "recipient":{
+                                  "id":senderID
+                                },
+                              "message":{
+                               "attachment":{
+                                    "type":"template",
+                                    "payload":{
+                                      "template_type":"generic",
+                                      "elements":[
+                                         {
+                                          "title":bookname,
+                                          "subtitle":doc.id,
+                                            "image_url":image,
+                                            "buttons":[
+                                              {
+                                                "type":"postback",
+                                               "title":"Book Shop Info",
+                                                "payload":`bookshopinfo#${doc.id}#${bookname}`
+                                              }
+                                           ]}
+
+                                    ]
+                                  }
+                                }
+                              }
+                              })                       
                                               
+                                        })
+                                  })
+
+                           }
+                           if(userInput.includes('bookshopinfo'))
+                           {
+                            var bookshoppayload = userInput.split('#');
+                            var bookshopname = bookshoppayload[1];
+                            var bookname = bookshoppayload[2];
+
+                            db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
+                                        bslist.forEach((doc)=>{
+                                              if(doc.id == bookshopname)
+                                              {
                                                     MessageDetail(senderID,"Book Name",bookname).then(() => {
                                                       MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
                                                         MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
                                                           MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
                                                             MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
-                                                              MessageDetail(senderID,"Page Link",doc.data().link).then(()=>{
-                                                               textMessage(senderID,"----------------------")
-                                                              })
+                                                              MessageDetail(senderID,"Page Link",doc.data().link);
                                                             })
                                                           })
                                                         })
                                                       })
                                                     })                        
-                                              
+                                              }
                                         })
                                   })
+
 
                            }
 
@@ -1213,7 +1255,7 @@ function Normal(senderID)
                                               {
                                                 "type":"postback",
                                                "title":"Book Shop Address",
-                                                "payload":`normalbookshop#${doc.id}`
+                                                "payload":`normalbookshop#${doc.id}#${doc.data().image}`
                                               }
                                            ]}
 

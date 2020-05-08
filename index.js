@@ -226,6 +226,31 @@ app.post('/webhook', (req, res) => {
                            {
                             Normal(senderID);
                            }
+                           if(userInput.includes('normalbookshop'))
+                           {
+                            var bk = userInput.split('#');
+                            var bookname = bk[1];
+
+                            db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
+                                        bklist.forEach((doc)=>{
+                                              if(doc.id == bookshopname)
+                                              {
+                                                    MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                      MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                        MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                          MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                            MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                              MessageDetail(senderID,"Page Link",doc.data().link);
+                                                            })
+                                                          })
+                                                        })
+                                                      })
+                                                    })                        
+                                              }
+                                        })
+                                  })
+
+                           }
 
                                if(userInput !== undefined && userInput.includes('authorbkdetail'))
                             {

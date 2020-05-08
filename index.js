@@ -192,7 +192,7 @@ app.post('/webhook', (req, res) => {
                             }
                             if(userQuickreply == 'recommendbook')
                             {
-                              Normal(senderID);
+                              Specific(senderID);
                             }
                             if(userQuickreply == 'becomereviwer')
                             {

@@ -20,6 +20,7 @@ app.set('views', __dirname+'/public');
 var newregister='';
 //var userlogin='';
 var bybookname='';
+var byauthor='';
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -202,6 +203,20 @@ app.post('/webhook', (req, res) => {
                                         bybookname = '';
 
                                         SearchByTyping(senderID,userMessage);
+                            }
+                               else if    (userInput == 'byauthor')
+                                       {
+                                        byauthor = userInput;
+                                       // textMessage(senderID,"Please Type BookName!");
+                                        console.log("SearchType",byauthor);
+                                        
+                                       }
+                                       else if (byauthor == 'byauthor')
+                                       {
+                                        console.log("UserMessage_searchtype",userMessage);
+                                        byauthor = '';
+
+                                        SearchByAuthor(senderID,userMessage);
                             }
                             if(userInput !== undefined && userInput.includes('bokdetail'))
                             {
@@ -947,6 +962,50 @@ function SearchBook(senderID){
 
      
 
+}
+
+
+function SearchByAuthor(senderID,userMessage)
+{
+      var bookwithauthor=[];
+
+      db.collection('book').get().then(bokau=>{
+        bokau.forEach(doc=>{
+          if(doc.data().author == userMessage)
+          {
+            let data = {
+            "title":"BookName : "+doc.id,
+            "subtitle":"Author : "userMessage,
+            "image_url":doc.data().image,
+              "buttons":[
+              {
+                    "type":"postback",
+                    "title":"Book Detail",
+                    "payload":`book_detail#${doc.id}`
+              }
+             ]}
+
+             bookwithauthor.push(data);
+          }
+        })
+          requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                        {
+                          "recipient":{
+                          "id":senderID
+                        },
+                        "message":{
+                          "attachment":{
+                            "type":"template",
+                            "payload":{
+                              "template_type":"generic",
+                              "elements":bookwithauthor
+                          }
+                        }
+                      }
+                        }).catch((err) => {
+                          console.log('Error getting documents', err);
+                        }); 
+      })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

@@ -220,9 +220,13 @@ app.post('/webhook', (req, res) => {
                             }
                              if(userInput == 'byhobby')
                            {
-                                        console.log('Quick Reply Hobbies');
                                         QuickReplyHobbies(senderID);
                            }
+                           if(userQuickreply == 'normal')
+                           {
+                            Normal(senderID);
+                           }
+
                                if(userInput !== undefined && userInput.includes('authorbkdetail'))
                             {
                                   var result = userInput.split('#');
@@ -1098,43 +1102,81 @@ function SearchByAuthor(senderID,userMessage)
 function QuickReplyHobbies(senderID)
 {
 
-
-  var hobbies=[];
-
-  db.collection('user').where('userid','==',`${senderID}`).get().then(hobbylist=>{
-    hobbylist.forEach(doc=>{
-          
-          let data = 
-          
-      {
-        "content_type":"text",
-        "title":doc.data().hobby,
-        "payload":`hobbies#${senderID}#${doc.data().hobby}`
-
-      }  
-   
-
-          hobbies.push(data);
-
-    })
-     console.log('hobbys',hobbies);
-     requestify.post(sendmessageurl,
+   requestify.post(sendmessageurl,
    {  
       "recipient":{
         "id":senderID
   },
   
   "message":{
-      "text": "Please Choose your registered Hobby",
-       "quick_replies": hobbies
+      "text": "Please Choose Your Hobby Category",
+       "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Normal",
+        "payload":"normal" 
+      },
+      {
+        "content_type":"text",
+        "title":"More Specific",
+        "payload":"Specific" 
+      }
+    ]
   }
   }).then(result=>{ console.log("ok")
       }).catch(err=>{console.log("err",err)})
+ 
+}
 
 
-  })
-    
+function Normal(senderID)
+{
+   //var docid='a';
    
+      let bookwithgenre=[,];
+      let userwithhobby=[];
+      var z;
+      var row;
+      var col;
+       db.collection("user").where('userid','==',`${senderID}`).get().then(hobbylist=>{
+           hobbylist.forEach(doc=>{
+             userwithhobby = doc.data().hobby;
+           })
+
+           db.collection("book").get().then(genrelist=>{
+            genrelist.forEach(doc=>{
+              if (doc !== null) {
+                bookwithgenre.push({
+                  name: doc.id,
+                  image:doc.data().image,
+                  author:doc.data().author,
+                  genre: doc.data().genre // array
+                });
+              }
+            });
+
+
+            try {
+              const output = bookwithgenre
+                .filter(
+                  book => book.genre.some(
+                    gen => userwithhobby.includes(gen)
+                  )
+                )
+                .map(result => {
+                  MessageDetail(senderID,"Recomanded Book",result.name).then(()=>{
+                    MessageDetail(senderID,"Author",result.author)
+                  })
+                });
+                    
+              console.log(output);
+           } catch (e) {
+              console.error(e);
+           }
+          
+       })
+
+        })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

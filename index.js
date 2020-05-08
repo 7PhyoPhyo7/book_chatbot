@@ -1280,8 +1280,8 @@ function Normal(senderID)
             try {
               const output = bookwithgenre
                 .filter(
-                  book => book.genre.some(
-                    gen => userwithhobby.includes(gen)
+                  book => userwithhobby.some(
+                    gen => book.genre.includes(gen)
                   )
                 )
                 .map(result => {

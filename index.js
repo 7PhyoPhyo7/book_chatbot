@@ -364,6 +364,7 @@ app.post('/webhook', (req, res) => {
                }
                if(userInput == 'byhobby')
                {
+                console.log('Quick Reply Hobbies');
                 QuickReplyHobbies(senderID);
                }
                if (userInput !== undefined && userInput.includes('book_detail'))
@@ -1113,9 +1114,10 @@ function QuickReplyHobbies(senderID)
    
 
           hobbies.push(data);
-    })
 
-    return requestify.post(sendmessageurl,
+    })
+     console.log('hobbys',hobbies);
+     requestify.post(sendmessageurl,
    {  
       "recipient":{
         "id":senderID

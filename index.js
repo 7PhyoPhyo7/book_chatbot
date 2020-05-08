@@ -229,7 +229,7 @@ app.post('/webhook', (req, res) => {
                                              let data = {
                                                             "title":"BookName : "+bookname,
                                                             "subtitle":"Book Shop : "+doc.id,
-                                                            "image_url":imgeUrl,
+                                                            "image_url":imageUrl,
                                                               "buttons":[
                                                                             {
                                                                               "type":"postback",

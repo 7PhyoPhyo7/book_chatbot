@@ -362,6 +362,10 @@ app.post('/webhook', (req, res) => {
                   QuickReplyMenu(senderID);
 
                }
+               if(userInput == 'byhobby')
+               {
+                QuickReplyHobbies(senderID);
+               }
                if (userInput !== undefined && userInput.includes('book_detail'))
                {
                       

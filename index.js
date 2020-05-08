@@ -190,6 +190,10 @@ app.post('/webhook', (req, res) => {
                                   console.log("Searchhh",userInput);
                                   SearchBook(senderID);
                             }
+                            if(userQuickreply == 'recommendbook')
+                            {
+                              Normal(senderID);
+                            }
                             else if    (userInput == 'bytyping')
                             {
                                         bybookname = userInput;
@@ -860,8 +864,8 @@ function QuickReplyUserMenu(senderID)
       },
       {
         "content_type":"text",
-        "title":"Recmomand Book",
-        "payload":"RecmomandBook" 
+        "title":"Recommend Book",
+        "payload":"recommendbook" 
       },
       {
         "content_type":"text",

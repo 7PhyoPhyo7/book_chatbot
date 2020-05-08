@@ -1363,6 +1363,7 @@ function Specific(senderID)
                   )
                 )
                 .map(result => {
+                  console.log("Result Book",result);
                   db.collection('book').get().then(a=>{
                     a.forEach(doc=>{
                       if(doc.id == result.name)

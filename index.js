@@ -223,6 +223,10 @@ app.post('/webhook', (req, res) => {
                                   var result = userInput.split('#');
                                   var bookname = result[1];
                                   var imageUrl = result[2];
+                                  var zero = result[0];
+                                  console.log('zero',result[0]);
+                                  console.log('one',result[1]);
+                                  console.log('two'),result[2];
                                   var  authorownbook =[];
                                   db.collection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
                                         authorbkshoplist.forEach((doc)=>{
@@ -234,7 +238,7 @@ app.post('/webhook', (req, res) => {
                                                                             {
                                                                               "type":"postback",
                                                                               "title":"Book Shop Address",
-                                                                              "payload":`authorbkdetail#${bookshopname}#${bookname}`
+                                                                              "payload":`authoraddress#${bookshopname}#${bookname}`
                                                                             }
                                                                         ]
                                                           }
@@ -265,7 +269,7 @@ app.post('/webhook', (req, res) => {
                                   
 
                             }
-                            if(userInput.includes('authorbkdetail'))
+                            if(userInput.includes('authoraddress'))
                             {
                                 var authbookresult = userInput.split('#');
                                 var bookshopname = authbookresult[1];

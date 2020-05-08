@@ -226,7 +226,7 @@ app.post('/webhook', (req, res) => {
                            {
                             Normal(senderID);
                            }
-                           if(userInput.includes('normalbookshop'))
+                           if(userQuickreply.includes('normalbookshop'))
                            {
                             var bk = userInput.split('#');
                             var bookname = bk[1];

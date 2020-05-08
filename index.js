@@ -183,7 +183,10 @@ app.post('/webhook', (req, res) => {
 									{
                              if(userInput == 'Hi')
 										        {
-										   	    QuickReplyUserMenu(senderID);                             
+                              textMessage(senderID,"Welcome Reader").then(()=>{
+                                QuickReplyUserMenu(senderID); 
+                              })
+										   	                                
 										        }
                             if(userQuickreply == 'searchbook')
                             {
@@ -865,7 +868,7 @@ function QuickReplyUserMenu(senderID)
   },
   
   "message":{
-      "text": "Welcome Reader",
+      "text": "Please Choose User Menu",
        "quick_replies":[
       {
         "content_type":"text",

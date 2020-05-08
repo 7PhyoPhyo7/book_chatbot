@@ -1307,7 +1307,7 @@ function Normal(senderID)
                                             "buttons":[
                                               {
                                                 "type":"postback",
-                                               "title":"Book Shop Address",
+                                               "title":"Avaliable Book Shop",
                                                 "payload":`normalbookshop#${doc.id}#${doc.data().image}`
                                               }
                                            ]}

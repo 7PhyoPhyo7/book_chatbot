@@ -194,6 +194,10 @@ app.post('/webhook', (req, res) => {
                             {
                               Normal(senderID);
                             }
+                            if(userQuickreply == 'becomereviwer')
+                            {
+
+                            }
                             else if    (userInput == 'bytyping')
                             {
                                         bybookname = userInput;
@@ -869,8 +873,8 @@ function QuickReplyUserMenu(senderID)
       },
       {
         "content_type":"text",
-        "title":"Upload Video Link",
-        "payload":"uploadvideolink" 
+        "title":"Become Reviewer ?",
+        "payload":"becomereviwer" 
       }
     ]
   }
@@ -1362,8 +1366,8 @@ function Specific(senderID)
             try {
               const output = bookwithgenre
                 .filter(
-                  book => book.genre.every(
-                    gen => userwithhobby.includes(gen)
+                  book => userwithhobby.every(
+                    gen => book.genre.includes(gen)
                   )
                 )
                 .map(result => {

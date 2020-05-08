@@ -224,6 +224,7 @@ app.post('/webhook', (req, res) => {
                                   var bookname = result[1];
                                   var imageUrl = result[2];
                                   var zero = result[0];
+                                  console.log(userInput);
                                   console.log('zero',result[0]);
                                   console.log('one',result[1]);
                                   console.log('two'),result[2];
@@ -238,7 +239,7 @@ app.post('/webhook', (req, res) => {
                                                                             {
                                                                               "type":"postback",
                                                                               "title":"Book Shop Address",
-                                                                              "payload":`authoraddress#${bookshopname}#${bookname}`
+                                                                              "payload":`authoraddress#${doc.id}#${bookname}`
                                                                             }
                                                                         ]
                                                           }

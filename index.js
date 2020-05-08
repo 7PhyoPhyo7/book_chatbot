@@ -191,59 +191,104 @@ app.post('/webhook', (req, res) => {
                                   SearchBook(senderID);
                             }
                             else if    (userInput == 'bytyping')
-                                       {
+                            {
                                         bybookname = userInput;
                                        // textMessage(senderID,"Please Type BookName!");
                                         console.log("SearchType",bybookname);
                                         
-                                       }
-                                       else if (bybookname == 'bytyping')
-                                       {
+                            }
+                            else if (bybookname == 'bytyping')
+                            {
                                         console.log("UserMessage_searchtype",userMessage);
                                         bybookname = '';
 
                                         SearchByTyping(senderID,userMessage);
                             }
-                               else if    (userInput == 'byauthor')
-                                       {
+                            else if    (userInput == 'byauthor')
+                            {
                                         byauthor = userInput;
                                        // textMessage(senderID,"Please Type BookName!");
                                         console.log("SearchType",byauthor);
                                         
-                                       }
-                                       else if (byauthor == 'byauthor')
-                                       {
+                            }
+                            else if (byauthor == 'byauthor')
+                            {
                                         console.log("UserMessage_searchtype",userMessage);
                                         byauthor = '';
 
                                         SearchByAuthor(senderID,userMessage);
                             }
+                               if(userInput !== undefined && userInput.includes('authorbkdetail'))
+                            {
+                                  var result = userInput.split('#');
+                                  var bookname = result[1];
+                                  var imageUrl = result[2];
+                                  var  authorownbook =[];
+                                  db.colection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
+                                        authorbkshoplist.forEach((doc)=>{
+                                             let data = {
+                                                            "title":"BookName : "+bookname,
+                                                            "subtitle":"Book Shop : "+doc.id,
+                                                            "image_url":imgeUrl,
+                                                              "buttons":[
+                                                                            {
+                                                                              "type":"postback",
+                                                                              "title":"Book Shop Address",
+                                                                              "payload":`authorbkdetail#${doc.id}#${doc.data().image}`
+                                                                            }
+                                                                        ]
+                                                          }
+                                                          authorownbook.push(data);
+                                        })
+
+
+                                       requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                                          {
+                                                "recipient":{
+                                                "id":senderID
+                                                 },
+                                                "message":{
+                                                     "attachment":{
+                                                          "type":"template",
+                                                          "payload":{
+                                                            "template_type":"generic",
+                                                            "elements":authorownbook
+                                                          }
+                                                      }
+                                                  }
+                                          }).catch((err) => {
+                                              console.log('Error getting documents', err);
+                                          }); 
+                                       
+                                    
+                                  })        
+                                  
+
+                            }
                             if(userInput !== undefined && userInput.includes('bokdetail'))
                             {
-                              var result = userInput.split('#');
-                              var bookshopname = result[1];
-                              var bookname = result[2];
-                              
-                              db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
-                    bookshoplist.forEach((doc)=>{
-                      if(doc.id == bookshopname)
-                      {
-                          MessageDetail(senderID,"Book Name",bookname).then(() => {
-                            MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
-                              MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
-                                MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
-                                  MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
-                                    MessageDetail(senderID,"Page Link",doc.data().link);
+                                  var result = userInput.split('#');
+                                  var bookshopname = result[1];
+                                  var bookname = result[2];
+                                              
+                                  db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
+                                        bookshoplist.forEach((doc)=>{
+                                              if(doc.id == bookshopname)
+                                              {
+                                                    MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                      MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                        MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                          MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                            MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                              MessageDetail(senderID,"Page Link",doc.data().link);
+                                                            })
+                                                          })
+                                                        })
+                                                      })
+                                                    })                        
+                                              }
+                                        })
                                   })
-                                })
-                              })
-                            })
-                          })                        
-                      }
-                    })
-                   })
-
-
 
                             }
 
@@ -282,6 +327,7 @@ app.post('/webhook', (req, res) => {
                if(userMessage == 'Login')
                {
                   QuickReplyMenu(senderID);
+
                }
                if (userInput !== undefined && userInput.includes('book_detail'))
                {
@@ -981,7 +1027,7 @@ function SearchByAuthor(senderID,userMessage)
               {
                     "type":"postback",
                     "title":"Book Detail",
-                    "payload":`book_detail#${doc.id}`
+                    "payload":`authorbkdetail#${doc.id}#${doc.data().image}`
               }
              ]}
 

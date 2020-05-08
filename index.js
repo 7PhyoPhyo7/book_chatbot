@@ -1182,7 +1182,7 @@ function Normal(senderID)
                                          {
                                           "title":doc.id,
                                           "subtitle":doc.data().author,
-                                            "image_url":doc.data().image
+                                            "image_url":doc.data().image,
                                             "buttons":[
                                               {
                                                 "type":"postback",

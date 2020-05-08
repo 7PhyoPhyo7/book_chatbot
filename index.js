@@ -274,7 +274,9 @@ app.post('/webhook', (req, res) => {
                             {
                                 var authbookresult = userInput.split('#');
                                 var bookshopname = authbookresult[1];
-                                var bookname = authbookresult[0];
+                                var bookname = authbookresult[2];
+                                console.log(bookname);
+                                console.log(bookshopname);
                                   db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
                                         bslist.forEach((doc)=>{
                                               if(doc.id == bookshopname)

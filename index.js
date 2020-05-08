@@ -945,8 +945,8 @@ function SearchBook(senderID){
                   },
                   {
                     "type":"postback",
-                    "payload":"bymyownhobby",
-                    "title":"By My Own Hobbies",
+                    "payload":"byhobby",
+                    "title":"By Hobbies",
                     "webview_height_ratio": "full"
                   },
                ]}
@@ -1085,6 +1085,49 @@ function SearchByAuthor(senderID,userMessage)
                           console.log('Error getting documents', err);
                         }); 
       })
+}
+
+
+
+function QuickReplyHobbies(senderID)
+{
+
+
+  var hobbies=[];
+
+  db.collection('user').where('userid','==',`${senderID}`).get().then(hobbylist=>{
+    hobbylist.forEach(doc=>{
+          
+          let data = 
+          
+      {
+        "content_type":"text",
+        "title":doc.data().hobby,
+        "payload":`hobbies#${senderID}#${doc.data().hobby}`
+
+      }  
+   
+
+          hobbies.push(data);
+    })
+
+    return requestify.post(sendmessageurl,
+   {  
+      "recipient":{
+        "id":senderID
+  },
+  
+  "message":{
+      "text": "Please Choose your registered Hobby",
+       "quick_replies": hobbies
+  }
+  }).then(result=>{ console.log("ok")
+      }).catch(err=>{console.log("err",err)})
+
+
+  })
+    
+   
 }
 // function whitelistDomains(res) {
 //   var messageData = {

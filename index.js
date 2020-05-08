@@ -975,7 +975,7 @@ function SearchByAuthor(senderID,userMessage)
           {
             let data = {
             "title":"BookName : "+doc.id,
-            "subtitle":"Author : "userMessage,
+            "subtitle":"Author : "+userMessage,
             "image_url":doc.data().image,
               "buttons":[
               {

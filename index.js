@@ -226,7 +226,52 @@ app.post('/webhook', (req, res) => {
                            {
                             Normal(senderID);
                            }
+                           if(userQuickreply == 'specific')
+                           {
+                            Specific(senderID);
+                           }
                            if(userInput.includes('normalbookshop'))
+                           {
+                            var bk = userInput.split('#');
+                            var bookname = bk[1];
+                            var image = bk[2];
+                            console.log(bookname);
+                            db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
+                                        bklist.forEach((doc)=>{
+                                              requestify.post(sendmessageurl,
+                              {
+                                "recipient":{
+                                  "id":senderID
+                                },
+                              "message":{
+                               "attachment":{
+                                    "type":"template",
+                                    "payload":{
+                                      "template_type":"generic",
+                                      "elements":[
+                                         {
+                                          "title":bookname,
+                                          "subtitle":doc.id,
+                                            "image_url":image,
+                                            "buttons":[
+                                              {
+                                                "type":"postback",
+                                               "title":"Book Shop Info",
+                                                "payload":`bookshopinfo#${doc.id}#${bookname}`
+                                              }
+                                           ]}
+
+                                    ]
+                                  }
+                                }
+                              }
+                              })                       
+                                              
+                                        })
+                                  })
+
+                           }
+                           if(userInput.includes('specificbookshop'))
                            {
                             var bk = userInput.split('#');
                             var bookname = bk[1];
@@ -1187,7 +1232,7 @@ function QuickReplyHobbies(senderID)
       {
         "content_type":"text",
         "title":"More Specific",
-        "payload":"Specific" 
+        "payload":"specific" 
       }
     ]
   }
@@ -1256,6 +1301,92 @@ function Normal(senderID)
                                                 "type":"postback",
                                                "title":"Book Shop Address",
                                                 "payload":`normalbookshop#${doc.id}#${doc.data().image}`
+                                              }
+                                           ]}
+
+                                    ]
+                                  }
+                                }
+                              }
+                              }) 
+
+
+                      }
+                    })
+                  })
+                });
+                    
+              console.log(output);
+           } catch (e) {
+              console.error(e);
+           }
+          
+       })
+
+        })
+}
+
+
+
+function Specific(senderID)
+{
+   //var docid='a';
+   
+      let bookwithgenre=[,];
+      let userwithhobby=[];
+      var z;
+      var row;
+      var col;
+       db.collection("user").where('userid','==',`${senderID}`).get().then(hobbylist=>{
+           hobbylist.forEach(doc=>{
+             userwithhobby = doc.data().hobby;
+           })
+
+           db.collection("book").get().then(genrelist=>{
+            genrelist.forEach(doc=>{
+              if (doc !== null) {
+                bookwithgenre.push({
+                  name: doc.id,
+                  image:doc.data().image,
+                  author:doc.data().author,
+                  genre: doc.data().genre // array
+                });
+              }
+            });
+
+
+            try {
+              const output = bookwithgenre
+                .filter(
+                  book => book.genre.every(
+                    gen => userwithhobby.includes(gen)
+                  )
+                )
+                .map(result => {
+                  db.collection('book').get().then(a=>{
+                    a.forEach(doc=>{
+                      if(doc.id == result.name)
+                      {
+                            requestify.post(sendmessageurl,
+                              {
+                                "recipient":{
+                                  "id":senderID
+                                },
+                              "message":{
+                               "attachment":{
+                                    "type":"template",
+                                    "payload":{
+                                      "template_type":"generic",
+                                      "elements":[
+                                         {
+                                          "title":doc.id,
+                                          "subtitle":doc.data().author,
+                                            "image_url":doc.data().image,
+                                            "buttons":[
+                                              {
+                                                "type":"postback",
+                                               "title":"Book Shop Address",
+                                                "payload":`specificbookshop#${doc.id}#${doc.data().image}`
                                               }
                                            ]}
 

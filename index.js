@@ -196,7 +196,7 @@ app.post('/webhook', (req, res) => {
                             }
                             if(userQuickreply == 'becomereviwer')
                             {
-
+                                   ReviewerTest(senderID);
                             }
                             else if    (userInput == 'bytyping')
                             {
@@ -319,6 +319,12 @@ app.post('/webhook', (req, res) => {
                                         })
                                   })
 
+                           }
+                           if(userInput == 'instruction')
+                           {
+                               MessageDetail(senderID,"Step 1", "Please Upload Video").then(()=>{
+                                QuickReplyUserMenu(senderID);
+                               })
                            }
                            if(userInput.includes('bookshopinfo'))
                            {
@@ -1419,6 +1425,42 @@ function Specific(senderID)
        })
 
         })
+}
+
+function ReviewerTest(senderID)
+{
+return  requestify.post(sendmessageurl,
+  {
+    "recipient":{
+      "id":senderID
+    },
+  "message":{
+   "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"Become Reviewer",
+              "subtitle":"**Please Read Instruction First**",
+                "buttons":[
+                  {
+                    "type":"postback",
+                    "title":"Reviewer Instruction",
+                    "payload" : "instruction"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Upload Video Link",
+                    "payload" : "video"
+                  },
+               ]}
+
+        ]
+      }
+    }
+  }
+  }) 
 }
 // function whitelistDomains(res) {
 //   var messageData = {

@@ -218,6 +218,11 @@ app.post('/webhook', (req, res) => {
 
                                         SearchByAuthor(senderID,userMessage);
                             }
+                             if(userInput == 'byhobby')
+                           {
+                                        console.log('Quick Reply Hobbies');
+                                        QuickReplyHobbies(senderID);
+                           }
                                if(userInput !== undefined && userInput.includes('authorbkdetail'))
                             {
                                   var result = userInput.split('#');
@@ -362,11 +367,7 @@ app.post('/webhook', (req, res) => {
                   QuickReplyMenu(senderID);
 
                }
-               if(userInput == 'byhobby')
-               {
-                console.log('Quick Reply Hobbies');
-                QuickReplyHobbies(senderID);
-               }
+              
                if (userInput !== undefined && userInput.includes('book_detail'))
                {
                       

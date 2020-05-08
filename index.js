@@ -1164,8 +1164,42 @@ function Normal(senderID)
                   )
                 )
                 .map(result => {
-                  MessageDetail(senderID,"Recomanded Book",result.name).then(()=>{
-                    MessageDetail(senderID,"Author",result.author)
+                  db.collection('book').get().then(a=>{
+                    a.forEach(doc=>{
+                      if(doc.id == result.name)
+                      {
+                            requestify.post(sendmessageurl,
+                              {
+                                "recipient":{
+                                  "id":senderID
+                                },
+                              "message":{
+                               "attachment":{
+                                    "type":"template",
+                                    "payload":{
+                                      "template_type":"generic",
+                                      "elements":[
+                                         {
+                                          "title":doc.id,
+                                          "subtitle":doc.data().author,
+                                            "image_url":doc.data().image
+                                            "buttons":[
+                                              {
+                                                "type":"postback",
+                                               "title":"Book Shop Address",
+                                                "payload":`normalbookshop#${doc.id}`
+                                              }
+                                           ]}
+
+                                    ]
+                                  }
+                                }
+                              }
+                              }) 
+
+
+                      }
+                    })
                   })
                 });
                     

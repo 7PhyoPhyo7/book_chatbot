@@ -1512,8 +1512,27 @@ function ApplicationList(senderID)
   var isreviewerlist =[];
   db.collection('testingreviewer').where('isreviewer','==',`${before}`).get().then(isreviewer=>{
                    isreviewer.forEach(doc=>{
+                          let data = {
+                              "media_type": "video",
+                               "url": doc.data().videolink,
+                               "buttons": [
+                                {
+                                    "type":"postback",
+                                    "title":"Accept",
+                                    "payload":`accept#${doc.id}`
+                                },
+                                {
+                                   "type":"postback",
+                                    "title":"Decline",
+                                    "payload":`decline#${doc.id}`
+                                }
+                            ]
+                          }
+                          isreviewerlist.push(data);
+                                                     
+                              })
 
-              requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
                         {
                              "recipient":{
                                         "id":senderID
@@ -1523,30 +1542,17 @@ function ApplicationList(senderID)
                                           "type": "template",
                                           "payload": {
                                              "template_type": "media",
-                                             "elements": [
-                                                {
-                                                   "media_type": "video",
-                                                   "url": doc.data().videolink,
-                                                   "buttons": [
-                                                           {
-                                                               "type":"postback",
-                                                               "title":"Accept",
-                                                             "payload":`accept#${doc.id}`
-                                                           }
-                                                           ]
-                                                }
-                                             ]
+                                             "elements": isreviewerlist
                                           }
                                         }    
                                       }
 
                            
                     
-        }).catch((err) => {
+                                           }).catch((err) => {
                                               console.log('Error getting documents', err);
                                           }); 
-                                       
-    })
+
                  })
 }
 // function whitelistDomains(res) {

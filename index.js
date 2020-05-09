@@ -330,14 +330,14 @@ app.post('/webhook', (req, res) => {
                                 QuickReplyUserMenu(senderID);
                                })
                            }
-                            if(userInput == 'video')
+                            else if(userInput == 'video')
                             {
                                         uploadvideo = userInput;
                                        // textMessage(senderID,"Please Type BookName!");
                                         console.log("SearchType",uploadvideo);
                                         
                             }
-                            if(uploadvideo == 'video')
+                            else if(uploadvideo == 'video')
                             {
                                 console.log("usermessagevideo",userMessage);
                                  VideoUpload(senderID,userMessage);

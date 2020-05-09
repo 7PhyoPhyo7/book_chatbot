@@ -1515,7 +1515,7 @@ function ApplicationList(senderID)
                     let data = {
                               "title":"Reviewer",
                               "subtitle":"isreviewer : "+doc.data().isreviewer,
-                              "image_url":doc.data().videolink,
+                              "media_type":doc.data().videolink,
                                 "buttons":[
                                 {
                                       "type":"postback",
@@ -1534,7 +1534,7 @@ function ApplicationList(senderID)
                                                  },
                                                 "message":{
                                                      "attachment":{
-                                                          "type":"template",
+                                                          "template_type":"media",
                                                           "payload":{
                                                             "template_type":"generic",
                                                             "elements":isreviewerlist

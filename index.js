@@ -1526,7 +1526,14 @@ function ApplicationList(senderID)
                                              "elements": [
                                                 {
                                                    "media_type": "video",
-                                                   "url": doc.data().videolink
+                                                   "url": doc.data().videolink,
+                                                   "buttons": [
+                                                           {
+                                                               "type":"postback",
+                                                               "title":"Accept",
+                                                             "payload":`accept#${doc.id}`
+                                                           }
+                                                           ]
                                                 }
                                              ]
                                           }

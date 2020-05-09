@@ -552,7 +552,7 @@ app.post('/webhook', (req, res) => {
                              
                              
                             }
-                           else if(upvideoum == 'ok')
+                            if(upvideoum == 'ok')
                             {
                               //upvideobyreviewer(senderID,aa,userMessage);
                               upvideoum='';

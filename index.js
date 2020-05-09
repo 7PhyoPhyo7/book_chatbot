@@ -1520,12 +1520,13 @@ function ApplicationList(senderID)
                                     "type":"postback",
                                     "title":"Accept",
                                     "payload":`accept#${doc.id}`
-                                },
-                                {
-                                   "type":"postback",
-                                    "title":"Decline",
-                                    "payload":`decline#${doc.id}`
                                 }
+                                // ,
+                                // {
+                                //    "type":"postback",
+                                //     "title":"Decline",
+                                //     "payload":`decline#${doc.id}`
+                                // }
                             ]
                           }
                           isreviewerlist.push(data);

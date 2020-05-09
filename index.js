@@ -576,7 +576,11 @@ app.post('/webhook', (req, res) => {
                                  var userid = acceptreviwerarray[2];
                                  console.log("DOcid",docid);
                                  console.log("Userid",userid)
-                                 AcceptArray(senderID,docid,userid);
+                                 AcceptArray(senderID,docid,userid).then(ok=>{
+                                  ApplicationList(senderID).then(oki=>{
+                                    QuickReplyAdminMenu(senderID)
+                                  })
+                                 })
                             }
          if(userInput.includes('openvideo'))
          {
@@ -1565,11 +1569,11 @@ async function VideoUpload(senderID,userMessage)
                             })
 }
 
-function ApplicationList(senderID)
+async function ApplicationList(senderID)
 {
   var before = 'before';
   var isreviewerlist =[];
-  db.collection('testingreviewer').where('isreviwer','==',`${before}`).get().then(isreviewer=>{
+  await db.collection('testingreviewer').where('isreviewer','==',`${before}`).get().then(isreviewer=>{
                    isreviewer.forEach(doc=>{
                           let data = {
                                                             "title":"email: "+doc.data().email,

@@ -542,7 +542,7 @@ app.post('/webhook', (req, res) => {
 
                                         SearchByAuthorR(senderID,userMessage);
                             }
-                            if(userInput.includes('upvideo'))
+                            else if(userInput.includes('upvideo'))
                             {
                               var upvideoarray = userInput.split('#');
                               var bookname = upvideoarray[1];
@@ -552,7 +552,7 @@ app.post('/webhook', (req, res) => {
                              
                              
                             }
-                            if(upvideoum == 'ok')
+                           else if(upvideoum == 'ok')
                             {
                               //upvideobyreviewer(senderID,aa,userMessage);
                               upvideoum='';

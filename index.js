@@ -596,7 +596,12 @@ app.post('/webhook', (req, res) => {
                                                                "type":"postback",
                                                                "title":"Accept",
                                                              "payload":`accept`
-                                                           }
+                                                           },
+                                                            {
+                                                                              "type":"postback",
+                                                                              "title":"Decline",
+                                                                              "payload":`openvideodecline`
+                                                                      }
                                                            ]
                                                 }
                                              ]
@@ -1565,17 +1570,17 @@ function ApplicationList(senderID)
                                                                               "type":"postback",
                                                                               "title":"Open Video Link",
                                                                               "payload":`openvideo#${doc.data().userid}`
-                                                                            },
-                                                                            {
-                                                                              "type":"postback",
-                                                                              "title":"Accept",
-                                                                              "payload":`openvideoaccept#${doc.data().userid}`
-                                                                            },
-                                                                            {
-                                                                              "type":"postback",
-                                                                              "title":"Decline",
-                                                                              "payload":`openvideodecline#${doc.data().userid}`
                                                                             }
+                                                                            // {
+                                                                            //   "type":"postback",
+                                                                            //   "title":"Accept",
+                                                                            //   "payload":`openvideoaccept#${doc.data().userid}`
+                                                                            // },
+                                                                            // {
+                                                                            //   "type":"postback",
+                                                                            //   "title":"Decline",
+                                                                            //   "payload":`openvideodecline#${doc.data().userid}`
+                                                                            // }
                                                                         ]
                                                           }
                                                           isreviewerlist.push(data);

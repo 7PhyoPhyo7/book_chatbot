@@ -1625,7 +1625,7 @@ async function AcceptArray(senderID,docid,userid)
     var userdocid ='';
     await db.collection('testingreviewer').doc(docid).set({
               isreviewer : yes       
-    }).then(aa=>{
+    },{merge: true}).then(aa=>{
       console.log("reviewer yes is ok");
     })
 
@@ -1638,7 +1638,7 @@ async function AcceptArray(senderID,docid,userid)
         })
              db.collection('user').doc(userdocid).set({
                     isreviewer:usercon
-             }).then(success=>{
+             },{merge: true}).then(success=>{
                  console.log("reviwer user table");
              })
     })

@@ -1569,7 +1569,7 @@ function ApplicationList(senderID)
 {
   var before = 'before';
   var isreviewerlist =[];
-  db.collection('testingreviewer').where('isreviewer','==',`${before}`).get().then(isreviewer=>{
+  db.collection('testingreviewer').where('isreviwer','==',`${before}`).get().then(isreviewer=>{
                    isreviewer.forEach(doc=>{
                           let data = {
                                                             "title":"email: "+doc.data().email,

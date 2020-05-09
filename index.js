@@ -1513,46 +1513,47 @@ function ApplicationList(senderID)
   db.collection('testingreviewer').where('isreviewer','==',`${before}`).get().then(isreviewer=>{
                    isreviewer.forEach(doc=>{
                           let data = {
-                              "media_type": "video",
-                               "url": doc.data().videolink,
-                               "buttons": [
-                                {
-                                    "type":"postback",
-                                    "title":"Accept",
-                                    "payload":`accept#${doc.id}`
-                                }
-                                // ,
-                                // {
-                                //    "type":"postback",
-                                //     "title":"Decline",
-                                //     "payload":`decline#${doc.id}`
-                                // }
-                            ]
-                          }
-                          isreviewerlist.push(data);
+                                                            "title":"email: "+doc.data().email,
+                                                            "subtitle":"",                                                            
+                                                              "buttons":[
+                                                                            {
+                                                                              "type":"postback",
+                                                                              "title":"Open Video Link",
+                                                                              "payload":`openvideo#${doc.data().userid}`
+                                                                            },
+                                                                            {
+                                                                              "type":"postback",
+                                                                              "title":"Accept",
+                                                                              "payload":`openvideoaccept#${doc.data().userid}`
+                                                                            },
+                                                                            {
+                                                                              "type":"postback",
+                                                                              "title":"Decline",
+                                                                              "payload":`openvideodecline#${doc.data().userid}`
+                                                                            }
+                                                                        ]
+                                                          }
+                                                          isreviewerlist.push(data);
                                                      
                               })
-
-requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
-                        {
-                             "recipient":{
-                                        "id":senderID
-                                      },
-                                      "message":{
-                                        "attachment": {
-                                          "type": "template",
-                                          "payload": {
-                                             "template_type": "media",
-                                             "elements": isreviewerlist
-                                          }
-                                        }    
-                                      }
-
-                           
-                    
-                                           }).catch((err) => {
+                    requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                                          {
+                                                "recipient":{
+                                                "id":senderID
+                                                 },
+                                                "message":{
+                                                     "attachment":{
+                                                          "type":"template",
+                                                          "payload":{
+                                                            "template_type":"generic",
+                                                            "elements":isreviewerlist
+                                                          }
+                                                      }
+                                                  }
+                                          }).catch((err) => {
                                               console.log('Error getting documents', err);
                                           }); 
+
 
                  })
 }

@@ -230,6 +230,15 @@ app.post('/webhook', (req, res) => {
 
                                         SearchByAuthor(senderID,userMessage);
                             }
+                            else if (userInput == 'video')
+                            {
+                              uploadvideo = userInput;
+                            }
+                            else if (uploadvideo == 'video')
+                            {
+                              console.log("UserMessagevideo",userMessage);
+                            }
+
                              if(userInput == 'byhobby')
                            {
                                         QuickReplyHobbies(senderID);
@@ -330,21 +339,7 @@ app.post('/webhook', (req, res) => {
                                 QuickReplyUserMenu(senderID);
                                })
                            }
-                            if    (userInput == 'video')
-                            {
-                                        bybookname = userInput;
-                                       // textMessage(senderID,"Please Type BookName!");
-                                        console.log("SearchType",bybookname);
-                                        
-                            }
-                            if (bybookname == 'video')
-                            {
-                                        console.log("UserMessage_searchtype",userMessage);
-                                        bybookname = '';
-
-                                        SearchByTyping(senderID,userMessage);
-                            }
-                           if(userInput.includes('bookshopinfo'))
+                            if(userInput.includes('bookshopinfo'))
                            {
                             var bookshoppayload = userInput.split('#');
                             var bookshopname = bookshoppayload[1];

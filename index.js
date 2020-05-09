@@ -146,365 +146,631 @@ app.post('/webhook', (req, res) => {
 				db.collection("bookshopowner").where('ownerid','==',`${senderID}`).get().then(bookshopownerlist => {
 					if(bookshopownerlist.empty)
 					{
-						db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${revieweryes}`).get().then(reviewerlist=>{
-							if(reviewerlist.empty)
-							{
-								db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${reviewerno}`).get().then(userlist => {
-                          if(userlist.empty)
-                          {
-                              // #region  New User
-                                if(userInput == 'Hi')
-                              {
-                                //textMessage(senderID,"Welcome New User");
-                                  QuickReplyNewUser(senderID);
-                                                
-                              }
-                              if(userQuickreply == 'seller')
-                              {
-                                db.collection('bookshopowner').add({
-                                      ownerid:senderID
-                                }).then(own=>{
-                                      textMessage(senderID,"Register Successful");
-                                      textMessage(senderID,"Please type 'Login' to start Process");
-                                })
-                              }
-                              if(userQuickreply == 'reader')
-                              {
-                                textMessage(senderID,"Please type 'Register' ");
-                                newregister ='reader';
-                              }
-                              if(newregister == 'reader')
-                              {
-                                  if(userMessage == 'Register')
-                                  {
-                                    UserRegister(senderID,userMessage);
-                                    newregister='';
-                                  }
-                              }
-
-                              // #endregion
-
-                          }
-                          else
-                          {     
-                                    // #region Reader
-                                    if(userInput == 'Hi')
-                                    {
-                                      textMessage(senderID,"Welcome Reader").then(()=>{
-                                        QuickReplyUserMenu(senderID); 
-                                      })
-                                                                
-                                    }
-                                    if(userQuickreply == 'searchbook')
-                                    {
-                                          console.log("Searchhh",userInput);
-                                          SearchBook(senderID);
-                                    }
-                                    if(userQuickreply == 'recommendbook')
-                                    {
-                                      Specific(senderID);
-                                    }
-                                    if(userQuickreply == 'becomereviwer')
-                                    {
-                                          ReviewerTest(senderID);
-                                    }
-                                    else if    (userInput == 'bytyping')
-                                    {
-                                                bybookname = userInput;
-                                              // textMessage(senderID,"Please Type BookName!");
-                                                console.log("SearchType",bybookname);
-                                                
-                                    }
-                                    else if (bybookname == 'bytyping')
-                                    {
-                                                console.log("UserMessage_searchtype",userMessage);
-                                                bybookname = '';
-
-                                                SearchByTyping(senderID,userMessage);
-                                    }
-                                    else if    (userInput == 'byauthor')
-                                    {
-                                                byauthor = userInput;
-                                              // textMessage(senderID,"Please Type BookName!");
-                                                console.log("SearchType",byauthor);
-                                                
-                                    }
-                                    else if (byauthor == 'byauthor')
-                                    {
-                                                console.log("UserMessage_searchtype",userMessage);
-                                                byauthor = '';
-
-                                                SearchByAuthor(senderID,userMessage);
-                                    }
-                                    else if (userInput == 'video')
-                                    {
-                                      uploadvideo = userInput;
-                                    }
-                                    else if (uploadvideo == 'video')
-                                    {
-                                      console.log("UserMessagevideo",userMessage);
-                                      //console.log("UM",userMessage);
-                                        VideoUpload(senderID,userMessage).then(success=>{
-                                          textMessage(senderID,"Upload Successful").then(ok=>{
-                                            QuickReplyUserMenu(senderID);
-                                          })
-                                        })
-                                        uploadvideo='';
-                                        
-                                    }
-                    
-                                    if(userInput == 'byhobby')
-                                  {
-                                                QuickReplyHobbies(senderID);
-                                  }
-                                  if(userQuickreply == 'normal')
-                                  {
-                                    Normal(senderID);
-                                  }
-                                  if(userQuickreply == 'specific')
-                                  {
-                                    Specific(senderID);
-                                  }
-                                  if(userInput.includes('normalbookshop'))
-                                  {
-                                    var bk = userInput.split('#');
-                                    var bookname = bk[1];
-                                    var image = bk[2];
-                                    console.log(bookname);
-                                    db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
-                                                bklist.forEach((doc)=>{
-                                                      requestify.post(sendmessageurl,
-                                      {
-                                        "recipient":{
-                                          "id":senderID
-                                        },
-                                      "message":{
-                                      "attachment":{
-                                            "type":"template",
-                                            "payload":{
-                                              "template_type":"generic",
-                                              "elements":[
+                db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${revieweryes}`).get().then(reviewerlist=>{
+                        if(reviewerlist.empty)
+                        {
+                              db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${reviewerno}`).get().then(userlist => {
+                                        if(userlist.empty)
+                                        {
+                                            // #region  New User
+                                              if(userInput == 'Hi')
+                                            {
+                                              //textMessage(senderID,"Welcome New User");
+                                                QuickReplyNewUser(senderID);
+                                                              
+                                            }
+                                            if(userQuickreply == 'seller')
+                                            {
+                                              db.collection('bookshopowner').add({
+                                                    ownerid:senderID
+                                              }).then(own=>{
+                                                    textMessage(senderID,"Register Successful");
+                                                    textMessage(senderID,"Please type 'Login' to start Process");
+                                              })
+                                            }
+                                            if(userQuickreply == 'reader')
+                                            {
+                                              textMessage(senderID,"Please type 'Register' ");
+                                              newregister ='reader';
+                                            }
+                                            if(newregister == 'reader')
+                                            {
+                                                if(userMessage == 'Register')
                                                 {
-                                                  "title":bookname,
-                                                  "subtitle":doc.id,
-                                                    "image_url":image,
-                                                    "buttons":[
-                                                      {
-                                                        "type":"postback",
-                                                      "title":"Book Shop Info",
-                                                        "payload":`bookshopinfo#${doc.id}#${bookname}`
-                                                      }
-                                                  ]}
+                                                  UserRegister(senderID,userMessage);
+                                                  newregister='';
+                                                }
+                                            }
 
-                                            ]
-                                          }
+                                            // #endregion
+
                                         }
-                                      }
-                                      })                       
-                                                      
-                                                })
-                                          })
-
-                                  }
-                                  if(userInput.includes('specificbookshop'))
-                                  {
-                                    var bk = userInput.split('#');
-                                    var bookname = bk[1];
-                                    var image = bk[2];
-                                    console.log(bookname);
-                                    db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
-                                                bklist.forEach((doc)=>{
-                                                      requestify.post(sendmessageurl,
-                                      {
-                                        "recipient":{
-                                          "id":senderID
-                                        },
-                                      "message":{
-                                      "attachment":{
-                                            "type":"template",
-                                            "payload":{
-                                              "template_type":"generic",
-                                              "elements":[
-                                                {
-                                                  "title":bookname,
-                                                  "subtitle":doc.id,
-                                                    "image_url":image,
-                                                    "buttons":[
-                                                      {
-                                                        "type":"postback",
-                                                      "title":"Book Shop Info",
-                                                        "payload":`bookshopinfo#${doc.id}#${bookname}`
-                                                      }
-                                                  ]}
-
-                                            ]
-                                          }
-                                        }
-                                      }
-                                      })                       
-                                                      
-                                                })
-                                          })
-
-                                  }
-                                  if(userInput == 'instruction')
-                                  {
-                                      MessageDetail(senderID,"Step 1", "Please Upload Video").then(()=>{
-                                        QuickReplyUserMenu(senderID);
-                                      })
-                                  }
-                                    if(userInput.includes('bookshopinfo'))
-                                  {
-                                    var bookshoppayload = userInput.split('#');
-                                    var bookshopname = bookshoppayload[1];
-                                    var bookname = bookshoppayload[2];
-
-                                    db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
-                                                bslist.forEach((doc)=>{
-                                                      if(doc.id == bookshopname)
-                                                      {
-                                                            MessageDetail(senderID,"Book Name",bookname).then(() => {
-                                                              MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
-                                                                MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
-                                                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
-                                                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
-                                                                      MessageDetail(senderID,"Page Link",doc.data().link);
-                                                                    })
-                                                                  })
-                                                                })
-                                                              })
-                                                            })                        
-                                                      }
-                                                })
-                                          })
-
-
-                                  }
-
-                                      if(userInput !== undefined && userInput.includes('authorbkdetail'))
-                                    {
-                                          var result = userInput.split('#');
-                                          var bookname = result[1];
-                                          var imageUrl = result[2];
-                                          var zero = result[0];
-                                          console.log(userInput);
-                                          console.log('zero',result[0]);
-                                          console.log('one',result[1]);
-                                          console.log('two'),result[2];
-                                          var  authorownbook =[];
-                                          db.collection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
-                                                authorbkshoplist.forEach((doc)=>{
-                                                    let data = {
-                                                                    "title":"BookName : "+bookname,
-                                                                    "subtitle":"Book Shop : "+doc.id,
-                                                                    "image_url":imageUrl,
-                                                                      "buttons":[
-                                                                                    {
-                                                                                      "type":"postback",
-                                                                                      "title":"Book Shop Address",
-                                                                                      "payload":`authoraddress#${doc.id}#${bookname}`
-                                                                                    }
-                                                                                ]
-                                                                  }
-                                                                  authorownbook.push(data);
-                                                })
-
-
-                                              requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                                        else
+                                        {     
+                                                  // #region Reader
+                                                  if(userInput == 'Hi')
                                                   {
-                                                        "recipient":{
-                                                        "id":senderID
-                                                        },
-                                                        "message":{
-                                                            "attachment":{
-                                                                  "type":"template",
-                                                                  "payload":{
-                                                                    "template_type":"generic",
-                                                                    "elements":authorownbook
-                                                                  }
-                                                              }
-                                                          }
-                                                  }).catch((err) => {
-                                                      console.log('Error getting documents', err);
-                                                  }); 
-                                              
-                                            
-                                          })        
-                                          
+                                                    textMessage(senderID,"Welcome Reader").then(()=>{
+                                                      QuickReplyUserMenu(senderID); 
+                                                    })
+                                                                              
+                                                  }
+                                                  if(userQuickreply == 'searchbook')
+                                                  {
+                                                        console.log("Searchhh",userInput);
+                                                        SearchBook(senderID);
+                                                  }
+                                                  if(userQuickreply == 'recommendbook')
+                                                  {
+                                                    Specific(senderID);
+                                                  }
+                                                  if(userQuickreply == 'becomereviwer')
+                                                  {
+                                                        ReviewerTest(senderID);
+                                                  }
+                                                  else if    (userInput == 'bytyping')
+                                                  {
+                                                              bybookname = userInput;
+                                                            // textMessage(senderID,"Please Type BookName!");
+                                                              console.log("SearchType",bybookname);
+                                                              
+                                                  }
+                                                  else if (bybookname == 'bytyping')
+                                                  {
+                                                              console.log("UserMessage_searchtype",userMessage);
+                                                              bybookname = '';
 
-                                    }
-                                    if(userInput.includes('authoraddress'))
-                                    {
-                                        var authbookresult = userInput.split('#');
-                                        var bookshopname = authbookresult[1];
-                                        var bookname = authbookresult[2];
-                                        console.log(bookname);
-                                        console.log(bookshopname);
-                                          db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
-                                                bslist.forEach((doc)=>{
-                                                      if(doc.id == bookshopname)
-                                                      {
-                                                            MessageDetail(senderID,"Book Name",bookname).then(() => {
-                                                              MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
-                                                                MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
-                                                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
-                                                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
-                                                                      MessageDetail(senderID,"Page Link",doc.data().link);
-                                                                    })
-                                                                  })
-                                                                })
-                                                              })
-                                                            })                        
-                                                      }
-                                                })
-                                          })
+                                                              SearchByTyping(senderID,userMessage);
+                                                  }
+                                                  else if    (userInput == 'byauthor')
+                                                  {
+                                                              byauthor = userInput;
+                                                            // textMessage(senderID,"Please Type BookName!");
+                                                              console.log("SearchType",byauthor);
+                                                              
+                                                  }
+                                                  else if (byauthor == 'byauthor')
+                                                  {
+                                                              console.log("UserMessage_searchtype",userMessage);
+                                                              byauthor = '';
 
-
-                                    }
-                                    if(userInput !== undefined && userInput.includes('bokdetail'))
-                                    {
-                                          var result = userInput.split('#');
-                                          var bookshopname = result[1];
-                                          var bookname = result[2];
+                                                              SearchByAuthor(senderID,userMessage);
+                                                  }
+                                                  else if (userInput == 'video')
+                                                  {
+                                                    uploadvideo = userInput;
+                                                  }
+                                                  else if (uploadvideo == 'video')
+                                                  {
+                                                    console.log("UserMessagevideo",userMessage);
+                                                    //console.log("UM",userMessage);
+                                                      VideoUpload(senderID,userMessage).then(success=>{
+                                                        textMessage(senderID,"Upload Successful").then(ok=>{
+                                                          QuickReplyUserMenu(senderID);
+                                                        })
+                                                      })
+                                                      uploadvideo='';
                                                       
-                                          db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
-                                                bookshoplist.forEach((doc)=>{
-                                                      if(doc.id == bookshopname)
-                                                      {
-                                                            MessageDetail(senderID,"Book Name",bookname).then(() => {
-                                                              MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
-                                                                MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
-                                                                  MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
-                                                                    MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
-                                                                      MessageDetail(senderID,"Page Link",doc.data().link);
-                                                                    })
-                                                                  })
-                                                                })
-                                                              })
-                                                            })                        
+                                                  }
+                                  
+                                                if(userInput == 'byhobby')
+                                                {
+                                                              QuickReplyHobbies(senderID);
+                                                }
+                                                if(userQuickreply == 'normal')
+                                                {
+                                                  Normal(senderID);
+                                                }
+                                                if(userQuickreply == 'specific')
+                                                {
+                                                  Specific(senderID);
+                                                }
+                                                if(userInput.includes('normalbookshop'))
+                                                {
+                                                  var bk = userInput.split('#');
+                                                  var bookname = bk[1];
+                                                  var image = bk[2];
+                                                  console.log(bookname);
+                                                  db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
+                                                              bklist.forEach((doc)=>{
+                                                                    requestify.post(sendmessageurl,
+                                                    {
+                                                      "recipient":{
+                                                        "id":senderID
+                                                      },
+                                                    "message":{
+                                                    "attachment":{
+                                                          "type":"template",
+                                                          "payload":{
+                                                            "template_type":"generic",
+                                                            "elements":[
+                                                              {
+                                                                "title":bookname,
+                                                                "subtitle":doc.id,
+                                                                  "image_url":image,
+                                                                  "buttons":[
+                                                                    {
+                                                                      "type":"postback",
+                                                                    "title":"Book Shop Info",
+                                                                      "payload":`bookshopinfo#${doc.id}#${bookname}`
+                                                                    }
+                                                                ]}
+
+                                                          ]
+                                                        }
                                                       }
-                                                })
+                                                    }
+                                                    })                       
+                                                                    
+                                                              })
+                                                        })
+
+                                                }
+                                                if(userInput.includes('specificbookshop'))
+                                                {
+                                                  var bk = userInput.split('#');
+                                                  var bookname = bk[1];
+                                                  var image = bk[2];
+                                                  console.log(bookname);
+                                                  db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
+                                                              bklist.forEach((doc)=>{
+                                                                    requestify.post(sendmessageurl,
+                                                    {
+                                                      "recipient":{
+                                                        "id":senderID
+                                                      },
+                                                    "message":{
+                                                    "attachment":{
+                                                          "type":"template",
+                                                          "payload":{
+                                                            "template_type":"generic",
+                                                            "elements":[
+                                                              {
+                                                                "title":bookname,
+                                                                "subtitle":doc.id,
+                                                                  "image_url":image,
+                                                                  "buttons":[
+                                                                    {
+                                                                      "type":"postback",
+                                                                    "title":"Book Shop Info",
+                                                                      "payload":`bookshopinfo#${doc.id}#${bookname}`
+                                                                    }
+                                                                ]}
+
+                                                          ]
+                                                        }
+                                                      }
+                                                    }
+                                                    })                       
+                                                                    
+                                                              })
+                                                        })
+
+                                                }
+                                                if(userInput == 'instruction')
+                                                {
+                                                    MessageDetail(senderID,"Step 1", "Please Upload Video").then(()=>{
+                                                      QuickReplyUserMenu(senderID);
+                                                    })
+                                                }
+                                                  if(userInput.includes('bookshopinfo'))
+                                                {
+                                                  var bookshoppayload = userInput.split('#');
+                                                  var bookshopname = bookshoppayload[1];
+                                                  var bookname = bookshoppayload[2];
+
+                                                  db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
+                                                              bslist.forEach((doc)=>{
+                                                                    if(doc.id == bookshopname)
+                                                                    {
+                                                                          MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                                            MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                                              MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                                                MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                                                  MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                                                    MessageDetail(senderID,"Page Link",doc.data().link);
+                                                                                  })
+                                                                                })
+                                                                              })
+                                                                            })
+                                                                          })                        
+                                                                    }
+                                                              })
+                                                        })
+
+
+                                                }
+
+                                                    if(userInput !== undefined && userInput.includes('authorbkdetail'))
+                                                  {
+                                                        var result = userInput.split('#');
+                                                        var bookname = result[1];
+                                                        var imageUrl = result[2];
+                                                        var zero = result[0];
+                                                        console.log(userInput);
+                                                        console.log('zero',result[0]);
+                                                        console.log('one',result[1]);
+                                                        console.log('two'),result[2];
+                                                        var  authorownbook =[];
+                                                        db.collection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
+                                                              authorbkshoplist.forEach((doc)=>{
+                                                                  let data = {
+                                                                                  "title":"BookName : "+bookname,
+                                                                                  "subtitle":"Book Shop : "+doc.id,
+                                                                                  "image_url":imageUrl,
+                                                                                    "buttons":[
+                                                                                                  {
+                                                                                                    "type":"postback",
+                                                                                                    "title":"Book Shop Address",
+                                                                                                    "payload":`authoraddress#${doc.id}#${bookname}`
+                                                                                                  }
+                                                                                              ]
+                                                                                }
+                                                                                authorownbook.push(data);
+                                                              })
+
+
+                                                            requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                                                                {
+                                                                      "recipient":{
+                                                                      "id":senderID
+                                                                      },
+                                                                      "message":{
+                                                                          "attachment":{
+                                                                                "type":"template",
+                                                                                "payload":{
+                                                                                  "template_type":"generic",
+                                                                                  "elements":authorownbook
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                }).catch((err) => {
+                                                                    console.log('Error getting documents', err);
+                                                                }); 
+                                                            
+                                                          
+                                                        })        
+                                                        
+
+                                                  }
+                                                  if(userInput.includes('authoraddress'))
+                                                  {
+                                                      var authbookresult = userInput.split('#');
+                                                      var bookshopname = authbookresult[1];
+                                                      var bookname = authbookresult[2];
+                                                      console.log(bookname);
+                                                      console.log(bookshopname);
+                                                        db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
+                                                              bslist.forEach((doc)=>{
+                                                                    if(doc.id == bookshopname)
+                                                                    {
+                                                                          MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                                            MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                                              MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                                                MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                                                  MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                                                    MessageDetail(senderID,"Page Link",doc.data().link);
+                                                                                  })
+                                                                                })
+                                                                              })
+                                                                            })
+                                                                          })                        
+                                                                    }
+                                                              })
+                                                        })
+
+
+                                                  }
+                                                  if(userInput !== undefined && userInput.includes('bokdetail'))
+                                                  {
+                                                        var result = userInput.split('#');
+                                                        var bookshopname = result[1];
+                                                        var bookname = result[2];
+                                                                    
+                                                        db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
+                                                              bookshoplist.forEach((doc)=>{
+                                                                    if(doc.id == bookshopname)
+                                                                    {
+                                                                          MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                                            MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                                              MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                                                MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                                                  MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                                                    MessageDetail(senderID,"Page Link",doc.data().link);
+                                                                                  })
+                                                                                })
+                                                                              })
+                                                                            })
+                                                                          })                        
+                                                                    }
+                                                              })
+                                                        })
+
+                                                  }
+
+                                              //#endregion	    
+
+                                        }
+                              })
+                          
+                        }                
+                        else
+                        {
+                              // #region Reviewer
+                            if(userInput == 'Hi')
+                            {
+                              textMessage(senderID,"Welcome Reviewer").then(()=>{
+                                QuickReplyUserMenu(senderID); 
+                              })
+                            }
+                            if(userQuickreply == 'searchbook')
+                            {
+                                  console.log("Searchhh",userInput);
+                                  SearchBook(senderID);
+                            }
+                            if(userQuickreply == 'recommendbook')
+                            {
+                              Specific(senderID);
+                            }
+                            else if    (userInput == 'bytyping')
+                            {
+                                        bybookname = userInput;
+                                      // textMessage(senderID,"Please Type BookName!");
+                                        console.log("SearchType",bybookname);
+                                        
+                            }
+                            else if (bybookname == 'bytyping')
+                            {
+                                        console.log("UserMessage_searchtype",userMessage);
+                                        bybookname = '';
+
+                                        SearchByTyping(senderID,userMessage);
+                            }
+                            else if    (userInput == 'byauthor')
+                            {
+                                        byauthor = userInput;
+                                      // textMessage(senderID,"Please Type BookName!");
+                                        console.log("SearchType",byauthor);
+                                        
+                            }
+                            else if (byauthor == 'byauthor')
+                            {
+                                        console.log("UserMessage_searchtype",userMessage);
+                                        byauthor = '';
+
+                                        SearchByAuthorR(senderID,userMessage);
+                            }
+                            if(userInput == 'byhobby')
+                            {
+                                          QuickReplyHobbies(senderID);
+                            }
+                            if(userQuickreply == 'normal')
+                            {
+                              Normal(senderID);
+                            }
+                            if(userQuickreply == 'specific')
+                            {
+                              Specific(senderID);
+                            }
+                            if(userInput.includes('normalbookshop'))
+                            {
+                              var bk = userInput.split('#');
+                              var bookname = bk[1];
+                              var image = bk[2];
+                              console.log(bookname);
+                              db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
+                                          bklist.forEach((doc)=>{
+                                                requestify.post(sendmessageurl,
+                                {
+                                  "recipient":{
+                                    "id":senderID
+                                  },
+                                "message":{
+                                "attachment":{
+                                      "type":"template",
+                                      "payload":{
+                                        "template_type":"generic",
+                                        "elements":[
+                                          {
+                                            "title":bookname,
+                                            "subtitle":doc.id,
+                                              "image_url":image,
+                                              "buttons":[
+                                                {
+                                                  "type":"postback",
+                                                "title":"Book Shop Info",
+                                                  "payload":`bookshopinfo#${doc.id}#${bookname}`
+                                                }
+                                            ]}
+
+                                      ]
+                                    }
+                                  }
+                                }
+                                })                       
+                                                
+                                          })
+                                    })
+
+                            }
+                            if(userInput.includes('specificbookshop'))
+                            {
+                              var bk = userInput.split('#');
+                              var bookname = bk[1];
+                              var image = bk[2];
+                              console.log(bookname);
+                              db.collection('book').doc(bookname).collection('bookshop').get().then(bklist=>{
+                                          bklist.forEach((doc)=>{
+                                                requestify.post(sendmessageurl,
+                                {
+                                  "recipient":{
+                                    "id":senderID
+                                  },
+                                "message":{
+                                "attachment":{
+                                      "type":"template",
+                                      "payload":{
+                                        "template_type":"generic",
+                                        "elements":[
+                                          {
+                                            "title":bookname,
+                                            "subtitle":doc.id,
+                                              "image_url":image,
+                                              "buttons":[
+                                                {
+                                                  "type":"postback",
+                                                "title":"Book Shop Info",
+                                                  "payload":`bookshopinfo#${doc.id}#${bookname}`
+                                                }
+                                            ]}
+
+                                      ]
+                                    }
+                                  }
+                                }
+                                })                       
+                                                
+                                          })
+                                    })
+
+                            }
+                            if(userInput.includes('bookshopinfo'))
+                            {
+                              var bookshoppayload = userInput.split('#');
+                              var bookshopname = bookshoppayload[1];
+                              var bookname = bookshoppayload[2];
+
+                              db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
+                                          bslist.forEach((doc)=>{
+                                                if(doc.id == bookshopname)
+                                                {
+                                                      MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                        MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                          MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                            MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                              MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                                MessageDetail(senderID,"Page Link",doc.data().link);
+                                                              })
+                                                            })
+                                                          })
+                                                        })
+                                                      })                        
+                                                }
+                                          })
+                                    })
+
+
+                            }
+
+                                if(userInput !== undefined && userInput.includes('authorbkdetail'))
+                              {
+                                    var result = userInput.split('#');
+                                    var bookname = result[1];
+                                    var imageUrl = result[2];
+                                    var zero = result[0];
+                                    console.log(userInput);
+                                    console.log('zero',result[0]);
+                                    console.log('one',result[1]);
+                                    console.log('two'),result[2];
+                                    var  authorownbook =[];
+                                    db.collection('book').doc(bookname).collection('bookshop').get().then(authorbkshoplist=>{
+                                          authorbkshoplist.forEach((doc)=>{
+                                              let data = {
+                                                              "title":"BookName : "+bookname,
+                                                              "subtitle":"Book Shop : "+doc.id,
+                                                              "image_url":imageUrl,
+                                                                "buttons":[
+                                                                              {
+                                                                                "type":"postback",
+                                                                                "title":"Book Shop Address",
+                                                                                "payload":`authoraddress#${doc.id}#${bookname}`
+                                                                              }
+                                                                          ]
+                                                            }
+                                                            authorownbook.push(data);
                                           })
 
-                                    }
 
-                                //#endregion	    
+                                        requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                                            {
+                                                  "recipient":{
+                                                  "id":senderID
+                                                  },
+                                                  "message":{
+                                                      "attachment":{
+                                                            "type":"template",
+                                                            "payload":{
+                                                              "template_type":"generic",
+                                                              "elements":authorownbook
+                                                            }
+                                                        }
+                                                    }
+                                            }).catch((err) => {
+                                                console.log('Error getting documents', err);
+                                            }); 
+                                        
+                                      
+                                    })        
+                                    
 
-                          }
+                              }
+                              if(userInput.includes('authoraddress'))
+                              {
+                                  var authbookresult = userInput.split('#');
+                                  var bookshopname = authbookresult[1];
+                                  var bookname = authbookresult[2];
+                                  console.log(bookname);
+                                  console.log(bookshopname);
+                                    db.collection('book').doc(bookname).collection('bookshop').get().then(bslist=>{
+                                          bslist.forEach((doc)=>{
+                                                if(doc.id == bookshopname)
+                                                {
+                                                      MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                        MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                          MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                            MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                              MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                                MessageDetail(senderID,"Page Link",doc.data().link);
+                                                              })
+                                                            })
+                                                          })
+                                                        })
+                                                      })                        
+                                                }
+                                          })
+                                    })
+
+
+                              }
+                              if(userInput !== undefined && userInput.includes('bokdetail'))
+                              {
+                                    var result = userInput.split('#');
+                                    var bookshopname = result[1];
+                                    var bookname = result[2];
+                                                
+                                    db.collection('book').doc(bookname).collection('bookshop').get().then(bookshoplist=>{
+                                          bookshoplist.forEach((doc)=>{
+                                                if(doc.id == bookshopname)
+                                                {
+                                                      MessageDetail(senderID,"Book Name",bookname).then(() => {
+                                                        MessageDetail(senderID,"Book Shop Name",bookshopname).then(() => {
+                                                          MessageDetail(senderID,"Stock",doc.data().stock).then(() => {
+                                                            MessageDetail(senderID,"Book Shop Address",doc.data().bookshopaddress).then(() => {
+                                                              MessageDetail(senderID,"Book Shop Phone",doc.data().bookshopphno).then(() => {
+                                                                MessageDetail(senderID,"Page Link",doc.data().link);
+                                                              })
+                                                            })
+                                                          })
+                                                        })
+                                                      })                        
+                                                }
+                                          })
+                                    })
+
+                              }
+                            //#endregion
+                        }
                 })
-                
-              }  
-                
-							else
-							{
-                    // #region Reviewer
-								if(userInput == 'Hi')
-								   {
-								   	textMessage(senderID,"Welcome Reviewer");
-                   }
-                   //#endregion
-							}
-						})
 
 								
 					}
@@ -1257,6 +1523,11 @@ function QuickReplyAdminMenu(senderID)
                                       "title":doc.id,
                                       "payload":`bokdetail#${doc.id}#${userMessage}`
                                 },
+                                {
+                                  "type":"postback",
+                                  "title":"Book Review List",
+                                  "payload":`bookreviewlist`
+                                }
                               
 
                                ]}
@@ -1287,13 +1558,99 @@ function QuickReplyAdminMenu(senderID)
               }
                  })
                   
-              
+}
+
+function SearchByTypingR (senderID,userMessage)
+{
+                   var imageUrl='';
+                  var author='';
+             var stockno = 1;
+             var emptybook=false;
+             var book=[];
+             var bkdetail=[];
+
+              db.collection('book').get().then(booklist=>{
+             booklist.forEach(doc=>{
+                             book.push(doc.id); 
+                              if(doc.id == userMessage)
+                              {
+                              imageUrl = doc.data().image;
+                              author = doc.data().author; 
+                              }                                                                                     
+                                })
+             console.log("Book",book); 
+             if(book.includes(userMessage)) 
+             {
+               emptybook=true;
+             }
+
+
+             if(emptybook == false)
+             {
+               textMessage(senderID,"Book Not Found");
+             }
+             else if (emptybook == true) 
+             {
+                   db.collection('book').doc(userMessage).collection('bookshop').get().then(bookshop=>{
+                     bookshop.forEach(doc=>{
+
+                         let data = {
+                             "title":"BookName : "+userMessage,
+                             "subtitle":"Author : "+author,
+                             "image_url":imageUrl,
+                               "buttons":[
+                               {
+                                     "type":"postback",
+                                     "title":doc.id,
+                                     "payload":`bokdetail#${doc.id}#${userMessage}`
+                               },
+                               {
+                                "type":"postback",
+                                "title":"Book Review List",
+                                "payload":`bookreviewlist`
+                              },
+                              {
+                                "type":"postback",
+                                "title":"Upload Video",
+                                "payload":`upvideo`
+                              }  
+                             
+
+                              ]}
+                               bkdetail.push(data);
+                              
+                    })
+
+                    requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                       {
+                         "recipient":{
+                         "id":senderID
+                       },
+                       "message":{
+                         "attachment":{
+                           "type":"template",
+                           "payload":{
+                             "template_type":"generic",
+                             "elements":bkdetail
+                         }
+                       }
+                     }
+                       }).catch((err) => {
+                         console.log('Error getting documents', err);
+                       }); 
+                   })
+
+
+             }
+                })
+                 
+             
 
 
 
-                                       
+                                      
 
-     
+    
 
 }
 
@@ -1315,7 +1672,65 @@ function SearchByAuthor(senderID,userMessage)
                     "type":"postback",
                     "title":"Book Detail",
                     "payload":`authorbkdetail#${doc.id}#${doc.data().image}`
-              }
+              },
+              {
+                "type":"postback",
+                "title":"Book Review List",
+                "payload":`bookreviewlist`
+              }              
+             ]}
+
+             bookwithauthor.push(data);
+          }
+        })
+          requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                        {
+                          "recipient":{
+                          "id":senderID
+                        },
+                        "message":{
+                          "attachment":{
+                            "type":"template",
+                            "payload":{
+                              "template_type":"generic",
+                              "elements":bookwithauthor
+                          }
+                        }
+                      }
+                        }).catch((err) => {
+                          console.log('Error getting documents', err);
+                        }); 
+      })
+}
+
+function SearchByAuthorR(senderID,userMessage)
+{
+      var bookwithauthor=[];
+
+      db.collection('book').get().then(bokau=>{
+        bokau.forEach(doc=>{
+          if(doc.data().author == userMessage)
+          {
+            let data = {
+            "title":"BookName : "+doc.id,
+            "subtitle":"Author : "+userMessage,
+            "image_url":doc.data().image,
+              "buttons":[
+              {
+                    "type":"postback",
+                    "title":"Book Detail",
+                    "payload":`authorbkdetail#${doc.id}#${doc.data().image}`
+              },
+              {
+                "type":"postback",
+                "title":"Book Review List",
+                "payload":`bookreviewlist`
+              },
+              {
+                "type":"postback",
+                "title":"Upload Video",
+                "payload":`upvideo`
+              }               
              ]}
 
              bookwithauthor.push(data);

@@ -540,6 +540,13 @@ app.post('/webhook', (req, res) => {
 
                                         SearchByAuthorR(senderID,userMessage);
                             }
+                            if(userInput.includes('upvideo'))
+                            {
+                              var upvideoarray = split('#');
+                              var bookname = upvideoarray[1];
+                              upvideobyreviewer(senderID,bookname,userMessage);
+                              console.log("UserMessageReviewer",userMessage);
+                            }
                             if(userInput == 'byhobby')
                             {
                                           QuickReplyHobbies(senderID);
@@ -1612,7 +1619,7 @@ function SearchByTypingR (senderID,userMessage)
                               {
                                 "type":"postback",
                                 "title":"Upload Video",
-                                "payload":`upvideo`
+                                "payload":`upvideo#${userMessage}`
                               }  
                              
 

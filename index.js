@@ -340,10 +340,9 @@ app.post('/webhook', (req, res) => {
                             if(uploadvideo == 'video')
                             {
                                 console.log("usermessagevideo",userMessage);
-                                 VideoUpload(senderID,userMessage).then(success=>{
-                                  textMessage("Upload Successfully!")
+                                 VideoUpload(senderID,userMessage);
                                  uploadvideo='';
-                                 })
+                                
                             }
                            if(userInput.includes('bookshopinfo'))
                            {

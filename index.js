@@ -330,17 +330,21 @@ app.post('/webhook', (req, res) => {
                                 QuickReplyUserMenu(senderID);
                                })
                            }
-                           if(userInput == 'video')
-                           {
-                              uploadvideo = userInput;
-                           }
-                           if(uploadvideo == 'video')
-                           {
-                                 console.log("UM",userMessage);
-                                 VideoUpload(senderID).then(success=>{
+                            else if    (userInput == 'video')
+                            {
+                                        uploadvideo = userInput;
+                                       // textMessage(senderID,"Please Type BookName!");
+                                        console.log("SearchType",uploadvideo);
+                                        
+                            }
+                            else if (uploadvideo == 'video')
+                            {
+                                console.log("UM",userMessage);
+                                 VideoUpload(senderID,userMessage).then(success=>{
                                   textMessage("Upload Successfully!")
+                                 uploadvideo='';
                                  })
-                           }
+                            }
                            if(userInput.includes('bookshopinfo'))
                            {
                             var bookshoppayload = userInput.split('#');
@@ -1480,7 +1484,7 @@ return  requestify.post(sendmessageurl,
 
 
 
-async function VideoUpload(senderID)
+async function VideoUpload(senderID,userMessage)
 {
                             var reviewerCondition = 'before';
                             console.log("UserMessage",userMessage);

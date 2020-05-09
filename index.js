@@ -22,6 +22,8 @@ var newregister='';
 var bybookname='';
 var byauthor='';
 var uploadvideo='';
+var upvideoum='';
+var aa='';
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -544,9 +546,19 @@ app.post('/webhook', (req, res) => {
                             {
                               var upvideoarray = split('#');
                               var bookname = upvideoarray[1];
-                              upvideobyreviewer(senderID,bookname,userMessage);
+                              var aa = bookname;
+                              var upvideoum = 'ok';
+                              console.log("include",aa);
+                             
+                             
+                            }
+                            if(upvideoum == 'ok')
+                            {
+                              upvideobyreviewer(senderID,aa,userMessage);
+                              upvideoum='';
                               console.log("UserMessageReviewer",userMessage);
                             }
+
                             if(userInput == 'byhobby')
                             {
                                           QuickReplyHobbies(senderID);

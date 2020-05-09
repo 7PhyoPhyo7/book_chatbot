@@ -577,11 +577,20 @@ app.post('/webhook', (req, res) => {
                                  console.log("DOcid",docid);
                                  console.log("Userid",userid)
                                  AcceptArray(senderID,docid,userid).then(ok=>{
-                                  ApplicationList(senderID).then(oki=>{
-                                    QuickReplyAdminMenu(senderID)
-                                  })
+                                  ApplicationList(senderID)
                                  })
                             }
+         if(userInput.includes('decline'))
+         {
+                                var declineviwerarray = userInput.split('#');
+                                 var docid = declineviwerarray[1];
+                                 var userid = declineviwerarray[2];
+                                 console.log("DOcid",docid);
+                                 console.log("Userid",userid)
+                                 DeclineArray(senderID,docid,userid).then(oki=>{
+                                  ApplicationList(senderID)
+                                 })
+         }
          if(userInput.includes('openvideo'))
          {
             var videoinput = userInput.split('#');
@@ -613,7 +622,7 @@ app.post('/webhook', (req, res) => {
                                                             {
                                                                               "type":"postback",
                                                                               "title":"Decline",
-                                                                              "payload":`decline${doc.id}`
+                                                                              "payload":`decline#${doc.id}#${datauserid}`
                                                                       }
                                                            ]
                                                 }
@@ -1629,6 +1638,32 @@ async function AcceptArray(senderID,docid,userid)
     var userdocid ='';
     await db.collection('testingreviewer').doc(docid).set({
               isreviewer : yes       
+    },{merge: true}).then(aa=>{
+      console.log("reviewer yes is ok");
+    })
+
+    await db.collection('user').get().then(userdoc=>{
+        userdoc.forEach(doc=>{
+          if(doc.data().userid == userid)
+        {
+            userdocid = doc.id;
+        }
+        })
+             db.collection('user').doc(userdocid).set({
+                    isreviewer:usercon
+             },{merge: true}).then(success=>{
+                 console.log("reviwer user table");
+             })
+    })
+}
+
+async function DeclineArray(senderID,docid,userid)
+{
+    var yes = 'no';
+    var usercon = false;
+    var userdocid ='';
+    await db.collection('testingreviewer').doc(docid).set({
+              isreviewer : no       
     },{merge: true}).then(aa=>{
       console.log("reviewer yes is ok");
     })

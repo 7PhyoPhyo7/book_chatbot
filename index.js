@@ -1484,11 +1484,11 @@ return  requestify.post(sendmessageurl,
 
 
 
-function VideoUpload(senderID,userMessage)
+async function VideoUpload(senderID,userMessage)
 {
                             var reviewerCondition = 'before';
                             console.log("UserMessage",userMessage);
-                           db.collection('testingreviewer').add({
+                         await  db.collection('testingreviewer').add({
                               isreviewer : reviewerCondition,
                               userid:senderID,
                               videolink:userMessage

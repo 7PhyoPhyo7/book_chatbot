@@ -1512,39 +1512,32 @@ function ApplicationList(senderID)
   var isreviewerlist =[];
   db.collection('testingreviewer').where('isreviewer','==',`${before}`).get().then(isreviewer=>{
                    isreviewer.forEach(doc=>{
-                    let data = {
-                              "title":"Reviewer",
-                              "subtitle":"isreviewer : "+doc.data().isreviewer,
-                              "media_type":doc.data().videolink,
-                                "buttons":[
-                                {
-                                      "type":"postback",
-                                      "title":doc.id,
-                                      "payload":`bokdetail#`
-                                },
-                              
 
-                               ]}
-                               isreviewerlist.push(data);
-                   })
-                     requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
-                                          {
-                                                "recipient":{
-                                                "id":senderID
-                                                 },
-                                                "message":{
-                                                     "attachment":{
-                                                          "template_type":"media",
-                                                          "payload":{
-                                                            "template_type":"generic",
-                                                            "elements":isreviewerlist
-                                                          }
-                                                      }
-                                                  }
-                                          }).catch((err) => {
-                                              console.log('Error getting documents', err);
-                                          }); 
-  })
+              requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                        {
+                             "recipient":{
+                                        "id":senderID
+                                      },
+                                      "message":{
+                                        "attachment": {
+                                          "type": "template",
+                                          "payload": {
+                                             "template_type": "media",
+                                             "elements": [
+                                                {
+                                                   "media_type": "<image|video>",
+                                                   "url": doc.data().videolink
+                                                }
+                                             ]
+                                          }
+                                        }    
+                                      }
+
+                           
+                    
+        })
+    })
+                 })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

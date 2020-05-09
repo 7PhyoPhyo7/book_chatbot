@@ -330,16 +330,16 @@ app.post('/webhook', (req, res) => {
                                 QuickReplyUserMenu(senderID);
                                })
                            }
-                            else if    (userInput == 'video')
+                            if(userInput == 'video')
                             {
                                         uploadvideo = userInput;
                                        // textMessage(senderID,"Please Type BookName!");
                                         console.log("SearchType",uploadvideo);
                                         
                             }
-                            else if (uploadvideo == 'video')
+                            if(uploadvideo == 'video')
                             {
-                                console.log("UM",userMessage);
+                                console.log("usermessagevideo",userMessage);
                                  VideoUpload(senderID,userMessage).then(success=>{
                                   textMessage("Upload Successfully!")
                                  uploadvideo='';
@@ -1484,11 +1484,11 @@ return  requestify.post(sendmessageurl,
 
 
 
-async function VideoUpload(senderID,userMessage)
+function VideoUpload(senderID,userMessage)
 {
                             var reviewerCondition = 'before';
                             console.log("UserMessage",userMessage);
-                          await  db.collection('testingreviewer').add({
+                           db.collection('testingreviewer').add({
                               isreviewer : reviewerCondition,
                               userid:senderID,
                               videolink:userMessage

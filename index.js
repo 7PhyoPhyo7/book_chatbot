@@ -569,6 +569,51 @@ app.post('/webhook', (req, res) => {
          {
              ApplicationList(senderID);
          }
+         if(userInput.includes('openvideo'))
+         {
+            var videoinput = userInput.split('#');
+            var datauserid = videoinput[1];
+            db.collection('testingreviewer').where('isreviewer','==','before').get().then(videolist=>{
+               videolist.forEach(doc=>{
+                if(doc.data().userid == datauserid)
+                {
+                  requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                        {
+                             "recipient":{
+                                        "id":senderID
+                                      },
+                                      "message":{
+                                        "attachment": {
+                                          "type": "template",
+                                          "payload": {
+                                             "template_type": "media",
+                                             "elements": [
+                                                {
+                                                   "media_type": "video",
+                                                   "url": doc.data().videolink,
+                                                   "buttons": [
+                                                           {
+                                                               "type":"postback",
+                                                               "title":"Accept",
+                                                             "payload":`accept`
+                                                           }
+                                                           ]
+                                                }
+                                             ]
+                                          }
+                                        }    
+                                      }
+
+                           
+                    
+                                           }).catch((err) => {
+                                              console.log('Error getting documents', err);
+                                          }); 
+
+                }
+               })
+            })
+         }
 			}
 		})
 	 

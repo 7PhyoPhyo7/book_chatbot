@@ -239,7 +239,9 @@ app.post('/webhook', (req, res) => {
                               console.log("UserMessagevideo",userMessage);
                                //console.log("UM",userMessage);
                                  VideoUpload(senderID,userMessage).then(success=>{
-                                  textMessage(senderID,"Upload Successful");
+                                  textMessage(senderID,"Upload Successful").then(ok=>{
+                                    QuickReplyUserMenu(senderID);
+                                  })
                                  })
                                  uploadvideo='';
                                  

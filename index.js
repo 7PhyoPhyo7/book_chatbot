@@ -330,14 +330,14 @@ app.post('/webhook', (req, res) => {
                                 QuickReplyUserMenu(senderID);
                                })
                            }
-                              else if    (userInput == 'video')
+                            if    (userInput == 'video')
                             {
                                         bybookname = userInput;
                                        // textMessage(senderID,"Please Type BookName!");
                                         console.log("SearchType",bybookname);
                                         
                             }
-                            else if (bybookname == 'video')
+                            if (bybookname == 'video')
                             {
                                         console.log("UserMessage_searchtype",userMessage);
                                         bybookname = '';

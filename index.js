@@ -105,7 +105,9 @@ app.get('/webhook', (req, res) => {
 app.post('/webhook', (req, res) => {  
  
   let body = req.body;
-  let isreviewer = true;
+  let revieweryes = true;
+  let reviewerno = false;
+  //let isreviewer = true;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
 
@@ -144,10 +146,10 @@ app.post('/webhook', (req, res) => {
 				db.collection("bookshopowner").where('ownerid','==',`${senderID}`).get().then(bookshopownerlist => {
 					if(bookshopownerlist.empty)
 					{
-						db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${isreviewer}`).get().then(reviewerlist=>{
+						db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${revieweryes}`).get().then(reviewerlist=>{
 							if(reviewerlist.empty)
 							{
-								db.collection("user").where('userid','==',`${senderID}`).get().then(userlist => {
+								db.collection("user").where('userid','==',`${senderID}`).where('isreviewer','==',`${reviewerno}`).get().then(userlist => {
 									if(userlist.empty)
 									{
                         if(userInput == 'Hi')

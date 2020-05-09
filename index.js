@@ -1659,7 +1659,7 @@ async function AcceptArray(senderID,docid,userid)
 
 async function DeclineArray(senderID,docid,userid)
 {
-    var yes = 'no';
+    var no = 'no';
     var usercon = false;
     var userdocid ='';
     await db.collection('testingreviewer').doc(docid).set({

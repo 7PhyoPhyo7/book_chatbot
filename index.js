@@ -1525,7 +1525,7 @@ function ApplicationList(senderID)
                                              "template_type": "media",
                                              "elements": [
                                                 {
-                                                   "media_type": "<image|video>",
+                                                   "media_type": "video",
                                                    "url": doc.data().videolink
                                                 }
                                              ]

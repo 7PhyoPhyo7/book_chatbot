@@ -1535,7 +1535,10 @@ function ApplicationList(senderID)
 
                            
                     
-        })
+        }).catch((err) => {
+                                              console.log('Error getting documents', err);
+                                          }); 
+                                       
     })
                  })
 }

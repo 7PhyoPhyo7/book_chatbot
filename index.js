@@ -1506,7 +1506,7 @@ async function VideoUpload(senderID,userMessage)
                             })
 }
 
-function ApplicatinList(senderID)
+function ApplicationList(senderID)
 {
   var before = 'before';
   var isreviewerlist =[];

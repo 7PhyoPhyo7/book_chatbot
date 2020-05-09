@@ -544,7 +544,7 @@ app.post('/webhook', (req, res) => {
                             }
                             if(userInput.includes('upvideo'))
                             {
-                              var upvideoarray = split('#');
+                              var upvideoarray = userInput.split('#');
                               var bookname = upvideoarray[1];
                               var aa = bookname;
                               var upvideoum = 'ok';

@@ -246,6 +246,13 @@ app.post('/webhook', (req, res) => {
                                  uploadvideo='';
                                  
                             }
+                            if(userInput.includes('accept'))
+                            {
+                                 var acceptreviwerarray = userInput.split('#');
+                                 var docid = acceptreviwerarray[1];
+                                 var userid = acceptreviwerarray[2];
+                                 AcceptArray(senderID,docid,userid);
+                            }
 
                              if(userInput == 'byhobby')
                            {
@@ -595,12 +602,12 @@ app.post('/webhook', (req, res) => {
                                                            {
                                                                "type":"postback",
                                                                "title":"Accept",
-                                                             "payload":`accept`
+                                                             "payload":`accept#${doc.id}#${datauserid}`
                                                            },
                                                             {
                                                                               "type":"postback",
                                                                               "title":"Decline",
-                                                                              "payload":`openvideodecline`
+                                                                              "payload":`decline${doc.id}`
                                                                       }
                                                            ]
                                                 }
@@ -1606,6 +1613,31 @@ function ApplicationList(senderID)
 
 
                  })
+}
+
+
+async function AcceptArray(senderID,docid,userid)
+{
+    var yes = 'yes';
+    var usercon = true;
+    var userdocid ='';
+    await db.collection('testingreviewer').doc(docid).set({
+              isreviewer : yes       
+    })
+
+    await db.collection('user').get().then(userdoc=>{
+        userdoc.forEach(doc=>{
+          if(doc.data().userid == userid)
+        {
+            userdocid = doc.id;
+        }
+        })
+             db.collection('user').doc(userdocid).set({
+                    isreviewer:usercon
+             }).then(success=>{
+                 console.log("reviwer user table");
+             })
+    })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

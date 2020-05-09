@@ -336,14 +336,10 @@ app.post('/webhook', (req, res) => {
                            }
                            if(uploadvideo == 'video')
                            {
-                            var reviewerCondition = 'before';
-                            db.collection('testingreviewer').add({
-                              isreviewer : reviewerCondition,
-                              userid:senderID,
-                              videolink:userMessage
-                            }).then(success=>{
-                              textMessage(senderID,"Upload Successfully");
-                            })
+                                 console.log("UM",userMessage);
+                                 VideoUpload(senderID).then(success=>{
+                                  textMessage("Upload Successfully!")
+                                 })
                            }
                            if(userInput.includes('bookshopinfo'))
                            {
@@ -1480,6 +1476,19 @@ return  requestify.post(sendmessageurl,
     }
   }
   }) 
+}
+
+
+
+async function VideoUpload(senderID)
+{
+                            var reviewerCondition = 'before';
+                            console.log("UserMessage",userMessage);
+                          await  db.collection('testingreviewer').add({
+                              isreviewer : reviewerCondition,
+                              userid:senderID,
+                              videolink:userMessage
+                            })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

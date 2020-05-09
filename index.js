@@ -565,6 +565,10 @@ app.post('/webhook', (req, res) => {
           })
 
 			   }	
+         if(userQuickreply == 'reviewerapplicationlist')
+         {
+             ApplicationList(senderID);
+         }
 			}
 		})
 	 
@@ -1112,7 +1116,7 @@ function QuickReplyAdminMenu(senderID)
        "quick_replies":[
       {
         "content_type":"text",
-        "title":"Reviewer Application List",
+        "title":"View Application List",
         "payload":"reviewerapplicationlist" 
       }
     ]
@@ -1500,6 +1504,47 @@ async function VideoUpload(senderID,userMessage)
                               userid:senderID,
                               videolink:userMessage
                             })
+}
+
+function ApplicatinList(senderID)
+{
+  var before = 'before';
+  var isreviewerlist =[];
+  db.collection('testingreviewer').where('isreviewer','==',`${before}`).get().then(isreviewer=>{
+                   isreviewer.forEach(doc=>{
+                    let data = {
+                              "title":"Reviewer",
+                              "subtitle":"isreviewer : "+doc.data().isreviewer,
+                              "image_url":doc.data().videolink,
+                                "buttons":[
+                                {
+                                      "type":"postback",
+                                      "title":doc.id,
+                                      "payload":`bokdetail#`
+                                },
+                              
+
+                               ]}
+                               isreviewerlist.push(data);
+                   })
+                     requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
+                                          {
+                                                "recipient":{
+                                                "id":senderID
+                                                 },
+                                                "message":{
+                                                     "attachment":{
+                                                          "type":"template",
+                                                          "payload":{
+                                                            "template_type":"generic",
+                                                            "elements":isreviewerlist
+                                                          }
+                                                      }
+                                                  }
+                                          }).catch((err) => {
+                                              console.log('Error getting documents', err);
+                                          }); 
+  })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

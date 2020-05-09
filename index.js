@@ -237,6 +237,10 @@ app.post('/webhook', (req, res) => {
                             else if (uploadvideo == 'video')
                             {
                               console.log("UserMessagevideo",userMessage);
+                               //console.log("UM",userMessage);
+                                 VideoUpload(senderID,userMessage)
+                                 uploadvideo='';
+                                 
                             }
 
                              if(userInput == 'byhobby')

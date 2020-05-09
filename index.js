@@ -330,19 +330,19 @@ app.post('/webhook', (req, res) => {
                                 QuickReplyUserMenu(senderID);
                                })
                            }
-                            else if(userInput == 'video')
+                              else if    (userInput == 'video')
                             {
-                                        uploadvideo = userInput;
+                                        bybookname = userInput;
                                        // textMessage(senderID,"Please Type BookName!");
-                                        console.log("SearchType",uploadvideo);
+                                        console.log("SearchType",bybookname);
                                         
                             }
-                            else if(uploadvideo == 'video')
+                            else if (bybookname == 'video')
                             {
-                                console.log("usermessagevideo",userMessage);
-                                 VideoUpload(senderID,userMessage);
-                                 uploadvideo='';
-                                
+                                        console.log("UserMessage_searchtype",userMessage);
+                                        bybookname = '';
+
+                                        SearchByTyping(senderID,userMessage);
                             }
                            if(userInput.includes('bookshopinfo'))
                            {

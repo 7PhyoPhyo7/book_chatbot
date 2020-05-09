@@ -246,16 +246,7 @@ app.post('/webhook', (req, res) => {
                                  uploadvideo='';
                                  
                             }
-                            if(userInput.includes('accept'))
-                            {
-                                 var acceptreviwerarray = userInput.split('#');
-                                 var docid = acceptreviwerarray[1];
-                                 var userid = acceptreviwerarray[2];
-                                 console.log("DOcid",docid);
-                                 console.log("Userid",userid)
-                                 AcceptArray(senderID,docid,userid);
-                            }
-
+            
                              if(userInput == 'byhobby')
                            {
                                         QuickReplyHobbies(senderID);
@@ -578,6 +569,15 @@ app.post('/webhook', (req, res) => {
          {
              ApplicationList(senderID);
          }
+          if(userInput.includes('realaccept'))
+                            {
+                                 var acceptreviwerarray = userInput.split('#');
+                                 var docid = acceptreviwerarray[1];
+                                 var userid = acceptreviwerarray[2];
+                                 console.log("DOcid",docid);
+                                 console.log("Userid",userid)
+                                 AcceptArray(senderID,docid,userid);
+                            }
          if(userInput.includes('openvideo'))
          {
             var videoinput = userInput.split('#');
@@ -604,7 +604,7 @@ app.post('/webhook', (req, res) => {
                                                            {
                                                                "type":"postback",
                                                                "title":"Accept",
-                                                             "payload":`accept#${doc.id}#${datauserid}`
+                                                             "payload":`realaccept#${doc.id}#${datauserid}`
                                                            },
                                                             {
                                                                               "type":"postback",

@@ -21,6 +21,7 @@ var newregister='';
 //var userlogin='';
 var bybookname='';
 var byauthor='';
+var uploadvideo='';
 var admin = require("firebase-admin");
 
 var serviceAccount = {
@@ -328,6 +329,21 @@ app.post('/webhook', (req, res) => {
                                MessageDetail(senderID,"Step 1", "Please Upload Video").then(()=>{
                                 QuickReplyUserMenu(senderID);
                                })
+                           }
+                           if(userInput == 'video')
+                           {
+                              uploadvideo = userInput;
+                           }
+                           if(uploadvideo == 'video')
+                           {
+                            var reviewerCondition = 'before';
+                            db.collection('testingreviewer').add({
+                              isreviewer : reviewerCondition,
+                              userid:senderID,
+                              videolink:userMessage
+                            }).then(success=>{
+                              textMessage(senderID,"Upload Successfully");
+                            })
                            }
                            if(userInput.includes('bookshopinfo'))
                            {

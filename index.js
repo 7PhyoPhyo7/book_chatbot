@@ -524,7 +524,7 @@ app.post('/webhook', (req, res) => {
                                         console.log("UserMessage_searchtype",userMessage);
                                         bybookname = '';
 
-                                        SearchByTyping(senderID,userMessage);
+                                        SearchByTypingR(senderID,userMessage);
                             }
                             else if    (userInput == 'byauthor')
                             {

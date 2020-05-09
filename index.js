@@ -251,6 +251,8 @@ app.post('/webhook', (req, res) => {
                                  var acceptreviwerarray = userInput.split('#');
                                  var docid = acceptreviwerarray[1];
                                  var userid = acceptreviwerarray[2];
+                                 console.log("DOcid",docid);
+                                 console.log("Userid",userid)
                                  AcceptArray(senderID,docid,userid);
                             }
 
@@ -1623,6 +1625,8 @@ async function AcceptArray(senderID,docid,userid)
     var userdocid ='';
     await db.collection('testingreviewer').doc(docid).set({
               isreviewer : yes       
+    }).then(aa=>{
+      console.log("reviewer yes is ok");
     })
 
     await db.collection('user').get().then(userdoc=>{

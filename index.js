@@ -540,7 +540,7 @@ app.post('/webhook', (req, res) => {
                     var reviwerbookname = userInput.split('#');
                     var dataarray = reviwerbookname[1];
                     RetrieveVideo(senderID,dataarray).then(aaa=>{
-                      QuickReplyUserMenu(senderID);
+                      QuickReplyReviewerMenu(senderID);
                     })
 
                   }

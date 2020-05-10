@@ -828,7 +828,7 @@ app.post('/webhook', (req, res) => {
                                       "persistent_menu":[
                                       {
                                         "locale":"default",
-                                        "composer_input_disabled":false,
+                                        "composer_input_disabled":true,
                                         "call_to_actions":[
                                         {
                                           "type":"postback",
@@ -859,7 +859,7 @@ app.post('/webhook', (req, res) => {
           if (userInput == 'reviewerapplicationlist') {
             ApplicationList(senderID);
           }
-          if (userInput.includes('realaccept')) {
+          if (userInput != undefined && userInput.includes('realaccept')) {
             var acceptreviwerarray = userInput.split('#');
             var docid = acceptreviwerarray[1];
             var userid = acceptreviwerarray[2];
@@ -869,7 +869,7 @@ app.post('/webhook', (req, res) => {
               ApplicationList(senderID)
             })
           }
-          if (userInput.includes('decline')) {
+          if (userInput != undefined && userInput.includes('decline')) {
             var declineviwerarray = userInput.split('#');
             var docid = declineviwerarray[1];
             var userid = declineviwerarray[2];
@@ -879,7 +879,7 @@ app.post('/webhook', (req, res) => {
               ApplicationList(senderID)
             })
           }
-          if (userInput.includes('openvideo')) {
+          if (userInput != undefined && userInput.includes('openvideo')) {
             var videoinput = userInput.split('#');
             var datauserid = videoinput[1];
             db.collection('testingreviewer').where('isreviewer', '==', 'before').get().then(videolist => {

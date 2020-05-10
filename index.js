@@ -28,6 +28,12 @@ var upvideobookname = '';
 var admin = require("firebase-admin");
 let uploadingVid = false;
 
+let userSessions = [];
+
+function newUser(id) {
+  return { id: id, newregister: '', bybookname: '', byauthor: '', uploadvideo: '', upvideoum: '', upvideobookname: '' };
+}
+
 var serviceAccount = {
   "type": "service_account",
   "project_id": "bookchatbot-bade6",
@@ -112,6 +118,7 @@ app.post('/webhook', (req, res) => {
   let userMessage;
   let userMedia;
   let userInput = '';
+  let currentUser = null;
   //let isreviewer = true;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -124,6 +131,13 @@ app.post('/webhook', (req, res) => {
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
       var senderID = webhook_event.sender.id;
+      
+      currentUser = userSessions.find(user => user.id === senderID);
+      if (!currentUser) { // if the user is new
+        currentUser = newUser(senderID);
+        userSessions.push(currentUser);
+      }
+
       console.log('senderID', senderID);
       if (webhook_event.postback) {
         userInput = webhook_event.postback.payload;
@@ -505,10 +519,11 @@ app.post('/webhook', (req, res) => {
                     var upvideoarray = userInput.split('#');
                     upvideobookname = upvideoarray[1];
                     var aa = upvideobookname;
-                    upvideoum = 'ok';
+                   // upvideoum = 'ok';
+                    currentUser.upvideoum = 'ok';
                     textMessage(senderID,"PLease Type your video Link!")
                   }
-                  if (userMessage !== undefined && upvideoum === 'ok') {
+                  if (userMessage !== undefined &&  currentUser.upvideoum === 'ok') {
                     console.log("UserMediaReviewer", userMedia);
                     console.log("UserMessageReviewer", userMessage);
 

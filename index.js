@@ -507,7 +507,7 @@ app.post('/webhook', (req, res) => {
                     var aa = upvideobookname;
                     upvideoum = 'ok';
                   }
-                  if (upvideoum === 'ok') {
+                  if (!userInput && upvideoum === 'ok') {
                     console.log("UserMediaReviewer", userMedia);
                     console.log("UserMessageReviewer", userMessage);
 

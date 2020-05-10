@@ -877,12 +877,16 @@ app.post('/webhook', (req, res) => {
             var userid = declineviwerarray[2];
             console.log("DOcid", docid);
             console.log("Userid", userid)
-            let correct='no';
+            let correct='';
             db.collection('testingreviewer').get().then(kk=>{
                kk.forEach(doc=>{
                     if(doc.data().isreviewer == 'before')
                     {
                       correct = "yes";
+                    }
+                    else
+                    {
+                      correct = "no";
                     }
                })
 

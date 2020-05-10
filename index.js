@@ -2053,10 +2053,24 @@ async function DeclineArray(senderID, docid, userid) {
 
 async function UploadVideoByReviewer(senderID,bookname,userMessage)
 {
-     await db.collection('book').doc(bookname).collection('review').add({
-               reviwerid:senderID,
-               videolink:userMessage
-      })
+        
+      await  db.collection('book').doc(bookname).collection('review').get().then(dbreviwer=>{
+          dbreviwer.forEach(doc=>{
+               if(doc.data().reviwerid == senderID)
+               {
+                   textMessage(senderID,"Sorry! You have already uploaded review for this book");
+               }
+               else 
+               {
+                   db.collection('book').doc(bookname).collection('review').add({
+                   reviwerid:senderID,
+                   videolink:userMessage
+                   })
+               }
+          })
+        })
+
+   
 }
 // function whitelistDomains(res) {
 //   var messageData = {

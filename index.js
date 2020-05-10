@@ -141,7 +141,7 @@ app.post('/webhook', (req, res) => {
         userInput = webhook_event.postback.payload;
       }
       if (webhook_event.message) {
-        if (webhook_event.message.text && webhook_event.message.is_echo !== true) {
+        if (webhook_event.message.text) {
           userMessage = webhook_event.message.text;
         }
         if (webhook_event.message.attachments) {
@@ -149,6 +149,10 @@ app.post('/webhook', (req, res) => {
         }
         if (webhook_event.message.quick_reply) {
           var userQuickreply = webhook_event.message.quick_reply.payload;
+        }
+        if (webhook_event.message.is_echo === true) {
+          res.status(200).send('EVENT_RECEIVED');
+          return null;
         }
       }
 

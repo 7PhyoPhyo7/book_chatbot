@@ -31,7 +31,7 @@ let uploadingVid = false;
 let userSessions = [];
 
 function newUser(id) {
-  return { id: id, newregister: '', bybookname: '', byauthor: '', uploadvideo: '', upvideoum: '', upvideobookname: '' };
+  return { id: id, newregister: '', bybookname: '', byauthor: '', uploadvideo: '', upvideoum: '', upvideobookname: '' ,bookname:'' };
 }
 
 var serviceAccount = {
@@ -518,16 +518,18 @@ app.post('/webhook', (req, res) => {
                   if (userInput !== undefined && userInput.includes('upvideo')) {
                     var upvideoarray = userInput.split('#');
                     upvideobookname = upvideoarray[1];
-                    var aa = upvideobookname;
+                   currentUser.bookname = upvideobookname;
                    // upvideoum = 'ok';
                     currentUser.upvideoum = 'ok';
                     textMessage(senderID,"PLease Type your video Link!")
                   }
                   if (userMessage !== undefined &&  currentUser.upvideoum === 'ok') {
-                    console.log("UserMediaReviewer", userMedia);
                     console.log("UserMessageReviewer", userMessage);
-
-                    upvideoum = '';
+                     UploadVideoByReviewer(senderID,currentUser.bookname,userMessage).then(video=>{
+                      textMessage("Upload Video Successful");
+                     })
+                    currentUser.upvideoum = '';
+                    currentUser.bookname='';
                   }
 
                   if (userInput == 'byhobby') {
@@ -2045,6 +2047,16 @@ async function DeclineArray(senderID, docid, userid) {
       console.log("reviwer user table");
     })
   })
+}
+
+
+
+async function UploadVideoByReviewer(senderID,bookname,userMessage)
+{
+     await db.collection('book').doc(bookname).collection('review').add({
+               reviwerid:senderID,
+               videolink:userMessage
+      })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

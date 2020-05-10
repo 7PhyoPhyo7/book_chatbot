@@ -2086,11 +2086,11 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
    
 }
 
-async function RetrieveVideo(senderID,dataarray)
+function RetrieveVideo(senderID,dataarray)
 {
-   await db.collection('book').doc(dataarray).collection('review').get().then(vid=>{
+    db.collection('book').doc(dataarray).collection('review').get().then(vid=>{
       vid.forEach(doc=>{
-         requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+       return  requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
                     {
                       "recipient": {
                         "id": senderID

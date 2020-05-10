@@ -1489,7 +1489,7 @@ async function QuickReplyAdminMenu(senderID) {
       },
 
       "message": {
-        "text": "",
+        "text": "Menu",
         "quick_replies": [
           {
             "content_type": "text",

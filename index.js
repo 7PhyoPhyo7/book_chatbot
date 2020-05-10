@@ -886,9 +886,7 @@ app.post('/webhook', (req, res) => {
                     }
                })
 
-              
-            })
-              console.log("correct",correct);
+               console.log("correct",correct);
              if(correct == "no")
                {
                   QuickReplyAdminMenu(senderID);console.log("noooooooooooooo")
@@ -900,6 +898,8 @@ app.post('/webhook', (req, res) => {
                 console.log("yesssssssssssssss")
             })
                }
+            })
+             
           }
           if (userInput != undefined && userInput.includes('openvideo')) {
             var videoinput = userInput.split('#');

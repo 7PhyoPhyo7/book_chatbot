@@ -2033,7 +2033,7 @@ async function ApplicationList(senderID) {
   var isreviewerlist = [];
   let data=[];
   await db.collection('testingreviewer').where('isreviewer', '==', `${before}`).get().then(async (isreviewer) => {
-    const promise=[];
+    const promises=[];
     isreviewer.forEach(async (doc) => {
       promises.push(
        data = {

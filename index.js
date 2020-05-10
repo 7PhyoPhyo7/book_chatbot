@@ -877,11 +877,28 @@ app.post('/webhook', (req, res) => {
             var userid = declineviwerarray[2];
             console.log("DOcid", docid);
             console.log("Userid", userid)
-            DeclineArray(senderID, docid, userid).then(oki => {
-              ApplicationList(senderID).then(nextt =>{
-                QuickReplyAdminMenu(senderID);
-              })
+            let correct='no';
+            db.collection('testingreviewer').get().then(kk=>{
+               kk.forEach(doc=>{
+                    if(doc.data().isreviewer == 'before')
+                    {
+                      correct = "yes";
+                    }
+               })
+
+               if(correct == "no")
+               {
+                  QuickReplyAdminMenu(senderID);
+               }
+               else
+               {
+                DeclineArray(senderID, docid, userid).then(oki => {
+                ApplicationList(senderID)
             })
+               }
+            })
+
+            
           }
           if (userInput != undefined && userInput.includes('openvideo')) {
             var videoinput = userInput.split('#');

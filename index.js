@@ -506,13 +506,10 @@ app.post('/webhook', (req, res) => {
                     var upvideoarray = userInput.split('#');
                     upvideobookname = upvideoarray[1];
                     var aa = upvideobookname;
-                    upvideoum = 'ok';
+                    console.log('upvideo aa', aa);
 
-                    if (upvideoum === 'ok') {
-                      upvideoum = '';
-                      console.log("UserMediaReviewer", userMedia);
-                      console.log("UserMessageReviewer", userMessage);
-                    }
+                    console.log("UserMediaReviewer", userMedia);
+                    console.log("UserMessageReviewer", userMessage);
                   }
 
                   if (userInput == 'byhobby') {

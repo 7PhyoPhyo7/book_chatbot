@@ -887,7 +887,7 @@ app.post('/webhook', (req, res) => {
             console.log("Userid", userid)
             AcceptArray(senderID, docid, userid).then(ok => {
               ApplicationList(senderID)
-
+                })
                   db.collection('testingreviewer').get().then(ooooo=>{
                                         ooooo.forEach(doc=>{
                                           if(doc.data().isreviewer == 'no')
@@ -905,7 +905,7 @@ app.post('/webhook', (req, res) => {
                                       QuickReplyAdminMenu(senderID);
                                     }
                            })
-            })
+           
           }
           if (userInput != undefined && userInput.includes('decline')) {
             var declineviwerarray = userInput.split('#');

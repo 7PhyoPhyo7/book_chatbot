@@ -877,31 +877,27 @@ app.post('/webhook', (req, res) => {
             var userid = declineviwerarray[2];
             console.log("DOcid", docid);
             console.log("Userid", userid)
-            let correct='';
-            db.collection('testingreviewer').get().then(kk=>{
-               kk.forEach(doc=>{
-                    if(doc.data().isreviewer == 'before')
-                    {
-                      correct = "yes";
-                    }
-                    else
-                    {
-                      correct = "no";
-                    }
-               })
+            let correct='normal';
+            DeclineArray(senderID, docid, userid).then(oki => {
+            ApplicationList(senderID)
+             if(db.collection('testingreviewer').get().then(kkk=>{
+                kkk.forEach(doc=>{
+                  if(doc.data().isreviewer == 'no')
+                  {
+                    correct = 'no'
+                  }
+                  else if (doc.data().isreviewer == 'yes')
+                  {
+                    correct = 'no'
+                  }
+                })
 
-               console.log("correct",correct);
-             if(correct == "no")
-               {
-                  QuickReplyAdminMenu(senderID);console.log("noooooooooooooo")
-               }
-               else
-               {
-                DeclineArray(senderID, docid, userid).then(oki => {
-                ApplicationList(senderID)
-                console.log("yesssssssssssssss")
-            })
-               }
+                if(correct == 'no')
+                {
+                  QuickReplyAdminMenu(senderID);
+                }
+             })
+
             })
              
           }

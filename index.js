@@ -855,7 +855,7 @@ app.post('/webhook', (req, res) => {
           }
           if (userQuickreply == 'reviewerapplicationlist') {
             ApplicationList(senderID).then(yes =>{
-              QuickReplyAdminMenu(semderID)
+              QuickReplyAdminMenu(senderID)
             })
           }
           if (userInput == 'reviewerapplicationlist') {

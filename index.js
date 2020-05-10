@@ -854,7 +854,26 @@ app.post('/webhook', (req, res) => {
 
           }
           if (userQuickreply == 'reviewerapplicationlist') {
-            ApplicationList(senderID)
+            
+            let correct = [];
+            let checkwork = 'before';
+            db.collection('testingreviewer').get().then(kiki=>{
+                                        kkk.forEach(doc=>{
+                                        correct.push(doc.data().isreviewer)                                        
+                           })
+
+                     if(correct.includes(checkwork))
+                     {
+                      ApplicationList(senderID)
+                     }
+                     else 
+                     {
+                      textMessage(senderID,"Thanks!There are no applicants left").then(apr=>{
+                        QuickReplyAdminMenu(senderID);
+                      })
+                     }
+                   })
+            
           }
           if (userInput == 'reviewerapplicationlist') {
             ApplicationList(senderID);

@@ -501,17 +501,17 @@ app.post('/webhook', (req, res) => {
 
                     SearchByAuthorR(senderID, userMessage);
                   }
-                  if (userInput.includes('upvideo')) {
+                  if (userInput !== undefined && userInput.includes('upvideo')) {
                     var upvideoarray = userInput.split('#');
                     upvideobookname = upvideoarray[1];
                     var aa = upvideobookname;
-                    uploadingVid = true;
+                    upvideoum = 'ok';
                   }
-                  if (uploadingVid === true) {
+                  if (upvideoum === 'ok') {
                     console.log("UserMediaReviewer", userMedia);
                     console.log("UserMessageReviewer", userMessage);
 
-                    uploadingVid = false;
+                    upvideoum = '';
                   }
 
                   if (userInput == 'byhobby') {

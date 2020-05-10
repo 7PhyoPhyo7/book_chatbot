@@ -141,7 +141,7 @@ app.post('/webhook', (req, res) => {
         userInput = webhook_event.postback.payload;
       }
       if (webhook_event.message) {
-        if (webhook_event.message.text) {
+        if (webhook_event.message.text && webhook_event.message.is_echo !== true) {
           userMessage = webhook_event.message.text;
         }
         if (webhook_event.message.attachments) {
@@ -149,10 +149,6 @@ app.post('/webhook', (req, res) => {
         }
         if (webhook_event.message.quick_reply) {
           var userQuickreply = webhook_event.message.quick_reply.payload;
-        }
-        if (webhook_event.message.is_echo === true) {
-          res.status(200).send('EVENT_RECEIVED');
-          return null;
         }
       }
 
@@ -210,7 +206,7 @@ app.post('/webhook', (req, res) => {
                       if (userQuickreply == 'becomereviwer') {
                         ReviewerTest(senderID);
                       }
-                       else if (currentUser.bybookname == 'bytyping') {
+                       else if (userMessage !== undefined && currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
                         currentUser.bybookname = '';                        
                         SearchByTyping(senderID, userMessage);
@@ -220,13 +216,13 @@ app.post('/webhook', (req, res) => {
                         currentUser.bybookname = userInput;
                         textMessage(senderID,"Please Type BookName!");
                       }
-                      else if (userInput == 'byauthor') {
+                      else if (userMessage !== undefined && userInput == 'byauthor') {
                         byauthor = userInput;
-                        // textMessage(senderID,"Please Type BookName!");
+                        textMessage(senderID,"Please Type Author name!");
                         console.log("SearchType", byauthor);
 
                       }
-                      else if (byauthor == 'byauthor') {
+                      else if (userMessage !== undefined && byauthor == 'byauthor') {
                         console.log("UserMessage_searchtype", userMessage);
                         byauthor = '';
 
@@ -507,7 +503,7 @@ app.post('/webhook', (req, res) => {
                     console.log("SearchType",currentUser.bybookname);
 
                   }
-                  else if (currentUser.bybookname == 'bytyping') {
+                  else if (userMessage !== undefined && currentUser.bybookname == 'bytyping') {
                     console.log("UserMessage_searchtype", userMessage);
                     currentUser.bybookname = '';
 
@@ -519,7 +515,7 @@ app.post('/webhook', (req, res) => {
                     console.log("SearchType", byauthor);
 
                   }
-                  else if (byauthor == 'byauthor') {
+                  else if (userMessage !== undefined && byauthor == 'byauthor') {
                     console.log("UserMessage_searchtype", userMessage);
                     byauthor = '';
 
@@ -663,8 +659,6 @@ app.post('/webhook', (req, res) => {
                         }
                       })
                     })
-
-
                   }
 
                   if (userInput !== undefined && userInput.includes('authorbkdetail')) {

@@ -485,7 +485,7 @@ app.post('/webhook', (req, res) => {
                   // #region Reviewer
                   if (userInput == 'Hi') {
                     textMessage(senderID, "Welcome Reviewer").then(() => {
-                      QuickReplyUserMenu(senderID);
+                      QuickReplyReviewerMenu(senderID);
                     })
                   }
                   if (userQuickreply == 'searchbook') {
@@ -1209,6 +1209,35 @@ function QuickReplyUserMenu(senderID) {
       console.log("ok")
     }).catch(err => { console.log("err", err) })
 }
+
+
+function QuickReplyReviewerMenu(senderID) {
+  return requestify.post(sendmessageurl,
+    {
+      "recipient": {
+        "id": senderID
+      },
+
+      "message": {
+        "text": "Please Choose User Menu",
+        "quick_replies": [
+          {
+            "content_type": "text",
+            "title": "Search Book",
+            "payload": "searchbook"
+          },
+          {
+            "content_type": "text",
+            "title": "Recommend Book",
+            "payload": "recommendbook"
+          }
+        ]
+      }
+    }).then(result => {
+      console.log("ok")
+    }).catch(err => { console.log("err", err) })
+}
+
 
 function QuickReplyNewUser(senderID) {
   requestify.post(sendmessageurl,

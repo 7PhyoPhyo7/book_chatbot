@@ -111,7 +111,7 @@ app.post('/webhook', (req, res) => {
   let reviewerno = 'false';
   let userMessage;
   let userMedia;
-  let userInput;
+  let userInput = '';
   //let isreviewer = true;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -126,7 +126,7 @@ app.post('/webhook', (req, res) => {
       var senderID = webhook_event.sender.id;
       console.log('senderID', senderID);
       if (webhook_event.postback) {
-        userInput = webhook_event.postback.payload || '';
+        userInput = webhook_event.postback.payload;
       }
       if (webhook_event.message) {
         if (webhook_event.message.text) {

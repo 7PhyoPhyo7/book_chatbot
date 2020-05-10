@@ -22,7 +22,7 @@ var newregister='';
 var bybookname='';
 var byauthor='';
 var uploadvideo='';
-var upvideoum='';
+let upvideoum='';
 var aa='';
 var upvideobookname='';
 var admin = require("firebase-admin");
@@ -548,11 +548,16 @@ app.post('/webhook', (req, res) => {
                               var upvideoarray = userInput.split('#');
                                upvideobookname = upvideoarray[1];
                               var aa = bookname;
-                              var upvideoum = 'ok';
+                               upvideoum = 'ok';
                               console.log("include",aa);
 
-                             
-                             
+                              console.log(JSON.stringify({
+                                upvideoarray,
+                                upvideobookname,
+                                upvideoum,
+                                aa
+                                }))
+                              }
                             }
                             if(upvideoum == 'ok')
                             {

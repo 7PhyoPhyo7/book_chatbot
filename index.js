@@ -1675,7 +1675,7 @@ function SearchByAuthorR(senderID, userMessage) {
             {
               "type": "postback",
               "title": "Book Review List",
-              "payload": `bookreviewlist`
+              "payload": `bookreviewlist#${doc.id}`
             },
             {
               "type": "postback",

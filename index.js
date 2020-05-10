@@ -858,7 +858,7 @@ app.post('/webhook', (req, res) => {
             let correct = [];
             let checkwork = 'before';
             db.collection('testingreviewer').get().then(kiki=>{
-                                        kkk.forEach(doc=>{
+                                        kiki.forEach(doc=>{
                                         correct.push(doc.data().isreviewer)                                        
                            })
 

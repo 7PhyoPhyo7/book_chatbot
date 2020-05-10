@@ -217,14 +217,13 @@ app.post('/webhook', (req, res) => {
                         textMessage(senderID,"Please Type BookName!");
                       }
                       else if (userMessage !== undefined && userInput == 'byauthor') {
-                        byauthor = userInput;
+                        currentUser.byauthor = userInput;
                         textMessage(senderID,"Please Type Author name!");
-                        console.log("SearchType", byauthor);
-
+                        console.log("SearchType", currentUser.byauthor);
                       }
-                      else if (userMessage !== undefined && byauthor == 'byauthor') {
+                      else if (userMessage !== undefined && currentUser.byauthor == 'byauthor') {
                         console.log("UserMessage_searchtype", userMessage);
-                        byauthor = '';
+                        currentUser.byauthor = '';
 
                         SearchByAuthor(senderID, userMessage);
                       }
@@ -511,7 +510,7 @@ app.post('/webhook', (req, res) => {
                   }
                   else if (userInput == 'byauthor') {
                     byauthor = userInput;
-                    // textMessage(senderID,"Please Type BookName!");
+                    textMessage(senderID,"Please Type Author Name!");
                     console.log("SearchType", byauthor);
 
                   }

@@ -112,6 +112,7 @@ app.post('/webhook', (req, res) => {
   let reviewerno = 'false';
   let userMessage;
   let userMedia;
+  let userInput;
   //let isreviewer = true;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -127,7 +128,7 @@ app.post('/webhook', (req, res) => {
       console.log('senderID',senderID);
       if(webhook_event.postback)
       {
-      	var userInput=webhook_event.postback.payload;
+      	userInput=webhook_event.postback.payload;
     	}
       if (webhook_event.message) 
       {
@@ -144,6 +145,8 @@ app.post('/webhook', (req, res) => {
 					var userQuickreply=webhook_event.message.quick_reply.payload;
 				}
 		}
+
+    console.log({ userMessage, userMedia });
 	    
 		db.collection('admin').where('adminid','==',`${senderID}`).get().then(adminList => {
 			if(adminList.empty)

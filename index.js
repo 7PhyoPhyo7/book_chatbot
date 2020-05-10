@@ -26,6 +26,7 @@ let upvideoum = '';
 let aa = '';
 var upvideobookname = '';
 var admin = require("firebase-admin");
+let uploadingVid = false;
 
 var serviceAccount = {
   "type": "service_account",
@@ -54,14 +55,12 @@ const db = admin.firestore();
 requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_token=' + PAGE_ACCESS_TOKEN,
   {
     "get_started": { "payload": "Hi" },
-
     "greeting": [
       {
         "locale": "default",
         "text": "Hello {{user_first_name}}! \nWe provide service!!"
       }
     ]
-
   }
 )
 
@@ -506,10 +505,13 @@ app.post('/webhook', (req, res) => {
                     var upvideoarray = userInput.split('#');
                     upvideobookname = upvideoarray[1];
                     var aa = upvideobookname;
-                    console.log('upvideo aa', aa);
-
+                    uploadingVid = true;
+                  }
+                  if (uploadingVid === true) {
                     console.log("UserMediaReviewer", userMedia);
                     console.log("UserMessageReviewer", userMessage);
+
+                    uploadingVid = false;
                   }
 
                   if (userInput == 'byhobby') {

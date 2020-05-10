@@ -209,14 +209,16 @@ app.post('/webhook', (req, res) => {
                         ReviewerTest(senderID);
                       }
                       else if (userInput == 'bytyping') {
-                        bybookname = userInput;
+                        //bybookname = userInput;
                         // textMessage(senderID,"Please Type BookName!");
-                        console.log("SearchType", bybookname);
+                        currentUser.bybookname = userInput;
+                        console.log("SearchType", currentUser.bybookname);
+                        textMessage(senderID,"Please Type Book Name!")
 
                       }
-                      else if (bybookname == 'bytyping') {
+                      else if (currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
-                        bybookname = '';
+                        currentUser.bybookname = '';
 
                         SearchByTyping(senderID, userMessage);
                       }
@@ -501,14 +503,15 @@ app.post('/webhook', (req, res) => {
                     Specific(senderID);
                   }
                   else if (userInput == 'bytyping') {
-                    bybookname = userInput;
+                    currentUser.bybookname = userInput;
+                     textMessage(senderID,"Please Type Book Name!")
                     // textMessage(senderID,"Please Type BookName!");
-                    console.log("SearchType", bybookname);
+                    console.log("SearchType",currentUser.bybookname);
 
                   }
-                  else if (bybookname == 'bytyping') {
+                  else if (currentUser.bybookname == 'bytyping') {
                     console.log("UserMessage_searchtype", userMessage);
-                    bybookname = '';
+                    currentUser.bybookname = '';
 
                     SearchByTypingR(senderID, userMessage);
                   }

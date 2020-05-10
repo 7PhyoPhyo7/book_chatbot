@@ -213,14 +213,16 @@ app.post('/webhook', (req, res) => {
                         // textMessage(senderID,"Please Type BookName!");
                         currentUser.bybookname = userInput;
                         console.log("SearchType", currentUser.bybookname);
-                        textMessage(senderID,"Please Type Book Name!")
+                       
 
                       }
                       else if (currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
                         currentUser.bybookname = '';
-
-                        SearchByTyping(senderID, userMessage);
+                           textMessage(senderID,"Please Type Book Name!").then((ii=>{
+                                 SearchByTyping(senderID, userMessage);
+                           }))
+                   
                       }
                       else if (userInput == 'byauthor') {
                         byauthor = userInput;

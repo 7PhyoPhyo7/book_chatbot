@@ -205,16 +205,16 @@ app.post('/webhook', (req, res) => {
                       }
                       if (userQuickreply == 'becomereviwer') {
                         ReviewerTest(senderID);
+                      }                      
+                       else if (userInput == 'bytyping') {
+                        //bybookname = userInput;
+                        currentUser.bybookname = userInput;
+                        textMessage(senderID,"Please Type BookName!");
                       }
                        else if (userMessage !== undefined && currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
                         currentUser.bybookname = '';                        
                         SearchByTyping(senderID, userMessage);
-                      }
-                       else if (userInput == 'bytyping') {
-                        //bybookname = userInput;
-                        currentUser.bybookname = userInput;
-                        textMessage(senderID,"Please Type BookName!");
                       }
                       else if (userInput == 'byauthor') {
                         currentUser.byauthor = userInput;

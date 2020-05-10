@@ -886,19 +886,20 @@ app.post('/webhook', (req, res) => {
                     }
                })
 
-               if(correct == "no")
+              
+            })
+              console.log("correct",correct);
+             if(correct == "no")
                {
-                  QuickReplyAdminMenu(senderID);
+                  QuickReplyAdminMenu(senderID);console.log("noooooooooooooo")
                }
                else
                {
                 DeclineArray(senderID, docid, userid).then(oki => {
                 ApplicationList(senderID)
+                console.log("yesssssssssssssss")
             })
                }
-            })
-
-            
           }
           if (userInput != undefined && userInput.includes('openvideo')) {
             var videoinput = userInput.split('#');

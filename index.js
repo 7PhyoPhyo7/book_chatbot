@@ -878,7 +878,9 @@ app.post('/webhook', (req, res) => {
             console.log("DOcid", docid);
             console.log("Userid", userid)
             DeclineArray(senderID, docid, userid).then(oki => {
-              ApplicationList(senderID)
+              ApplicationList(senderID).then(next =>{
+                QuickReplyAdminMenu(senderID);
+              })
             })
           }
           if (userInput != undefined && userInput.includes('openvideo')) {

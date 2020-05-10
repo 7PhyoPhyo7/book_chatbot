@@ -1481,8 +1481,8 @@ function SearchBook(senderID) {
 }
 
 
-function QuickReplyAdminMenu(senderID) {
-  return requestify.post(sendmessageurl,
+async function QuickReplyAdminMenu(senderID) {
+  await requestify.post(sendmessageurl,
     {
       "recipient": {
         "id": senderID

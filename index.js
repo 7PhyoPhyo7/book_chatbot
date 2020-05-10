@@ -126,7 +126,7 @@ app.post('/webhook', (req, res) => {
       var senderID = webhook_event.sender.id;
       console.log('senderID', senderID);
       if (webhook_event.postback) {
-        userInput = webhook_event.postback.payload;
+        userInput = webhook_event.postback.payload || '';
       }
       if (webhook_event.message) {
         if (webhook_event.message.text) {

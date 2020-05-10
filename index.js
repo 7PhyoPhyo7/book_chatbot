@@ -110,6 +110,8 @@ app.post('/webhook', (req, res) => {
   let body = req.body;
   let revieweryes = 'true';
   let reviewerno = 'false';
+  let userMessage;
+  let userMedia;
   //let isreviewer = true;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -131,11 +133,11 @@ app.post('/webhook', (req, res) => {
       {
 	    		if (webhook_event.message.text) 
 	    		{
-	    			var userMessage=webhook_event.message.text;
+	    			userMessage=webhook_event.message.text;
 	    		}
 				if (webhook_event.message.attachments)
 				{
-					var userMedia=webhook_event.message.attachments.payload;
+					userMedia=webhook_event.message.attachments.payload;
 				}
 				if(webhook_event.message.quick_reply)
 				{
@@ -547,16 +549,9 @@ app.post('/webhook', (req, res) => {
                             {
                               var upvideoarray = userInput.split('#');
                                upvideobookname = upvideoarray[1];
-                              var aa = bookname;
+                              var aa = upvideobookname;
                               upvideoum = 'ok';
                               console.log("include",aa);
-
-                              console.log(JSON.stringify({
-                                upvideoarray,
-                                upvideoum,
-                                bookname,
-                                aa
-                              }))
                             }
                             if(upvideoum == 'ok')
                             {

@@ -216,7 +216,7 @@ app.post('/webhook', (req, res) => {
                         currentUser.bybookname = userInput;
                         textMessage(senderID,"Please Type BookName!");
                       }
-                      else if (userMessage !== undefined && userInput == 'byauthor') {
+                      else if (userInput == 'byauthor') {
                         currentUser.byauthor = userInput;
                         textMessage(senderID,"Please Type Author name!");
                         console.log("SearchType", currentUser.byauthor);

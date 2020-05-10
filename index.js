@@ -2106,9 +2106,11 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
 }
 
 async function RetrieveVideo(senderID, dataarray) {
-  await db.collection('book').doc(dataarray).collection('review').get().then(vid => {
-    vid.forEach(async (doc) => {
-      await requestify
+  const vid = await db.collection('book').doc(dataarray).collection('review').get();
+
+  await Promise.all(
+    vid.map(doc => {
+      return requestify
         .post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
           {
             "recipient": {
@@ -2128,11 +2130,9 @@ async function RetrieveVideo(senderID, dataarray) {
                 }
               }
             }
-          }).catch((err) => {
-            console.log('Error getting documents', err);
           });
-    })
-  })
+      })
+    );
 }
 // function whitelistDomains(res) {
 //   var messageData = {

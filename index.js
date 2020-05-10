@@ -878,27 +878,28 @@ app.post('/webhook', (req, res) => {
             console.log("DOcid", docid);
             console.log("Userid", userid)
             let correct='normal';
-            DeclineArray(senderID, docid, userid).then(oki => {
-            ApplicationList(senderID)
-             if(db.collection('testingreviewer').get().then(kkk=>{
-                kkk.forEach(doc=>{
-                  if(doc.data().isreviewer == 'no')
-                  {
-                    correct = 'no'
-                  }
-                  else if (doc.data().isreviewer == 'yes')
-                  {
-                    correct = 'no'
-                  }
-                })
+                      DeclineArray(senderID, docid, userid).then(oki => {
+                      ApplicationList(senderID)
+                       });
+                           db.collection('testingreviewer').get().then(kkk=>{
+                                        kkk.forEach(doc=>{
+                                          if(doc.data().isreviewer == 'no')
+                                          {
+                                            correct = 'no'
+                                          }
+                                          else if (doc.data().isreviewer == 'yes')
+                                          {
+                                            correct = 'no'
+                                          }
+                                        })
 
-                if(correct == 'no')
-                {
-                  QuickReplyAdminMenu(senderID);
-                }
-             })
+                                    if(correct == 'no')
+                                    {
+                                      QuickReplyAdminMenu(senderID);
+                                    }
+                           })
 
-            })
+           
              
           }
           if (userInput != undefined && userInput.includes('openvideo')) {

@@ -889,7 +889,7 @@ app.post('/webhook', (req, res) => {
               ApplicationList(senderID)
 
                   db.collection('testingreviewer').get().then(ooooo=>{
-                                        kkk.forEach(doc=>{
+                                        ooooo.forEach(doc=>{
                                           if(doc.data().isreviewer == 'no')
                                           {
                                             condition = 'no'

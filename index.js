@@ -1485,7 +1485,7 @@ function QuickReplyAdminMenu(senderID) {
       },
 
       "message": {
-        "text": "Please Choose User Menu",
+        "text": "Please Click to View Book Reviewer Applicants List",
         "quick_replies": [
           {
             "content_type": "text",

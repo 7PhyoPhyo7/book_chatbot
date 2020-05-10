@@ -854,9 +854,7 @@ app.post('/webhook', (req, res) => {
 
           }
           if (userQuickreply == 'reviewerapplicationlist') {
-            ApplicationList(senderID).then(yes =>{
-              QuickReplyAdminMenu(senderID)
-            })
+            ApplicationList(senderID)
           }
           if (userInput == 'reviewerapplicationlist') {
             ApplicationList(senderID);
@@ -1489,7 +1487,7 @@ async function QuickReplyAdminMenu(senderID) {
       },
 
       "message": {
-        "text": "Please Click to View Book Reviewer Applicants List",
+        "text": "",
         "quick_replies": [
           {
             "content_type": "text",

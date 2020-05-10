@@ -141,7 +141,7 @@ app.post('/webhook', (req, res) => {
         userInput = webhook_event.postback.payload;
       }
       if (webhook_event.message) {
-        if (webhook_event.message.text) {
+        if (webhook_event.message.text && webhook_event.message.is_echo !== true) {
           userMessage = webhook_event.message.text;
         }
         if (webhook_event.message.attachments) {

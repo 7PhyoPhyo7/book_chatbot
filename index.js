@@ -525,9 +525,7 @@ app.post('/webhook', (req, res) => {
                   }
                   if (userMessage !== undefined &&  currentUser.upvideoum === 'ok') {
                     console.log("UserMessageReviewer", userMessage);
-                     UploadVideoByReviewer(senderID,currentUser.bookname,userMessage).then(video=>{
-                      textMessage(senderID,"Upload Video Successful");
-                     })
+                     UploadVideoByReviewer(senderID,currentUser.bookname,userMessage)
                     currentUser.upvideoum = '';
                     currentUser.bookname='';
                   }
@@ -2065,6 +2063,8 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
                    db.collection('book').doc(bookname).collection('review').add({
                    reviwerid:senderID,
                    videolink:userMessage
+                   }).then(oo=>{
+                    textMessage(senderID,"Upload Video Successful");
                    })
                }
           })

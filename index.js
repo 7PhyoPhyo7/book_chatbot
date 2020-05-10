@@ -210,7 +210,7 @@ app.post('/webhook', (req, res) => {
                         ReviewerTest(senderID);
                       }
                      
-                       if (userInput == 'bytyping') {
+                       else if (userInput == 'bytyping') {
                         //bybookname = userInput;
                         // textMessage(senderID,"Please Type BookName!");
                         currentUser.bybookname = userInput;

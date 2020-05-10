@@ -55,7 +55,7 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-
+setInterval(() => console.log(userSessions), 5000);
 
 //get_started and greeting 
 
@@ -70,7 +70,6 @@ requestify.post('https://graph.facebook.com/v2.6/me/messenger_profile?access_tok
     ]
   }
 )
-
 
 // Sets server port and logs message on success
 
@@ -209,16 +208,15 @@ app.post('/webhook', (req, res) => {
                       if (userQuickreply == 'becomereviwer') {
                         ReviewerTest(senderID);
                       }
-                     
-                       else if (userInput == 'bytyping') {
-                        //bybookname = userInput;
-                        currentUser.bybookname = userInput;
-                        textMessage(senderID,"Please Type BookName!");
-                      }
                        else if (currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
                         currentUser.bybookname = '';                        
                         SearchByTyping(senderID, userMessage);
+                      }
+                       else if (userInput == 'bytyping') {
+                        //bybookname = userInput;
+                        currentUser.bybookname = userInput;
+                        textMessage(senderID,"Please Type BookName!");
                       }
                       else if (userInput == 'byauthor') {
                         byauthor = userInput;

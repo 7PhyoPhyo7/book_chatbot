@@ -256,6 +256,15 @@ app.post('/webhook', (req, res) => {
                       if (userQuickreply == 'specific') {
                         Specific(senderID);
                       }
+                       if(userInput != undefined && userInput.includes('bookreviewlist'))
+                  {
+                    var reviwerbookname = userInput.split('#');
+                    var dataarray = reviwerbookname[1];
+                    RetrieveVideo(senderID,dataarray).then(aaa=>{
+                      QuickReplyUserMenu(senderID);
+                    })
+
+                  }
                       if (userInput.includes('normalbookshop')) {
                         var bk = userInput.split('#');
                         var bookname = bk[1];
@@ -1628,7 +1637,7 @@ function SearchByAuthor(senderID, userMessage) {
             {
               "type": "postback",
               "title": "Book Review List",
-              "payload": `bookreviewlist`
+              "payload": `bookreviewlist#${doc.id}`
             }
           ]
         }
@@ -1797,6 +1806,11 @@ function Normal(senderID) {
                                     "type": "postback",
                                     "title": "Avaliable Book Shop",
                                     "payload": `normalbookshop#${doc.id}#${doc.data().image}`
+                                  },
+                                   {
+                                    "type": "postback",
+                                    "title": "Book Review List",
+                                    "payload": `bookreviewlist${doc.id}`
                                   }
                                 ]
                               }
@@ -1883,6 +1897,11 @@ function Specific(senderID) {
                                     "type": "postback",
                                     "title": "Book Shop Address",
                                     "payload": `specificbookshop#${doc.id}#${doc.data().image}`
+                                  },
+                                  {
+                                    "type": "postback",
+                                    "title": "Book Review List",
+                                    "payload": `bookreviewlist${doc.id}`
                                   }
                                 ]
                               }
@@ -2086,11 +2105,11 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
    
 }
 
-function RetrieveVideo(senderID,dataarray)
+async function RetrieveVideo(senderID,dataarray)
 {
-    db.collection('book').doc(dataarray).collection('review').get().then(vid=>{
+   await db.collection('book').doc(dataarray).collection('review').get().then(vid=>{
       vid.forEach(doc=>{
-       return  requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+         requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
                     {
                       "recipient": {
                         "id": senderID

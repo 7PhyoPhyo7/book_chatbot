@@ -24,7 +24,7 @@ var byauthor = '';
 var uploadvideo = '';
 let upvideoum = '';
 let aa = '';
-let koko ='';
+
 var upvideobookname = '';
 var admin = require("firebase-admin");
 let uploadingVid = false;
@@ -209,24 +209,19 @@ app.post('/webhook', (req, res) => {
                       if (userQuickreply == 'becomereviwer') {
                         ReviewerTest(senderID);
                       }
-                       if(userInput == 'bytyping')
-                       {
-                              textMessage(senderID,"Please Type Book Name!");
-                              koko = userInput;
-                       }
-                       if (koko == 'bytyping') {
+                     
+                       if (userInput == 'bytyping') {
                         //bybookname = userInput;
                         // textMessage(senderID,"Please Type BookName!");
-                        currentUser.bybookname = koko;
+                        currentUser.bybookname = userInput;
                         console.log("SearchType", currentUser.bybookname);
-                        koko='';
+                    
 
                       }
                        if (currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
-                        currentUser.bybookname = '';
-                        
-                                 SearchByTyping(senderID, userMessage);
+                        currentUser.bybookname = '';                        
+                        SearchByTyping(senderID, userMessage);
 
                    
                       }

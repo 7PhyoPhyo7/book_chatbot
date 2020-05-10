@@ -506,8 +506,9 @@ app.post('/webhook', (req, res) => {
                     upvideobookname = upvideoarray[1];
                     var aa = upvideobookname;
                     upvideoum = 'ok';
+                    textMessage(senderID,"PLease Type your video Link!")
                   }
-                  if (!userInput && upvideoum === 'ok') {
+                  if (userMessage !== undefined && upvideoum === 'ok') {
                     console.log("UserMediaReviewer", userMedia);
                     console.log("UserMessageReviewer", userMessage);
 

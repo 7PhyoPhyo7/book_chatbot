@@ -882,12 +882,29 @@ app.post('/webhook', (req, res) => {
             var acceptreviwerarray = userInput.split('#');
             var docid = acceptreviwerarray[1];
             var userid = acceptreviwerarray[2];
+            var condition ='normal';
             console.log("DOcid", docid);
             console.log("Userid", userid)
             AcceptArray(senderID, docid, userid).then(ok => {
-              ApplicationList(senderID).then(next =>{
-                QuickReplyAdminMenu(senderID);
-              })
+              ApplicationList(senderID)
+
+                  db.collection('testingreviewer').get().then(ooooo=>{
+                                        kkk.forEach(doc=>{
+                                          if(doc.data().isreviewer == 'no')
+                                          {
+                                            condition = 'no'
+                                          }
+                                          else if (doc.data().isreviewer == 'yes')
+                                          {
+                                            condition = 'no'
+                                          }
+                                        })
+
+                                    if(condition == 'no')
+                                    {
+                                      QuickReplyAdminMenu(senderID);
+                                    }
+                           })
             })
           }
           if (userInput != undefined && userInput.includes('decline')) {

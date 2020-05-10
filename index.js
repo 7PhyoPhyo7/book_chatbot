@@ -2031,9 +2031,12 @@ async function VideoUpload(senderID, userMessage) {
 async function ApplicationList(senderID) {
   var before = 'before';
   var isreviewerlist = [];
-  await db.collection('testingreviewer').where('isreviewer', '==', `${before}`).get().then(isreviewer => {
-    isreviewer.forEach(doc => {
-      let data = {
+  let data=[];
+  await db.collection('testingreviewer').where('isreviewer', '==', `${before}`).get().then(async (isreviewer) => {
+    const promise=[];
+    isreviewer.forEach(async (doc) => {
+      promises.push(
+       data = {
         "title": "email: " + doc.data().email,
         "subtitle": "",
         "buttons": [
@@ -2042,22 +2045,15 @@ async function ApplicationList(senderID) {
             "title": "Open Video Link",
             "payload": `openvideo#${doc.data().userid}`
           }
-          // {
-          //   "type":"postback",
-          //   "title":"Accept",
-          //   "payload":`openvideoaccept#${doc.data().userid}`
-          // },
-          // {
-          //   "type":"postback",
-          //   "title":"Decline",
-          //   "payload":`openvideodecline#${doc.data().userid}`
-          // }
+         
         ]
-      }
+      })
       isreviewerlist.push(data);
+      
 
     })
-    requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+    promises.push(   
+     requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
       {
         "recipient": {
           "id": senderID
@@ -2073,11 +2069,57 @@ async function ApplicationList(senderID) {
         }
       }).catch((err) => {
         console.log('Error getting documents', err);
-      });
+      }))
 
-
+      await Promise.all(promises);
   })
 }
+
+// async function ApplicationList(senderID) {
+//   var before = 'before';
+//   var isreviewerlist = [];
+//   await db.collection('testingreviewer').where('isreviewer', '==', `${before}`).get().then(isreviewer => {
+//     isreviewer.forEach(doc => {
+//       let data = {
+//         "title": "email: " + doc.data().email,
+//         "subtitle": "",
+//         "buttons": [
+//           {
+//             "type": "postback",
+//             "title": "Open Video Link",
+//             "payload": `openvideo#${doc.data().userid}`
+//           }
+         
+//         ]
+//       }
+//       isreviewerlist.push(data);
+
+//     })
+//     requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+//       {
+//         "recipient": {
+//           "id": senderID
+//         },
+//         "message": {
+//           "attachment": {
+//             "type": "template",
+//             "payload": {
+//               "template_type": "generic",
+//               "elements": isreviewerlist
+//             }
+//           }
+//         }
+//       }).catch((err) => {
+//         console.log('Error getting documents', err);
+//       });
+
+
+//   })
+// }
+
+
+
+
 
 
 async function AcceptArray(senderID, docid, userid) {

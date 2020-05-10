@@ -530,6 +530,16 @@ app.post('/webhook', (req, res) => {
                     currentUser.bookname='';
                   }
 
+                  if(userInput != undefined && userInput.includes('bookreviewlist'))
+                  {
+                    var reviwerbookname = userInput.split('#');
+                    var dataarray = reviwerbookname[1];
+                    RetrieveVideo(senderID,dataarray).then(aaa=>{
+                      QuickReplyUserMenu(senderID);
+                    })
+
+                  }
+
                   if (userInput == 'byhobby') {
                     QuickReplyHobbies(senderID);
                   }
@@ -1473,7 +1483,7 @@ function SearchByTyping(senderID, userMessage) {
               {
                 "type": "postback",
                 "title": "Book Review List",
-                "payload": `bookreviewlist`
+                "payload": ``
               }
 
 
@@ -1550,7 +1560,7 @@ function SearchByTypingR(senderID, userMessage) {
               {
                 "type": "postback",
                 "title": "Book Review List",
-                "payload": `bookreviewlist`
+                "payload": `bookreviewlist#${userMessage}`
               },
               {
                 "type": "postback",
@@ -2071,6 +2081,40 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
         })
 
    
+}
+
+async function RetrieveVideo(senderID,dataarray)
+{
+   await db.collection('book').doc(dataarray).collection('review').get().then(vid=>{
+      vid.forEach(doc=>{
+         requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+                    {
+                      "recipient": {
+                        "id": senderID
+                      },
+                      "message": {
+                        "attachment": {
+                          "type": "template",
+                          "payload": {
+                            "template_type": "media",
+                            "elements": [
+                              {
+                                "media_type": "video",
+                                "url": doc.data().videolink                                
+                              }
+                            ]
+                          }
+                        }
+                      }
+
+
+
+                    }).catch((err) => {
+                      console.log('Error getting documents', err);
+                    });
+
+      })
+    })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

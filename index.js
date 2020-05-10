@@ -2106,37 +2106,36 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
 }
 
 async function RetrieveVideo(senderID, dataarray) {
-  const vid = await db.collection('book').doc(dataarray).collection('review').get();
-  const videos = [];
-  vid.forEach(
-    doc => videos.push({
-      'media_type': 'video',
-      'url': doc.data().videolink
-    })
-  );
-
-  console.log({ videos });
-
-  await requestify
-    .post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
-      {
-        "recipient": {
-          "id": senderID
-        },
-        "message": {
-          "attachment": {
-            "type": "template",
-            "payload": {
-              "template_type": "media",
-              "elements": videos
+  await db.collection('book').doc(dataarray).collection('review').get().then(async (vid) => {
+    const promises = [];
+    vid.forEach(async (doc) => {
+      promises.push(requestify
+        .post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+          {
+            "recipient": {
+              "id": senderID
+            },
+            "message": {
+              "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "media",
+                  "elements": [
+                    {
+                      "media_type": "video",
+                      "url": doc.data().videolink
+                    }
+                  ]
+                }
+              }
             }
-          }
-        }
-      }).catch((err) => {
-        console.log('Error getting documents', err);
-      });
+          }).catch((err) => {
+            console.log('Error getting documents', err);
+          }));
+    });
+    await Promise.all(promises);
+  })
 }
-
 // function whitelistDomains(res) {
 //   var messageData = {
 //           "whitelisted_domains": [

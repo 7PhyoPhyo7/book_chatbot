@@ -543,7 +543,7 @@ app.post('/webhook', (req, res) => {
 
                                         SearchByAuthorR(senderID,userMessage);
                             }
-                            else if(userInput.includes('upvideo'))
+                             if(userInput.includes('upvideo'))
                             {
                               var upvideoarray = userInput.split('#');
                                upvideobookname = upvideoarray[1];

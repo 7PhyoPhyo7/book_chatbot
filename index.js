@@ -218,7 +218,7 @@ app.post('/webhook', (req, res) => {
                     
 
                       }
-                       if (currentUser.bybookname == 'bytyping') {
+                       else if (currentUser.bybookname == 'bytyping') {
                         console.log("UserMessage_searchtype", userMessage);
                         currentUser.bybookname = '';                        
                         SearchByTyping(senderID, userMessage);

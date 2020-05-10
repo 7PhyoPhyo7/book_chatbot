@@ -869,7 +869,7 @@ app.post('/webhook', (req, res) => {
             console.log("Userid", userid)
             AcceptArray(senderID, docid, userid).then(ok => {
               ApplicationList(senderID).then(next =>{
-                QuickReplyAdminMenu(semderID);
+                QuickReplyAdminMenu(senderID);
               })
             })
           }

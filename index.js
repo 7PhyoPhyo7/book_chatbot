@@ -560,7 +560,7 @@ app.post('/webhook', (req, res) => {
                               upvideoum='';
                              
                               console.log("UserMediaReviewer",userMedia);
-                              console.log("UserMessageReviewer",userMedia);
+                              console.log("UserMessageReviewer",userMessage);
                             }
                             
 

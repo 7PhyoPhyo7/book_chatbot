@@ -1492,7 +1492,7 @@ function SearchByTyping(senderID, userMessage) {
               {
                 "type": "postback",
                 "title": "Book Review List",
-                "payload": ``
+                "payload": `bookreviewlist#${userMessage}`
               }
 
 

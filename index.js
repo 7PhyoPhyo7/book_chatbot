@@ -856,6 +856,9 @@ app.post('/webhook', (req, res) => {
           if (userQuickreply == 'reviewerapplicationlist') {
             ApplicationList(senderID);
           }
+          if (userInput == 'reviewerapplicationlist') {
+            ApplicationList(senderID);
+          }
           if (userInput.includes('realaccept')) {
             var acceptreviwerarray = userInput.split('#');
             var docid = acceptreviwerarray[1];

@@ -2105,38 +2105,34 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
    
 }
 
-async function RetrieveVideo(senderID,dataarray)
-{
-   await db.collection('book').doc(dataarray).collection('review').get().then(vid=>{
-      vid.forEach(doc=>{
-         requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+async function RetrieveVideo(senderID, dataarray) {
+  await db.collection('book').doc(dataarray).collection('review').get().then(vid => {
+    vid.forEach(async (doc) => {
+      await requestify
+        .post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+          {
+            "recipient": {
+              "id": senderID
+            },
+            "message": {
+              "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "media",
+                  "elements": [
                     {
-                      "recipient": {
-                        "id": senderID
-                      },
-                      "message": {
-                        "attachment": {
-                          "type": "template",
-                          "payload": {
-                            "template_type": "media",
-                            "elements": [
-                              {
-                                "media_type": "video",
-                                "url": doc.data().videolink                                
-                              }
-                            ]
-                          }
-                        }
-                      }
-
-
-
-                    }).catch((err) => {
-                      console.log('Error getting documents', err);
-                    });
-
-      })
+                      "media_type": "video",
+                      "url": doc.data().videolink
+                    }
+                  ]
+                }
+              }
+            }
+          }).catch((err) => {
+            console.log('Error getting documents', err);
+          });
     })
+  })
 }
 // function whitelistDomains(res) {
 //   var messageData = {

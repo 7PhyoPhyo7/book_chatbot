@@ -1901,7 +1901,7 @@ function Specific(senderID) {
                                   {
                                     "type": "postback",
                                     "title": "Book Review List",
-                                    "payload": `bookreviewlist${doc.id}`
+                                    "payload": `bookreviewlist#${doc.id}`
                                   }
                                 ]
                               }

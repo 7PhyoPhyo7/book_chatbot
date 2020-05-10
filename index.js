@@ -866,7 +866,9 @@ app.post('/webhook', (req, res) => {
             console.log("DOcid", docid);
             console.log("Userid", userid)
             AcceptArray(senderID, docid, userid).then(ok => {
-              ApplicationList(senderID)
+              ApplicationList(senderID).then(next =>{
+                QuickReplyAdminMenu(semderID);
+              })
             })
           }
           if (userInput != undefined && userInput.includes('decline')) {

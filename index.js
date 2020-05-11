@@ -1078,7 +1078,7 @@ app.post('/register_books', async (req, res) => {
         ownerlist.push(sender);
         console.log("Ownerlist",ownerlist)
         db.collection('book').doc(bookname).add({
-          owner:ownerlist;
+          owner:ownerlist
         })
       }
 

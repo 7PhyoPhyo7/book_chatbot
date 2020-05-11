@@ -1036,8 +1036,9 @@ app.post('/register_books', async (req, res) => {
   let religion = '';
   var genre = [];
   var ownerlist = [];
+  var ownerid=[];
 
-
+   ownerid.push(sender);
   if (req.body.knowledge) {
     knowledge = req.body.knowledge;
     genre.push(knowledge);
@@ -1070,9 +1071,51 @@ app.post('/register_books', async (req, res) => {
       ownerlist.push(sender);
       console.log("LowerOwnerlist",ownerlist);
 
+      db.collection('book').get().then(th=>{
+         th.forEach(doc=>{
+            if(doc.id  == bookname)
+            {
+              db.collection('book').doc(bookname).set({
+                owner:ownerlist
+              },
+              {merge:true}
+              )
+            }
+            if(doc.id == bookname)
+            {
+              db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock,
+          })
+            }
+            else 
+            {
+               db.collection("book").doc(bookname).set(  
+            {
+              author: author,
+              genre: genre,
+              image: image,
+              owner:ownerid
+            })
+          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock
+          })
+
+            }
+         })
+      })
+      res.redirect('https://www.messenger.com/closeWindow');
+
   }) 
 
-   console.log("Outside",ownerlist);
+   
  
 
   // send, sendFile, redirect

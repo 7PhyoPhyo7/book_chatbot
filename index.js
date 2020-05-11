@@ -852,29 +852,29 @@ app.post('/webhook', (req, res) => {
 
         else {
 
-                                  //     requestify.post("https://graph.facebook.com/v6.0/me/custom_user_settings?psid="+senderID+"&access_token="+PAGE_ACCESS_TOKEN,
-                                  //     {
-                                  //     "persistent_menu":[
-                                  //     {
-                                  //       "locale":"default",
-                                  //       "composer_input_disabled":true,
-                                  //       "call_to_actions":[
-                                  //       {
-                                  //         "type":"postback",
-                                  //         "title":"View Applicants",
-                                  //         "payload":"reviewerapplicationlist"
+                                      requestify.post("https://graph.facebook.com/v6.0/me/custom_user_settings?psid="+senderID+"&access_token="+PAGE_ACCESS_TOKEN,
+                                      {
+                                      "persistent_menu":[
+                                      {
+                                        "locale":"default",
+                                        "composer_input_disabled":false,
+                                        "call_to_actions":[
+                                        {
+                                          "type":"postback",
+                                          "title":"View Applicants",
+                                          "payload":"reviewerapplicationlist"
 
 
-                                  //       }
-                                  //     ]
+                                        }
+                                      ]
 
-                                  //   }
-                                  //  ]
+                                    }
+                                   ]
 
-                                  // }).then(function(success) {
-                                  //   console.log('Admin Persistent_menu Persistent_menu.success');
-                                  //   // body...
-                                  // })
+                                  }).then(function(success) {
+                                    console.log('Admin Persistent_menu Persistent_menu.success');
+                                    // body...
+                                  })
           //#region admin
           if (userInput == 'Hi') {
             textMessage(senderID, "Welcome Admin").then(admin => {

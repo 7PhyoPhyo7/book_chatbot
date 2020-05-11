@@ -771,11 +771,15 @@ app.post('/webhook', (req, res) => {
               //#region seller
               console.log('USER INPUT -> ', userInput);
               if (userInput == 'Hi') {
-                QuickReplyMenu(senderID);
+                textMessage(senderID,"Welcome Book Seller").then(sell=>{
+                  QuickReplyMenu(senderID);
+                })
+               
               }
               if (userQuickreply == 'menu') {
                 BookshopMenu(senderID);
               }
+
               if (userInput == 'booklist') {
                 Get_BookList(senderID)
                   .then(() => QuickReplyMenu(senderID));
@@ -1250,7 +1254,7 @@ function QuickReplyMenu(senderID) {
       },
 
       "message": {
-        "text": "Welcome Book Seller",
+        "text": "Menu of Book Seller",
         "quick_replies": [
           {
             "content_type": "text",

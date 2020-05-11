@@ -750,7 +750,9 @@ app.post('/webhook', (req, res) => {
                               MessageDetail(senderID, "Stock", doc.data().stock).then(() => {
                                 MessageDetail(senderID, "Book Shop Address", doc.data().bookshopaddress).then(() => {
                                   MessageDetail(senderID, "Book Shop Phone", doc.data().bookshopphno).then(() => {
-                                    MessageDetail(senderID, "Page Link", doc.data().link);
+                                    MessageDetail(senderID, "Page Link", doc.data().link).then(()=>{
+                                    QuickReplyUserMenu(senderID)
+                                    })
                                   })
                                 })
                               })

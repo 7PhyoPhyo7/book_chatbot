@@ -807,7 +807,9 @@ app.post('/webhook', (req, res) => {
                           MessageDetail(senderID, "Stock", doc.data().stock).then(() => {
                             MessageDetail(senderID, "Book Shop Address", doc.data().bookshopaddress).then(() => {
                               MessageDetail(senderID, "Book Shop Phone", doc.data().bookshopphno).then(() => {
-                                MessageDetail(senderID, "Page Link", doc.data().link);
+                                MessageDetail(senderID, "Page Link", doc.data().link).then(() =>{
+                                  QuickReplyMenu(senderID)
+                                })
                               })
                             })
                           })
@@ -1080,7 +1082,7 @@ app.post('/register_books', async (req, res) => {
           })
      
           db.collection("book").add({
-            owner:sender
+            owner:ownerid
           })
         }
         else {
@@ -1154,14 +1156,16 @@ app.post('/edit_book', (req, res) => {
   let stock = req.body.stock;
   let link = req.body.link;
 
-  db.collection('book').doc(bookname).collection('bookshop').doc(bookshopname).set({
+  db.collection('book').doc(bookname).collection('bookshop').async(doc(bookshopname)).set({
     bookshopaddress: bookshopaddress,
     bookshopphno: bookshopphno,
     stock: stock,
     link: link,
     ownerid: sender
   }).then(success => {
-    textMessage(sender, "Update Successful");
+    textMessage(sender, "Update Successful").then(io=>{
+      QuickReplyMenu(senderID);
+    })
     res.status(200).send("Update Successful and Please go back to your messages and please check your book detail");
     // window.location.assign('https://www.messenger.com/closeWindow/?image_url=https://secure.i.telegraph.co.uk/multimedia/archive/03058/thankyou-interest_3058089c.jpg&display_text=Thanks');
   }).catch(error => {

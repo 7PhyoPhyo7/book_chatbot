@@ -1063,7 +1063,7 @@ app.post('/register_books', async (req, res) => {
   let ownerlist =[];
 
 
-    db.collection('book').get().then(ayeaye=>{
+    db.collection('book').doc(bookname).get().then(ayeaye=>{
       ayeaye.forEach(doc=>{
         ownerlist.push(doc.data().owner);
       })
@@ -1073,10 +1073,13 @@ app.post('/register_books', async (req, res) => {
       {
 
       }
-      else if (!ownerlist.includes(sender) && ownerlist !== undefined)
+      else 
       {
         ownerlist.push(sender);
         console.log("Ownerlist",ownerlist)
+        db.collection('book').doc(bookname).add({
+          owner:ownerlist;
+        })
       }
 
 

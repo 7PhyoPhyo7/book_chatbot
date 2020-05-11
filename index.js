@@ -1077,11 +1077,10 @@ app.post('/register_books', async (req, res) => {
          th.forEach(doc=>{
             if(doc.id  == bookname)
             {
-              db.collection('book').doc(bookname).set({
-                owner:ownerlist
-              },
-              {merge:true}
-              )
+              var ok = doc.id;
+             db.collection('book').doc(ok).add({
+                 owner :ownerlist
+             })
             }
             if(doc.id == bookname)
             {

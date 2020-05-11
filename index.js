@@ -1072,46 +1072,49 @@ app.post('/register_books', async (req, res) => {
 
 
       booknamelist.forEach(async (doc) => {
-        // if (doc.id == bookname) {           
-        // await  db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-        //     bookshopaddress: bookshopaddress,
-        //     bookshopphno: bookshopphno,
-        //     link: link,
-        //     ownerid: sender,
-        //     stock: stock,
-        //   })
+        if (doc.id == bookname) {           
+        await  db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock,
+          })
      
-        //   db.collection("book").add({
-        //     owner:ownerid
-        //   })
-        // }
-
-
-        if (doc.id == bookname) {  
-           db.collection("book").doc(bookname).collection('bookshop').doc(bookshopname).get().then(hotepi=>{
-                 hotepi.forEach(doc=>{
-                  if(doc.data().ownerid == senderID)
-                  {
-                   res.status(200).send("This input is duplicated");
-                  }
-                  else
-                  {
-                     db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-                      bookshopaddress: bookshopaddress,
-                      bookshopphno: bookshopphno,
-                      link: link,
-                      ownerid: sender,
-                      stock: stock,
-                    })
-               
-                    db.collection("book").add({
+         db.collection('book').doc(bookname).set({
                       owner:ownerid
-                    })
-                  }
-                 })
-           })         
-        
+                    },
+                    {merge:true})
+
         }
+
+
+        // if (doc.id == bookname) {  
+        //    db.collection("book").doc(bookname).collection('bookshop').doc(bookshopname).get().then(hotepi=>{
+        //          hotepi.forEach(doc=>{
+        //           if(doc.data().ownerid == senderID)
+        //           {
+        //            res.status(200).send("This input is duplicated");
+        //           }
+        //           else
+        //           {
+        //              db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+        //               bookshopaddress: bookshopaddress,
+        //               bookshopphno: bookshopphno,
+        //               link: link,
+        //               ownerid: sender,
+        //               stock: stock,
+        //             })
+               
+        //             db.collection('book').doc(bookname).set({
+        //               owner:ownerid
+        //             },
+        //             {merge:true})
+        //           }
+        //          })
+        //    })         
+        
+        // }
 
 
         else {

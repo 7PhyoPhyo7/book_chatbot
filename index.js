@@ -1081,10 +1081,9 @@ app.post('/register_books', async (req, res) => {
             stock: stock,
           })
      
-         db.collection('book').doc(bookname).set({
-                      owner:ownerid
-                    },
-                    {merge:true})
+            db.collection('book').doc(bookname).add({
+                  owner:ownerid
+            })
 
         }
 

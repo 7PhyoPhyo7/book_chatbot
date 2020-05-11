@@ -1216,7 +1216,7 @@ app.post('/edit_book', (req, res) => {
   }).catch(error => {
     console.log(error);
   })
-
+  res.redirect('https://www.messenger.com/closeWindow');
 })
 
 

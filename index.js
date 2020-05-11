@@ -1072,20 +1072,7 @@ app.post('/register_books', async (req, res) => {
       //   ) // Promise[]
       // );
 
-
-      booknamelist.forEach(async (doc) => {
-        if (doc.id == bookname) {           
-        await  db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-            bookshopaddress: bookshopaddress,
-            bookshopphno: bookshopphno,
-            link: link,
-            ownerid: sender,
-            stock: stock,
-          })
-
-
-     
-           db.collection('book').get().then(urrr=>{
+        db.collection('book').get().then(urrr=>{
                 urrr.forEach(doc=>{
                   ownerlist.push(doc.data().owner);
                 })
@@ -1096,6 +1083,15 @@ app.post('/register_books', async (req, res) => {
                 })
            })
 
+      booknamelist.forEach(async (doc) => {
+        if (doc.id == bookname) {           
+        await  db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock,
+          })
         }
 
 

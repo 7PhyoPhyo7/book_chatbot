@@ -1060,12 +1060,12 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
-
-      db.collection('collection').doc(bookname).update( {
-   array: firebase.firestore.owner.arrayUnion( sender )
-});
-
-
+    console.log("BookName",bookname);
+    console.log("sender",sender);
+    var a = db.collection('book').doc(bookname);
+     var arrUnion= a.update({
+      owner : admin.firestore.FieldValue.arrayUnion(sender);
+     })
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');
 })

@@ -383,7 +383,9 @@ app.post('/webhook', (req, res) => {
                                   MessageDetail(senderID, "Stock", doc.data().stock).then(() => {
                                     MessageDetail(senderID, "Book Shop Address", doc.data().bookshopaddress).then(() => {
                                       MessageDetail(senderID, "Book Shop Phone", doc.data().bookshopphno).then(() => {
-                                        MessageDetail(senderID, "Page Link", doc.data().link);
+                                        MessageDetail(senderID, "Page Link", doc.data().link).then(()=>{
+                                        QuickReplyUserMenu(senderID)
+                                        })
                                       })
                                     })
                                   })
@@ -1750,7 +1752,7 @@ function SearchByTypingR(senderID, userMessage) {
 
     if (emptybook == false) {
       textMessage(senderID, "Book Not Found").then(bn=>{
-        QuickReplyUserMenu(senderID)
+        QuickReplyReviewerMenu(senderID)
       })
     }
     else if (emptybook == true) {
@@ -1840,7 +1842,9 @@ function SearchByAuthor(senderID, userMessage) {
 
     if(checkauthoerbook == false)
     {
-      textMessage(senderID,"Book Not Found")
+      textMessage(senderID,"Book Not Found").then(bof=>{
+        QuickReplyUserMenu(senderID)
+      })
     }
     else if (checkauthoerbook == true)
     {

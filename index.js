@@ -1090,7 +1090,7 @@ app.post('/register_books', async (req, res) => {
                   ownerlist.push(doc.data().owner);
                 })
                 ownerlist.push(ownerid);
-
+                console.log("OwnerList",ownerlist)
                 db.collection('book').doc(bookname).add({
                   owner:ownerlist
                 })

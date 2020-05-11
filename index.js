@@ -1058,7 +1058,7 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
-  let 
+  
   ownerid.push(sender);
   let ownerlist =[];
   await db.collection("book").get()
@@ -1092,7 +1092,7 @@ app.post('/register_books', async (req, res) => {
                 ownerlist.push(ownerid);
 
                 db.collection('book').doc(bookname).add({
-                  owner:ownerlist;
+                  owner:ownerlist
                 })
            })
 

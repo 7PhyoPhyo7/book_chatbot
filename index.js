@@ -1038,6 +1038,7 @@ app.post('/register_books', async (req, res) => {
   var ownerlist = [];
   var ownerid=[];
   var bblist =[];
+  var value='a';
 
    
   if (req.body.knowledge) {
@@ -1085,6 +1086,7 @@ app.post('/register_books', async (req, res) => {
       bb.forEach(doc=>{
         if(doc.id == bookname)
         {
+          value = 'in';
           console.log(bookshopaddress);
           console.log(bookshopphno);
           console.log(link);
@@ -1098,26 +1100,10 @@ app.post('/register_books', async (req, res) => {
             stock: stock
           })
         }
-        else 
-        {
-          db.collection("book").doc(bookname).set(  
-            {
-              author: author,
-              genre: genre,
-              image: image,
-              owner:ownerid
-            })
-          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-            bookshopaddress: bookshopaddress,
-            bookshopphno: bookshopphno,
-            link: link,
-            ownerid: sender,
-            stock: stock
-          })
-        }
       })
+      console.log("Values",value);
      })
-
+      console.log("Value",value);
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');
 })

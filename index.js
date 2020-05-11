@@ -1060,7 +1060,7 @@ app.post('/register_books', async (req, res) => {
   }
 
 
-  db.collection('book').get().then(ls=>{
+  db.collection('book').doc(bookname).get().then(ls=>{
       ls.forEach(doc=>{
         ownerlist.push(doc.data().owner)
       })

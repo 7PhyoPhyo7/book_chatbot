@@ -762,7 +762,7 @@ app.post('/webhook', (req, res) => {
 
                   }
                   //#endregion
-                }
+                } 
               })
 
 
@@ -782,7 +782,7 @@ app.post('/webhook', (req, res) => {
 
               if (userInput == 'booklist') {
                 Get_BookList(senderID)
-                  .then(() => QuickReplyMenu(senderID));
+          
               }
               if (userMessage == 'Login') {
                 QuickReplyMenu(senderID);

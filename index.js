@@ -1039,6 +1039,7 @@ app.post('/register_books', async (req, res) => {
   var ownerid=[];
   var bblist =[];
   var value='a';
+  let currentUser=null;
 
    
   if (req.body.knowledge) {
@@ -1061,7 +1062,11 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
-
+  currentUser = userSessions.find(user => user.id === sender);
+      if (!currentUser) { // if the user is new
+        currentUser = newUser(sender);
+        userSessions.push(currentUser);
+      }
    ownerid.push(sender);
     console.log("BookName",bookname);
     console.log("sender",sender);

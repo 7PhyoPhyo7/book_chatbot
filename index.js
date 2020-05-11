@@ -1931,7 +1931,7 @@ function SearchByAuthorR(senderID, userMessage)
     if(checkauthoerbookR == false)
     {
       textMessage(senderID,"Book Not Found").then(bsof=>{
-        QuickReplyUserMenu(senderID)
+        QuickReplyReviewerMenu(senderID)
       })
     }
     else if (checkauthoerbookR == true)

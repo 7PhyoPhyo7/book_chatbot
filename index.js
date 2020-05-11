@@ -1156,7 +1156,7 @@ app.post('/edit_book', (req, res) => {
   let stock = req.body.stock;
   let link = req.body.link;
 
-  db.collection('book').doc(bookname).collection('bookshop').async(doc(bookshopname)).set({
+  db.collection('book').doc(bookname).collection('bookshop').doc(bookshopname).set({
     bookshopaddress: bookshopaddress,
     bookshopphno: bookshopphno,
     stock: stock,

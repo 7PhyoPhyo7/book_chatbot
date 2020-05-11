@@ -1039,7 +1039,7 @@ app.post('/register_books', async (req, res) => {
   var ownerid=[];
   var bblist =[];
 
-   ownerid.push(sender);
+   
   if (req.body.knowledge) {
     knowledge = req.body.knowledge;
     genre.push(knowledge);

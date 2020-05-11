@@ -1060,7 +1060,7 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
-
+   ownerid.push(sender);
    db.collection('book').get().then(okk=>{
        okk.forEach(doc=>{
           if(doc.id == bookname)
@@ -1068,7 +1068,7 @@ app.post('/register_books', async (req, res) => {
             ownerlist.push(doc.data().owner)
           }
        })
-       ownerlist.push(sender);
+       ownerlist.push(ownerid);
        console.log("OwnerList",ownerlist)
        db.collection('book').doc(bookname).set({
              owner:ownerlist

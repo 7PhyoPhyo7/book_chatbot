@@ -1061,21 +1061,8 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
    ownerid.push(sender);
-   db.collection('book').get().then(okk=>{
-       okk.forEach(doc=>{
-          if(doc.id == bookname)
-          {
-            ownerlist.push(doc.data().owner)
-          }
-       })
-       ownerlist.push(ownerid);
-       console.log("OwnerList",ownerlist)
-       db.collection('book').doc(bookname).set({
-             owner:ownerlist
-       },
-       {
-        merge:true
-       })
+   db.collection('book').doc(bookname).add({
+         owner:ownerid
    })
 
   // send, sendFile, redirect

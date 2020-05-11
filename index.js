@@ -32,7 +32,7 @@ let uploadingVid = false;
 let userSessions = [];
 
 function newUser(id) {
-  return { id: id, newregister: '', bybookname: '', byauthor: '', uploadvideo: '', upvideoum: '', upvideobookname: '' ,bookname:'' };
+  return { id: id, newregister: '', bybookname: '', byauthor: '', uploadvideo: '', upvideoum: '', upvideobookname: '' ,bookname:'', ownercondition:'' };
 }
 
 var serviceAccount = {
@@ -1080,23 +1080,30 @@ app.post('/register_books', async (req, res) => {
      //        }
      //   })
      // })
+     var owneridlist=[];
+     db.collection("book").doc(bookname).collection("bookshop").get().then(bn=>{
+      bn.forEach(doc=>{
+         owneridlist.push(doc.data().ownerid);
+      })
+      if(owneridlist.includes(sender))
+      {
+          currentUser.ownercondition = "yes";
+      }
+      else 
+      {
+          currentUser.ownercondition = "no";
+      }
+     })
 
     
     db.collection('book').get().then(po=>{
       po.forEach(doc=>{
         bblist.push(doc.id);
       })
-      if(bblist.includes(bookname))      {  
+      if(bblist.includes(bookname && currentUser.ownercondition == "no"))      {  
 
-         db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
-       emptybookshop.forEach(doc=>{
-            if(doc.data().ownerid == sender)
-            {
-              textMessage(sender,"This is duplicate input");
-            }
-            else 
-            {
-                  var a = db.collection('book').doc(bookname);
+       // have book
+           var a = db.collection('book').doc(bookname);
            var arrUnion= a.update({
             owner : admin.firestore.FieldValue.arrayUnion(sender)
            })
@@ -1107,12 +1114,17 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           })
+      }
+      else if (bblist.includes(bookname) && currentUser.ownercondition == "yes")
+      {
+          db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
+       emptybookshop.forEach(doc=>{
+            if(doc.data().ownerid == sender)
+            {
+              textMessage(sender,"This is duplicate input");
             }
        })
      })
-
-       // have book
-       
       }
       else
       {

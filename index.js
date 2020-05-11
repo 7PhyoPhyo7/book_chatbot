@@ -1061,9 +1061,12 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
    ownerid.push(sender);
-   db.collection('book').doc(bookname).get().then(aaid=>{
+   db.collection('book').get().then(aaid=>{
        aaid.forEach(doc=>{
-        ownerid.push(doc.data().owner)
+        if(doc.id  == bookname)
+        {
+            ownerid.push(doc.data().owner)
+          }      
        })
 
        console.log("AAAAAAA",ownerid);

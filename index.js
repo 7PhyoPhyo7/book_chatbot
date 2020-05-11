@@ -1070,7 +1070,7 @@ app.post('/register_books', async (req, res) => {
       owner : admin.firestore.FieldValue.arrayUnion(sender)
      });
 
-     db.collection('book').collection(bookname).doc('bookshop').get().then(emptybookshop=>{
+     db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
        emptybookshop.forEach(doc=>{
             if(doc.id == bookshopname)
             {

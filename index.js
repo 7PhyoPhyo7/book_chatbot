@@ -679,7 +679,9 @@ app.post('/webhook', (req, res) => {
                               MessageDetail(senderID, "Stock", doc.data().stock).then(() => {
                                 MessageDetail(senderID, "Book Shop Address", doc.data().bookshopaddress).then(() => {
                                   MessageDetail(senderID, "Book Shop Phone", doc.data().bookshopphno).then(() => {
-                                    MessageDetail(senderID, "Page Link", doc.data().link);
+                                    MessageDetail(senderID, "Page Link", doc.data().link).then(() => {
+                                      QuickReplyReviewerMenu(senderID)
+                                    })
                                   })
                                 })
                               })
@@ -755,7 +757,9 @@ app.post('/webhook', (req, res) => {
                               MessageDetail(senderID, "Stock", doc.data().stock).then(() => {
                                 MessageDetail(senderID, "Book Shop Address", doc.data().bookshopaddress).then(() => {
                                   MessageDetail(senderID, "Book Shop Phone", doc.data().bookshopphno).then(() => {
-                                    MessageDetail(senderID, "Page Link", doc.data().link)
+                                    MessageDetail(senderID, "Page Link", doc.data().link).then(() => {
+                                    QuickReplyReviewerMenu(senderID)
+                                    })
                                   })
                                 })
                               })
@@ -1904,56 +1908,87 @@ function SearchByAuthor(senderID, userMessage) {
   
 }
 
-function SearchByAuthorR(senderID, userMessage) {
+function SearchByAuthorR(senderID, userMessage)
+{
   var bookwithauthor = [];
+    var checkauthoerbookR = false;
+  var checkauthorarrayR =[];
 
-  db.collection('book').get().then(bokau => {
-    bokau.forEach(doc => {
-      if (doc.data().author == userMessage) {
-        let data = {
-          "title": "BookName : " + doc.id,
-          "subtitle": "Author : " + userMessage,
-          "image_url": doc.data().image,
-          "buttons": [
-            {
-              "type": "postback",
-              "title": "Book Detail",
-              "payload": `authorbkdetail#${doc.id}#${doc.data().image}`
-            },
-            {
-              "type": "postback",
-              "title": "Book Review List",
-              "payload": `bookreviewlist#${doc.id}`
-            },
-            {
-              "type": "postback",
-              "title": "Upload Video",
-              "payload": `upvideo#${doc.id}`
-            }
-          ]
-        }
-
-        bookwithauthor.push(data);
-      }
+  db.collection('book').get().then(aut=>{
+    aut.forEach(doc=>{
+      checkauthorarrayR.push(doc.data().author);
     })
-    requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
-      {
-        "recipient": {
-          "id": senderID
-        },
-        "message": {
-          "attachment": {
-            "type": "template",
-            "payload": {
-              "template_type": "generic",
-              "elements": bookwithauthor
-            }
-          }
-        }
-      }).catch((err) => {
-        console.log('Error getting documents', err);
-      });
+
+    if(checkauthorarrayR.includes(userMessage))
+    {
+      checkauthoerbookR = true
+    }
+    else 
+    {
+      checkauthoerbookR = false
+    }
+
+    if(checkauthoerbookR == false)
+    {
+      textMessage(senderID,"Book Not Found").then(bsof=>{
+        QuickReplyUserMenu(senderID)
+      })
+    }
+    else if (checkauthoerbookR == true)
+    {
+
+        db.collection('book').get().then(bokau => {
+                  bokau.forEach(doc => {
+                    if (doc.data().author == userMessage) {
+                      let data = {
+                        "title": "BookName : " + doc.id,
+                        "subtitle": "Author : " + userMessage,
+                        "image_url": doc.data().image,
+                        "buttons": [
+                          {
+                            "type": "postback",
+                            "title": "Book Detail",
+                            "payload": `authorbkdetail#${doc.id}#${doc.data().image}`
+                          },
+                          {
+                            "type": "postback",
+                            "title": "Book Review List",
+                            "payload": `bookreviewlist#${doc.id}`
+                          },
+                          {
+                            "type": "postback",
+                            "title": "Upload Video",
+                            "payload": `upvideo#${doc.id}`
+                          }
+                        ]
+                      }
+
+                      bookwithauthor.push(data);
+                    }
+                  })
+                      requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+                        {
+                          "recipient": {
+                            "id": senderID
+                          },
+                          "message": {
+                            "attachment": {
+                              "type": "template",
+                              "payload": {
+                                "template_type": "generic",
+                                "elements": bookwithauthor
+                              }
+                            }
+                          }
+                        }).catch((err) => {
+                          console.log('Error getting documents', err);
+                        })
+               })
+    }
   })
+
+
+
 }
 
 

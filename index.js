@@ -1060,12 +1060,58 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
+
+   ownerid.push(sender);
     console.log("BookName",bookname);
     console.log("sender",sender);
-    var a = db.collection('book').doc(bookname);
+
+      var a = db.collection('book').doc(bookname);
      var arrUnion= a.update({
       owner : admin.firestore.FieldValue.arrayUnion(sender)
+     });
+
+     db.collection('book').collection(bookname).doc('bookshop').get().then(emptybookshop=>{
+       emptybookshop.forEach(doc=>{
+            if(doc.id == bookshopname)
+            {
+              textMessage(sender,"This is duplicate input");
+            }
+       })
      })
+
+    
+     db.collection('book').get().then(bb=>{
+      bb.forEach(doc=>{
+        if(doc.id == bookname)
+        {
+          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock,
+          })
+        }
+        else 
+        {
+          db.collection("book").doc(bookname).set(  
+            {
+              author: author,
+              genre: genre,
+              image: image,
+              owner:ownerid
+            })
+          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock
+          })
+        }
+      })
+     })
+
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');
 })

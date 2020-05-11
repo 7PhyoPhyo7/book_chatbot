@@ -1072,23 +1072,31 @@ app.post('/register_books', async (req, res) => {
      //  owner : admin.firestore.FieldValue.arrayUnion(sender)
      // });
 
-     db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
-       emptybookshop.forEach(doc=>{
-            if(doc.data().ownerid == sender)
-            {
-              textMessage(sender,"This is duplicate input");
-            }
-       })
-     })
+     // db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
+     //   emptybookshop.forEach(doc=>{
+     //        if(doc.data().ownerid == sender)
+     //        {
+     //          textMessage(sender,"This is duplicate input");
+     //        }
+     //   })
+     // })
 
     
     db.collection('book').get().then(po=>{
       po.forEach(doc=>{
         bblist.push(doc.id);
       })
-      if(bblist.includes(bookname))
-      {   // have book
-           var a = db.collection('book').doc(bookname);
+      if(bblist.includes(bookname))      {  
+
+         db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
+       emptybookshop.forEach(doc=>{
+            if(doc.data().ownerid == sender)
+            {
+              textMessage(sender,"This is duplicate input");
+            }
+            else 
+            {
+                  var a = db.collection('book').doc(bookname);
            var arrUnion= a.update({
             owner : admin.firestore.FieldValue.arrayUnion(sender)
            })
@@ -1099,6 +1107,12 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           })
+            }
+       })
+     })
+
+       // have book
+       
       }
       else
       {

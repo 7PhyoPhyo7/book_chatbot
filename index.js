@@ -1663,7 +1663,7 @@ function SearchByTyping(senderID, userMessage) {
         author = doc.data().author;
       }
     })
-    console.log("Book", book);
+    console.log("book", book);
     if (book.includes(userMessage)) {
       emptybook = true;
     }
@@ -1699,7 +1699,7 @@ function SearchByTyping(senderID, userMessage) {
 
         })
 
-        requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token=' + PAGE_ACCESS_TOKEN,
+        requestify.post('https://graph.facebook.com/v6.0/me/messages?access_token='+PAGE_ACCESS_TOKEN,
           {
             "recipient": {
               "id": senderID
@@ -1817,6 +1817,20 @@ function SearchByTypingR(senderID, userMessage) {
 
 function SearchByAuthor(senderID, userMessage) {
   var bookwithauthor = [];
+  var checkauthoerbook = "yes";
+  db.collection('book').get().then(au=>{
+     au.forEach(doc=>{
+      if(doc.data().author != userMessage)
+      {
+         checkauthoerbook = false;
+      }
+     })
+     if(checkauthoerbook == false)
+     {
+      textMessage(senderID,"Book Not Found");
+      checkauthoerbook = "yes";
+     }
+  })
 
   db.collection('book').get().then(bokau => {
     bokau.forEach(doc => {

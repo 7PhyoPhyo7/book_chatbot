@@ -1065,14 +1065,12 @@ app.post('/register_books', async (req, res) => {
        aaid.forEach(doc=>{
         if(doc.id  == bookname)
         {
-            ownerid.push(doc.data().owner)
+            owner.push(sender)
           }      
        })
 
        console.log("AAAAAAA",ownerid);
-       db.collection('book').doc(bookname).set({
-        owner:ownerid
-       })
+      
    })
 
 

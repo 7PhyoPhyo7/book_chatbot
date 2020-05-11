@@ -1065,7 +1065,7 @@ app.post('/register_books', async (req, res) => {
        aaid.forEach(doc=>{
         if(doc.id  == bookname)
         {
-            owner.push(sender)
+            doc.data().owner.push(sender)
           }      
        })
 

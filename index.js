@@ -1822,10 +1822,14 @@ function SearchByAuthor(senderID, userMessage) {
      au.forEach(doc=>{
       if(doc.data().author != userMessage)
       {
-         checkauthoerbook = false;
+         checkauthoerbook = 'no';
+      }
+      else 
+      {
+        checkauthoerbook = 'yes'
       }
      })
-     if(checkauthoerbook == false)
+     if(checkauthoerbook == 'no')
      {
       textMessage(senderID,"Book Not Found");
       checkauthoerbook = "yes";

@@ -1035,7 +1035,7 @@ app.post('/register_books', async (req, res) => {
   let biography = '';
   let religion = '';
   var genre = [];
-  var ownerlist = [];
+  var ownerid=[];
 
 
   if (req.body.knowledge) {
@@ -1058,17 +1058,58 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
+  
+  ownerid.push(sender);
+  let ownerlist =[];
 
 
-  db.collection('book').get().then(ls=>{
-      ls.forEach(doc=>{
-        ownerlist.push(doc.data().owner)
+  await db.collection("book").get()
+    .then(booknamelist => {
+
+      // await Promise.all(
+      //   booknamelist.map(
+      //     doc => {
+      //       return db.collection... set
+      //     }
+      //   ) // Promise[]
+      // );
+
+
+      booknamelist.forEach(async (doc) => {
+        if (doc.id == bookname) {           
+        await  db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock,
+          })
+        }
+
+        else {
+          db.collection("book").doc(bookname).set(  
+            {
+              author: author,
+              genre: genre,
+              image: image,
+              owner:ownerid
+            })
+          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock
+          })
+        }
       })
-      console.log("OwnerList",ownerlist);
-      ownerlist.push(sender);
-      console.log("LowerOwnerlist",ownerlist);
-  }) 
- 
+    }).then(ok => {
+      textMessage(sender, "Register Successful!").then(bokmenu=>{
+        QuickReplyMenu(sender);
+      })
+    }).catch(error => {
+    console.log("HIHI",error);
+  })
 
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

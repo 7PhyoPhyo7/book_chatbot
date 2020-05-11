@@ -1061,9 +1061,15 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
 
-          db.collection('book').doc(bookname).get().then(hh=>{
-                owner.push(sender)
-          }) 
+      db.collection('book').get().then(hhhh=>{
+        hhhh.forEach(doc=>{
+          if(doc.id == bookname)
+          {
+            ownerid.push(doc.data().owner)
+          }
+        })
+        console.log("Owner",ownerid);
+      })
 
 
   // send, sendFile, redirect

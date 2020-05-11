@@ -1041,7 +1041,7 @@ app.post('/register_books', async (req, res) => {
   }
   if (req.body.religion) {
     religion = req.body.religion;
-    genre.push(romance);
+    genre.push(religion);
   }
   if (req.body.history) {
     history = req.body.history;

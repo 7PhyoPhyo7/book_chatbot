@@ -1075,7 +1075,7 @@ app.post('/register_books', async (req, res) => {
           })
         }
         else {
-          db.collection("book").doc(bookname).set(
+          db.collection("book").doc(bookname).set(  
             {
               author: author,
               genre: genre,
@@ -1089,12 +1089,14 @@ app.post('/register_books', async (req, res) => {
             stock: stock
           })
         }
-      }).then(ok => {
+      })
+    }).then(ok => {
       textMessage(sender, "Register Successful!").then(bokmenu=>{
         QuickReplyMenu(sender);
       })
-    })
-    })
+    }).catch(error => {
+    console.log("HIHI",error);
+  })
 
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

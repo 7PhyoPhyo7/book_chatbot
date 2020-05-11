@@ -1037,6 +1037,7 @@ app.post('/register_books', async (req, res) => {
   var genre = [];
   var ownerlist = [];
   var ownerid=[];
+  var bblist =[];
 
    ownerid.push(sender);
   if (req.body.knowledge) {
@@ -1062,7 +1063,8 @@ app.post('/register_books', async (req, res) => {
 
 
   db.collection('book').get().then(poi=>{
-      poi.forEach(doc=>{  
+      poi.forEach(doc=>{ 
+           bblist.push(doc.id);
         if(doc.id == bookname){
           ownerlist.push(doc.data().owner)
         }    
@@ -1083,7 +1085,7 @@ app.post('/register_books', async (req, res) => {
             }
             if(doc.id == bookname)
             {
-              db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
             bookshopaddress: bookshopaddress,
             bookshopphno: bookshopphno,
             link: link,
@@ -1093,7 +1095,14 @@ app.post('/register_books', async (req, res) => {
             }
             else 
             {
-               db.collection("book").doc(bookname).set(  
+             
+            }
+         })
+      })
+
+      if(!bblist.includes(bookname))
+      {
+          db.collection("book").doc(bookname).set(  
             {
               author: author,
               genre: genre,
@@ -1107,10 +1116,8 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           })
+      }
 
-            }
-         })
-      })
       res.redirect('https://www.messenger.com/closeWindow');
 
   }) 

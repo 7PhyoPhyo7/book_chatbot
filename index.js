@@ -1061,68 +1061,22 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
 
-
-  db.collection('book').get().then(poi=>{
-      poi.forEach(doc=>{ 
-           bblist.push(doc.id);
-        if(doc.id == bookname){
-          ownerlist.push(doc.data().owner)
-        }    
-     })
-      console.log("OwnerList",ownerlist);
-      ownerlist.push(sender);
-      console.log("LowerOwnerlist",ownerlist);
-
-      db.collection('book').get().then(th=>{
-         th.forEach(doc=>{
-            if(doc.id  == bookname)
-            {
-              var ok = doc.id;
-             db.collection('book').doc(ok).add({
-                 owner :ownerlist
-             })
-            }
-            if(doc.id == bookname)
-            {
-            db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-            bookshopaddress: bookshopaddress,
-            bookshopphno: bookshopphno,
-            link: link,
-            ownerid: sender,
-            stock: stock,
-          })
-            }
-            else 
-            {
-             
-            }
-         })
-      })
-
-      if(!bblist.includes(bookname))
-      {
-          db.collection("book").doc(bookname).set(  
-            {
-              author: author,
-              genre: genre,
-              image: image,
-              owner:ownerid
-            })
-          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
-            bookshopaddress: bookshopaddress,
-            bookshopphno: bookshopphno,
-            link: link,
-            ownerid: sender,
-            stock: stock
-          })
-      }
-
-      res.redirect('https://www.messenger.com/closeWindow');
-
-  }) 
-
-   
- 
+   db.collection('book').get().then(okk=>{
+       okk.forEach(doc=>{
+          if(doc.id == bookname)
+          {
+            ownerlist.push(doc.data().owner)
+          }
+       })
+       ownerlist.push(sender);
+       console.log("OwnerList",ownerlist)
+       db.collection('book').doc(bookname).set({
+             owner:ownerlist
+       },
+       {
+        merge:true
+       })
+   })
 
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

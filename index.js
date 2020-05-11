@@ -1069,7 +1069,10 @@ app.post('/register_books', async (req, res) => {
       console.log("OwnerList",ownerlist);
       ownerlist.push(sender);
       console.log("LowerOwnerlist",ownerlist);
+
   }) 
+
+   console.log("Outside",ownerlist);
  
 
   // send, sendFile, redirect

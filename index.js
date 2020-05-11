@@ -1060,18 +1060,10 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
-   ownerid.push(sender);
-   db.collection('book').get().then(aaid=>{
-       aaid.forEach(doc=>{
-        if(doc.id  == bookname)
-        {
-            doc.data().owner.push(sender)
-          }      
-       })
 
-       console.log("AAAAAAA",ownerid);
-      
-   })
+          db.collection('book').doc(bookname).get().then(hh=>{
+                owner.push(sender)
+          }) 
 
 
   // send, sendFile, redirect

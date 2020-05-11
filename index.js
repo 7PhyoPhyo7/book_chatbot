@@ -1670,7 +1670,9 @@ function SearchByTyping(senderID, userMessage) {
 
 
     if (emptybook == false) {
-      textMessage(senderID, "Book Not Found");
+      textMessage(senderID, "Book Not Found").then(bnf=>{
+        QuickReplyUserMenu(senderID);
+      })
     }
     else if (emptybook == true) {
       db.collection('book').doc(userMessage).collection('bookshop').get().then(bookshop => {
@@ -1747,7 +1749,9 @@ function SearchByTypingR(senderID, userMessage) {
 
 
     if (emptybook == false) {
-      textMessage(senderID, "Book Not Found");
+      textMessage(senderID, "Book Not Found").then(bn=>{
+        QuickReplyUserMenu(senderID)
+      })
     }
     else if (emptybook == true) {
       db.collection('book').doc(userMessage).collection('bookshop').get().then(bookshop => {

@@ -1074,7 +1074,7 @@ app.post('/register_books', async (req, res) => {
 
      db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
        emptybookshop.forEach(doc=>{
-            if(doc.id == bookshopname)
+            if(doc.data().ownerid == sender)
             {
               textMessage(sender,"This is duplicate input");
             }

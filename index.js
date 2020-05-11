@@ -1064,6 +1064,7 @@ app.post('/register_books', async (req, res) => {
    ownerid.push(sender);
     console.log("BookName",bookname);
     console.log("sender",sender);
+    console.log("BookshopName",bookshopname);
 
       var a = db.collection('book').doc(bookname);
      var arrUnion= a.update({
@@ -1084,12 +1085,17 @@ app.post('/register_books', async (req, res) => {
       bb.forEach(doc=>{
         if(doc.id == bookname)
         {
+          console.log(bookshopaddress);
+          console.log(bookshopphno);
+          console.log(link);
+          console.log(sender);
+          console.log(stock);
           db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
             bookshopaddress: bookshopaddress,
             bookshopphno: bookshopphno,
             link: link,
             ownerid: sender,
-            stock: stock,
+            stock: stock
           })
         }
         else 

@@ -1065,7 +1065,7 @@ app.post('/register_books', async (req, res) => {
         hhhh.forEach(doc=>{
           if(doc.id == bookname)
           {
-            ownerid.push(doc.data().owner)
+            console.log(doc.data().owner.push('12345'))
           }
         })
         console.log("Owner",ownerid);

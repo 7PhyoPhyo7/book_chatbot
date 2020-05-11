@@ -1076,8 +1076,9 @@ app.post('/register_books', async (req, res) => {
                 urrr.forEach(doc=>{
                   ownerlist.push(doc.data().owner);
                 })
-                ownerlist.push(ownerid);
-                console.log("OwnerList",ownerlist)
+                console.log("UpperOwnerList",OwnerList);
+                ownerlist.push(sender);
+                console.log("LowerOwnerList",ownerlist)
                 db.collection('book').doc(bookname).add({
                   owner:ownerlist
                 })

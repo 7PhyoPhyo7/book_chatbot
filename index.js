@@ -1064,9 +1064,9 @@ app.post('/register_books', async (req, res) => {
       // );
 
 
-      booknamelist.forEach(doc => {
+      booknamelist.forEach(async (doc) => {
         if (doc.id == bookname) {
-          db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+        await  db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
             bookshopaddress: bookshopaddress,
             bookshopphno: bookshopphno,
             link: link,

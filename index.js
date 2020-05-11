@@ -1058,7 +1058,9 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
+  let 
   ownerid.push(sender);
+  let ownerlist =[];
   await db.collection("book").get()
     .then(booknamelist => {
 
@@ -1080,10 +1082,19 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock,
           })
+
+
      
-            db.collection('book').doc(bookname).add({
-                  owner:ownerid
-            })
+           db.collection('book').get().then(urrr=>{
+                urrr.forEach(doc=>{
+                  ownerlist.push(doc.data().owner);
+                })
+                ownerlist.push(ownerid);
+
+                db.collection('book').doc(bookname).add({
+                  owner:ownerlist;
+                })
+           })
 
         }
 

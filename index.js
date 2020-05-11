@@ -1118,6 +1118,8 @@ app.post('/register_books', async (req, res) => {
             link: link,
             ownerid: sender,
             stock: stock
+          }).then(bo=>{
+            textMessage("Register Successful!");
           })
       }
       else if (bblist.includes(bookname) && currentUser.ownercondition == "yes")
@@ -1126,7 +1128,7 @@ app.post('/register_books', async (req, res) => {
        emptybookshop.forEach(doc=>{
             if(doc.data().ownerid == sender)
             {
-              textMessage(sender,"This is duplicate input");
+              textMessage(sender,"This is duplicate Registery");
             }
        })
      })
@@ -1146,13 +1148,13 @@ app.post('/register_books', async (req, res) => {
             link: link,
             ownerid: sender,
             stock: stock
+          }).then(boo=>{
+            textMessage("Register Successful!");
           })
       }
     })
 
 
-    
-      console.log("Value",value);
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');
 })

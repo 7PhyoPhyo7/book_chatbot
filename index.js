@@ -1061,15 +1061,9 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
 
-      db.collection('book').get().then(hhhh=>{
-        hhhh.forEach(doc=>{
-          if(doc.id == bookname)
-          {
-            console.log(doc.data().owner.push('12345'))
-          }
-        })
-        console.log("Owner",ownerid);
-      })
+      db.collection('collection').doc(bookname).update( {
+   array: firebase.firestore.owner.arrayUnion( sender )
+});
 
 
   // send, sendFile, redirect

@@ -1832,11 +1832,11 @@ function SearchByAuthor(senderID, userMessage) {
      if(checkauthoerbook == 'no')
      {
       textMessage(senderID,"Book Not Found");
-      checkauthoerbook = "yes";
+      
      }
-  })
-
-  db.collection('book').get().then(bokau => {
+     else if (checkauthoerbook == 'yes')
+     {
+      db.collection('book').get().then(bokau => {
     bokau.forEach(doc => {
       if (doc.data().author == userMessage) {
         let data = {
@@ -1878,6 +1878,10 @@ function SearchByAuthor(senderID, userMessage) {
         console.log('Error getting documents', err);
       });
   })
+     }
+  })
+
+  
 }
 
 function SearchByAuthorR(senderID, userMessage) {

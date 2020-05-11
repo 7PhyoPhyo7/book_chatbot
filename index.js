@@ -1064,7 +1064,7 @@ app.post('/register_books', async (req, res) => {
     console.log("sender",sender);
     var a = db.collection('book').doc(bookname);
      var arrUnion= a.update({
-      owner : admin.firestore.FieldValue.arrayUnion(sender);
+      owner : admin.firestore.FieldValue.arrayUnion(sender)
      })
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

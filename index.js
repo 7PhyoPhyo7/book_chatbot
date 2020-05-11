@@ -1067,11 +1067,13 @@ app.post('/register_books', async (req, res) => {
       ayeaye.forEach(doc=>{
         ownerlist.push(doc.data().owner);
       })
+
+
       if(ownerlist.includes(sender))
       {
 
       }
-      else 
+      else if (!ownerlist.includes(sender) && ownerlist !== undefined)
       {
         ownerlist.push(sender);
         console.log("Ownerlist",ownerlist)

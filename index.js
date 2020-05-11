@@ -1061,6 +1061,25 @@ app.post('/register_books', async (req, res) => {
   
   ownerid.push(sender);
   let ownerlist =[];
+
+
+    db.collection('book').get().then(ayeaye=>{
+      ayeaye.forEach(doc=>{
+        ownerlist.push(doc.data().owner);
+      })
+      if(ownerlist.includes(sender))
+      {
+
+      }
+      else 
+      {
+        ownerlist.push(sender);
+        console.log("Ownerlist",ownerlist)
+      }
+
+
+    })
+
   await db.collection("book").get()
     .then(booknamelist => {
 
@@ -1072,17 +1091,6 @@ app.post('/register_books', async (req, res) => {
       //   ) // Promise[]
       // );
 
-        db.collection('book').get().then(urrr=>{
-                urrr.forEach(doc=>{
-                  ownerlist.push(doc.data().owner);
-                })
-                console.log("UpperOwnerList",ownerlist);
-                ownerlist.push(sender);
-                console.log("LowerOwnerList",ownerlist)
-                db.collection('book').doc(bookname).add({
-                  owner:ownerlist
-                })
-           })
 
       booknamelist.forEach(async (doc) => {
         if (doc.id == bookname) {           

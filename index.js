@@ -251,9 +251,10 @@ app.post('/webhook', (req, res) => {
                         SearchByAuthor(senderID, userMessage);
                       }
                       else if (userInput == 'video') {
-                        uploadvideo = userInput;
+                        textMessage(senderID,"Please Type Facebook Video Link");
+                       currentUser.uploadvideo = userInput;
                       }
-                      else if (uploadvideo == 'video') {
+                      else if (userMessage !== undefined && currentUser.uploadvideo == 'video') {
                         console.log("UserMessagevideo", userMessage);
                         //console.log("UM",userMessage);
                         VideoUpload(senderID, userMessage).then(success => {
@@ -261,7 +262,7 @@ app.post('/webhook', (req, res) => {
                             QuickReplyUserMenu(senderID);
                           })
                         })
-                        uploadvideo = '';
+                        currentUser.uploadvideo = '';
 
                       }
 

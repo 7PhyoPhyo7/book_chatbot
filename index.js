@@ -1061,9 +1061,10 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
    ownerid.push(sender);
-   db.collection('book').doc(bookname).add({
+   db.collection('book').doc(bookname).set({
          owner:ownerid
-   })
+   },
+         {merge:true})
 
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

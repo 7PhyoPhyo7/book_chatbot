@@ -1033,6 +1033,7 @@ app.post('/register_books', async (req, res) => {
   let biography = '';
   let religion = '';
   var genre = [];
+  var ownerid=[];
 
 
   if (req.body.knowledge) {
@@ -1055,7 +1056,7 @@ app.post('/register_books', async (req, res) => {
     biography = req.body.biography;
     genre.push(biography);
   }
-
+  ownerid.push(sender);
   await db.collection("book").get()
     .then(booknamelist => {
 
@@ -1075,7 +1076,11 @@ app.post('/register_books', async (req, res) => {
             bookshopphno: bookshopphno,
             link: link,
             ownerid: sender,
-            stock: stock
+            stock: stock,
+          })
+     
+          db.collection("book").add({
+            owner:sender
           })
         }
         else {
@@ -1083,7 +1088,8 @@ app.post('/register_books', async (req, res) => {
             {
               author: author,
               genre: genre,
-              image: image
+              image: image,
+              owner:ownerid
             })
           db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
             bookshopaddress: bookshopaddress,

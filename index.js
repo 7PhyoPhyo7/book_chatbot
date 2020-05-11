@@ -1817,26 +1817,32 @@ function SearchByTypingR(senderID, userMessage) {
 
 function SearchByAuthor(senderID, userMessage) {
   var bookwithauthor = [];
-  var checkauthoerbook = "yes";
-  db.collection('book').get().then(au=>{
-     au.forEach(doc=>{
-      if(doc.data().author != userMessage)
-      {
-         checkauthoerbook = 'no';
-      }
-      else 
-      {
-        checkauthoerbook = 'yes'
-      }
-     })
-     if(checkauthoerbook == 'no')
-     {
-      textMessage(senderID,"Book Not Found");
-      
-     }
-     else if (checkauthoerbook == 'yes')
-     {
-      db.collection('book').get().then(bokau => {
+  var checkauthoerbook = false;
+  var checkauthorarray =[];
+
+  db.collection('book').get().then(aut=>{
+    aut.forEach(doc=>{
+      checkauthorarray.push(doc.data().author);
+    })
+
+    if(checkauthorarray.includes(userMessage))
+    {
+      checkauthoerbook = true
+    }
+    else 
+    {
+      checkauthoerbook = false
+    }
+
+    if(checkauthoerbook == false)
+    {
+      textMessage(senderID,"Book Not Found")
+    }
+    else if (checkauthoerbook == true)
+    {
+
+
+       db.collection('book').get().then(bokau => {
     bokau.forEach(doc => {
       if (doc.data().author == userMessage) {
         let data = {
@@ -1878,8 +1884,11 @@ function SearchByAuthor(senderID, userMessage) {
         console.log('Error getting documents', err);
       });
   })
-     }
+    }
+
+
   })
+
 
   
 }

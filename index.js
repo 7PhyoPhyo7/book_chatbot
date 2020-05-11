@@ -1088,16 +1088,16 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           }).then(oki => {
-            textMessage(senderID, "Register Successful").then(bookmenu=>{
-              QuickReplyMenu(senderID);
+            textMessage(sender, "Register Successful").then(bookmenu=>{
+              QuickReplyMenu(sender);
             })
           })
 
         }
       })
     }).then(ok => {
-      textMessage(senderID, "Register Successful!").then(bokmenu=>{
-        QuickReplyMenu(senderID);
+      textMessage(sender, "Register Successful!").then(bokmenu=>{
+        QuickReplyMenu(sender);
       })
     })
 

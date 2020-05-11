@@ -1087,18 +1087,13 @@ app.post('/register_books', async (req, res) => {
             link: link,
             ownerid: sender,
             stock: stock
-          }).then(oki => {
-            textMessage(sender, "Register Successful").then(bookmenu=>{
-              QuickReplyMenu(sender);
-            })
           })
-
         }
-      })
-    }).then(ok => {
+      }).then(ok => {
       textMessage(sender, "Register Successful!").then(bokmenu=>{
         QuickReplyMenu(sender);
       })
+    })
     })
 
   // send, sendFile, redirect

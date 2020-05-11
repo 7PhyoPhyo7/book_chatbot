@@ -1067,10 +1067,10 @@ app.post('/register_books', async (req, res) => {
     console.log("sender",sender);
     console.log("BookshopName",bookshopname);
 
-      var a = db.collection('book').doc(bookname);
-     var arrUnion= a.update({
-      owner : admin.firestore.FieldValue.arrayUnion(sender)
-     });
+     //  var a = db.collection('book').doc(bookname);
+     // var arrUnion= a.update({
+     //  owner : admin.firestore.FieldValue.arrayUnion(sender)
+     // });
 
      db.collection('book').doc(bookname).collection('bookshop').get().then(emptybookshop=>{
        emptybookshop.forEach(doc=>{
@@ -1082,16 +1082,33 @@ app.post('/register_books', async (req, res) => {
      })
 
     
-     db.collection('book').get().then(bb=>{
-      bb.forEach(doc=>{
-        if(doc.id == bookname)
-        {
-          value = 'in';
-          console.log(bookshopaddress);
-          console.log(bookshopphno);
-          console.log(link);
-          console.log(sender);
-          console.log(stock);
+    db.collection('book').get().then(po=>{
+      po.forEach(doc=>{
+        bblist.push(doc.id);
+      })
+      if(bblist.includes(bookname))
+      {   // have book
+           var a = db.collection('book').doc(bookname);
+           var arrUnion= a.update({
+            owner : admin.firestore.FieldValue.arrayUnion(sender)
+           })
+        db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
+            bookshopaddress: bookshopaddress,
+            bookshopphno: bookshopphno,
+            link: link,
+            ownerid: sender,
+            stock: stock
+          })
+      }
+      else
+      {
+               db.collection("book").doc(bookname).set(  
+            {
+              author: author,
+              genre: genre,
+              image: image,
+              owner:ownerid
+            })
           db.collection("book").doc(bookname).collection("bookshop").doc(bookshopname).set({
             bookshopaddress: bookshopaddress,
             bookshopphno: bookshopphno,
@@ -1099,10 +1116,11 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           })
-        }
-      })
-      console.log("Values",value);
-     })
+      }
+    })
+
+
+    
       console.log("Value",value);
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

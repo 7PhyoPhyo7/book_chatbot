@@ -780,7 +780,9 @@ app.post('/webhook', (req, res) => {
                               MessageDetail(senderID, "Stock", doc.data().stock).then(() => {
                                 MessageDetail(senderID, "Book Shop Address", doc.data().bookshopaddress).then(() => {
                                   MessageDetail(senderID, "Book Shop Phone", doc.data().bookshopphno).then(() => {
-                                    MessageDetail(senderID, "Page Link", doc.data().link);
+                                    MessageDetail(senderID, "Page Link", doc.data().link).then(()=>{
+                                    QuickReplyReviewerMenu(senderID)
+                                    })
                                   })
                                 })
                               })
@@ -2368,7 +2370,9 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
 
              if(datacheck.includes(senderID))
              {
-                  textMessage(senderID,"Sorry! You have already uploaded review for this book");
+                  textMessage(senderID,"Sorry! You have already uploaded review for this book").then(so=>{
+                    QuickReplyReviewerMenu(senderID)
+                  })
              }
              else 
              {
@@ -2376,7 +2380,9 @@ async function UploadVideoByReviewer(senderID,bookname,userMessage)
                    reviwerid:senderID,
                    videolink:userMessage
                    }).then(oo=>{
-                    textMessage(senderID,"Upload Video Successful");
+                    textMessage(senderID,"Upload Video Successful").then(su=>{
+                    QuickReplyReviewerMenu(senderID)
+                    })
                    })
              }
         })

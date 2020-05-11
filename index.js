@@ -1061,10 +1061,17 @@ app.post('/register_books', async (req, res) => {
     genre.push(biography);
   }
    ownerid.push(sender);
-   db.collection('book').doc(bookname).set({
-         owner:ownerid
-   },
-         {merge:true})
+   db.collection('book').doc(bookname).get().then(aaid=>{
+       aaid.forEach(doc=>{
+        ownerid.push(doc.data().owner)
+       })
+
+       console.log("AAAAAAA",ownerid);
+       db.collection('book').doc(bookname).set({
+        owner:ownerid
+       })
+   })
+
 
   // send, sendFile, redirect
   res.redirect('https://www.messenger.com/closeWindow');

@@ -1060,10 +1060,12 @@ app.post('/register_books', async (req, res) => {
   }
 
 
-  db.collection('book').doc(bookname).get().then(ls=>{
-      ls.forEach(doc=>{
-        ownerlist.push(doc.data().owner)
-      })
+  db.collection('book').get().then(poi=>{
+      poi.forEach(doc=>{  
+        if(doc.id == bookname){
+          ownerlist.push(doc.data().owner)
+        }    
+     })
       console.log("OwnerList",ownerlist);
       ownerlist.push(sender);
       console.log("LowerOwnerlist",ownerlist);

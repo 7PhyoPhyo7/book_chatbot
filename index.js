@@ -193,8 +193,10 @@ app.post('/webhook', (req, res) => {
                         db.collection('bookshopowner').add({
                           ownerid: senderID
                         }).then(own => {
-                          textMessage(senderID, "Register Successful");
-                          textMessage(senderID, "Please type 'Login' to start Process");
+                          textMessage(senderID, "Register Successful").then(()=>{
+                             textMessage(senderID, "Please type 'Login' to start Process")
+                          })
+                         
                         })
                       }
                       if (userQuickreply == 'reader') {
@@ -1277,7 +1279,7 @@ app.get('/register_user/:sender_id', function (req, res) {
 app.post('/register_user', (req, res) => {
   let email = req.body.email;
   let sender = req.body.sender;
-  let isreviewer = false;
+  let isreviewer = "false";
   var genre = [];
 
 

@@ -1155,7 +1155,7 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           }).then(bo=>{
-            textMessage("Register Successful!");
+            textMessage(sender,"Register Successful!");
           })
       }
       else if (bblist.includes(bookname) && currentUser.ownercondition == "yes")
@@ -1185,7 +1185,7 @@ app.post('/register_books', async (req, res) => {
             ownerid: sender,
             stock: stock
           }).then(boo=>{
-            textMessage("Register Successful!");
+            textMessage(sender,"Register Successful!");
           })
       }
     })
